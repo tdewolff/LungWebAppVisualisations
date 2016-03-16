@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+	<head>
+		<title>Testing Turanga</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #000;
+				color: #fff;
+				margin: 0px;
+				overflow: hidden;
+			}
+			#info {
+				color: #fff;
+				position: absolute;
+				top: 10px;
+				width: 100%;
+				text-align: center;
+				z-index: 100;
+				display:block;
+			}
+			#info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
+		</style>
+
+  		<script>
+	    	var dojoConfig = {
+				async: true,
+				// This code registers the correct location of the "demo" package
+				// so we can load Dojo from the CDN whilst still being able to
+				// load local modules
+				packages: [{
+					name: "js",
+					location: location.pathname.replace(/\/[^/]+$/, '')  + '/js'
+				}]
+			};
+			
+    		function updateSlider(slideAmount) {
+				this.zincRenderer.setMorphsTime(slideAmount * 30);
+    		}
+    	</script>
+  		<script src="js/dat.gui.min.js"></script>
+  		<link rel="stylesheet" type="text/css" href="styles/dat-gui-swec.css">
+		<link rel="stylesheet" type="text/css" href="styles/my_style.css">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<script src="js/three.min.js"></script>
+		<script src="js/zinc_threejs_control.js"></script>
+		<script src="js/zinc_3js_renderer.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: 1, parseOnLoad: true" ></script>
+	</head>
+
+	<body style="height:100%">
+		<p id='myText'><b id='temp'>Lung Health</b> </p>
+		<div class="row">
+			<div class="col-sm-4">
+			</div>
+			<div class="col-sm-4">
+				<input id="age_slider" type="range" min="0" max="100" step="1" oninput="updateSlider(this.value)" style="height: 100%;"/>
+			</div>
+			<div class="col-sm-4">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-5">
+			</div>
+			<div class="col-sm-2">
+				<h3 id="renderer_Age" >
+					Simulated Age: 0
+				</h3>
+			</div>
+			<div class="col-sm-5">
+			</div>
+		</div>
+		
+		<div id="container">
+			<div id="BackgroundImage">
+				<a href="http://www.abi.auckland.ac.nz/en.html">
+					<img src="images/abi-hc-rgb.png" style="width:55%">
+				</a>
+				<a href="http://www.turanga.org.nz/">
+					<img src="images/turanga_banner_0_transparent.png" style="width:40%"> 
+				</a>
+			</div>
+			<div class="sidebar sidebar-left sidebar-closed" data-reactid=".0.1.0"  id="my_sidebar">
+				<div class="sidebar-dock-button" data-reactid=".0.1.0.0" onclick="sidebar_click()">
+				</div>
+				<div class="sidebar-content-container" data-reactid=".0.1.0.1">
+					<div class="sidebar-content" data-reactid=".0.1.0.1.0">
+					  <div class="panel-group" id="accordion">
+					    <div class="panel panel-default">
+					      <div class="panel-heading">
+					        <h4 class="panel-title">
+					          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">3D Lungs Viewer Controls</a>
+					        </h4>
+					      </div>
+					      <div id="collapse1" class="panel-collapse collapse">
+					        <div>
+								<img src="images/mouse_instruction_small.jpg" style="left: 10%;top: 100px;width:45%">
+								<img src="images/touch_control.jpg" style="right: 10px;top: 100px;width: 45%">  
+
+							</div>
+					      </div>
+					    </div>
+					    <div class="panel panel-default">
+					      <div class="panel-heading">
+					        <h4 class="panel-title">
+					          <a data-toggle="collapse" data-parent="#accordion" href="#lungPanel">Estimated Lung Functions</a>
+					        </h4>
+					      </div>
+					      <div id="lungPanel" class="panel-collapse collapse">
+					        <div class="panel-body">
+								<div id="chartContainer">
+									<div class="content">
+										<div class="leftChart" id="predicted_lungAge">
+											<p> Please enter and confirm your details </p>
+				      					</div>
+				      					<div class="rightChartTitle">
+				      						<p> FEV1 - forced expiratory volume in 1 second</p>
+				      					</div>
+										<div id = "fev_chart" class="rightChart">
+				      					</div>
+				      					<div class="rightLegend">
+				      					    <div id = "fev_legend">
+				      						</div>
+				      					</div>
+				      				</div>
+			      				</div>
+							</div>
+					      </div>
+					    </div>
+					   	<div class="panel panel-default">
+					      <div class="panel-heading">
+					        <h4 class="panel-title">
+					          <a data-toggle="collapse" data-parent="#accordion" href="#copd_collpase">Smoking and COPD</a>
+					        </h4>
+					      </div>
+					      <div id="copd_collpase" class="panel-collapse collapse">
+							<ul>
+								<font size=5>
+								  	<p>Having COPD (chronic obstructive pulmonary disease) means that your airways are obstructed and the tissue inside the lungs is damaged.</p>
+								  	<p>Over 15 percent of all smokers are likely to become affected. Statistics also shows that 85 - 90 percent of COPD arises from smoking in New Zealand and is the fourth leading cause of deatf after cancer, heart disease and stroke.</p>
+								  	Studies have found that COPD greatly affects quality of life negatively:
+								  	<font size=4>
+								  		<li>Between one-third to half of all patients with COPD have sleep disorders.</li>
+								  		<li>At least one-third of patients have their social activities affected, and 58 percent were going out less.</li>
+								  		<li>22 percent needed regular help from family; 54 percent needed constant help.</li>
+								  	</font>
+								  	<p></p>
+	  								<p>Unlike asthema, COPD is not reversible, however, quitting smoking is the best way to protect lungs from futher damage and keep COPD symptoms from getting worst.</p>			
+  								</font>
+							</ul>
+					      </div>
+					    </div>
+					    
+					    <div class="panel panel-default">
+					      <div class="panel-heading">
+					        <h4 class="panel-title">
+					          <a data-toggle="collapse" data-parent="#accordion" href="#fact_collapse">Facts about smoking</a>
+					        </h4>
+					      </div>
+					      <div id="fact_collapse" class="panel-collapse collapse">
+							<ul>
+								<font size=5>
+								  	<li>Tobacco smoke contains more than 7,000 chemicals. About 70 of them are known to cause cancer.</li>
+	  								<li>About 30000 people die in New Zealand each yead and around 5,000 of those are caused by smoking or second-hand smoke.</li>
+	  								<li>Half of all regular smokers die early from a smoking related disease.</li>
+	  								<li>Internationally, tobacco smoke is responsible for about 1 in 10 adult deaths.</li>
+	  								<li>Smoking affects sporting performance negatively; exercising requires oxygen but smoking reduces oxygen intake.</li>
+  								</font>
+							</ul>
+					      </div>
+					    </div>
+					    
+					   	<div class="panel panel-default">
+					      <div class="panel-heading">
+					        <h4 class="panel-title">
+					          <a data-toggle="collapse" data-parent="#accordion" href="#mortality_collapse">Smoking Attributable Mortality</a>
+					        </h4>
+					      </div>
+					      <div id="mortality_collapse" class="panel-collapse collapse">
+					        <div style="margin: auto;">
+								<img src="images/smoking_mortality_males.jpg" style="top: 100px;width:100%;max-width: 700px;">
+								<img src="images/smoking_mortality_females.jpg" style="top: 100px;width:100%;max-width: 700px;">  
+								<p>
+								</p>
+								<font size=3>
+					        		Data above are findings of the Surgeon Generals's report in United State.
+					        		Charts are produced by Kelly Burrowes. 
+					        	</font>
+							</div>
+					      </div>
+					    </div>
+					    
+					  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			
+			var zincRenderer = null;
+			
+			var cellUniforms= THREE.UniformsUtils.merge( [
+				{
+					"ambient"  : { type: "c", value: new THREE.Color( 0xffffff ) },
+					"emissive" : { type: "c", value: new THREE.Color( 0x000000 ) },
+					"specular" : { type: "c", value: new THREE.Color( 0x111111 ) },
+					"shininess": { type: "f", value: 100 },
+					"diffuse": { type: "c", value: new THREE.Color( 0xeecaa2 ) },
+					"ambientLightColor": { type: "c", value: new THREE.Color( 0x444444 ) },
+					"directionalLightColor": { type: "c", value: new THREE.Color( 0x888888 ) },
+					"directionalLightDirection": { type: "v3", value: new THREE.Vector3()  },
+					"time": { type: "f", value: 0.0 },
+					"starting_time": { type: "f", value: 0.0 },
+					"severity": { type: "f", value: 0.0 },
+					"cellsDensity": { type: "f", value: 0.1 },
+					"tarDensity":  { type: "f", value: 0.02 }
+				}
+			] );
+			
+			var flowUniforms= THREE.UniformsUtils.merge( [
+				{
+					"emissive" : { type: "c", value: new THREE.Color( 0x000000 ) },
+					"specular" : { type: "c", value: new THREE.Color( 0x111111 ) },
+					"shininess": { type: "f", value: 100 },
+					"diffuse": { type: "c", value: new THREE.Color( 0xeecaa2 ) },
+					"ambientLightColor": { type: "c", value: new THREE.Color( 0x444444 ) },
+					"directionalLightColor": { type: "c", value: new THREE.Color( 0x888888 ) },
+					"directionalLightDirection": { type: "v3", value: new THREE.Vector3()  },
+					"upperValue": { type: "f", value: 0.82 },
+					"lowerValue": { type: "f", value: 0.334 }
+				}
+			] );
+			
+			var treesGeometries = [];
+			var lungsGeometries = [];
+			var currentViewingModel = "Tar";
+			var lungsMaterial = undefined;
+			var flowMaterial = undefined;
+			var lungMeshIsReady = false;
+	  						
+			var gender = {
+				Male:  'Male',
+				Female: 'Female'
+			};
+			
+			var viewingModel = {
+				"Lungs (Tar)": "Tar",
+				"Lungs (Flow)": "Flow",
+				"Tree": "Tree"				
+			}
+			
+			/* Accourding to studies, asthema severity affects percentage FEV1 */
+			var asthemaLevel = {
+				"None" : 1.0,
+				"Mild" : 0.8,
+				"Moderate" : 0.7,
+				"Severe": 0.6	
+			}
+		
+			var userData = {
+				'Current Age': 27,
+				'Gender' : "male",
+				'Asthema Severity' : "None",
+				'Age started smoking': 18,
+				'Packs Per Day': 1,
+				'Height' : 180,
+				'3D Models' : "Lungs (Tar)",
+				'Speed' : 100
+			};
+			
+			var renderer_Age = 0;
+			var dataController = undefined;
+			var fev_legend = undefined;
+			
+			require(["dojo/ready", "js/DataController"],function(ready, DataController){ 
+				ready(function(){
+					dataController = new DataController();
+					updateFEVChart();
+				});
+			});
+			
+			function writeLungAge(actualAge, lungAge) {
+				var element = document.getElementById("predicted_lungAge");
+            	if (element)
+        			element.innerHTML =  "You are a " + actualAge + " year old " + userData["Gender"] + ". Based on your smoking history, your lung function is estimated to equal that of an average " + lungAge + " year old non-smoker."
+			}
+		
+			function updateFEVChart() {
+				var asthemaScaling = asthemaLevel[userData['Asthema Severity']]
+				var fev_chart = document.getElementById("fev_chart");
+				dataController.createPlot(fev_chart, "age", "FEV1");
+				var age = Math.floor(userData["Current Age"] + 0.5);
+				var fevData = dataController.calculateFEVData(age, userData["Gender"],
+					age - userData["Age started smoking"], userData["Packs Per Day"], userData["Height"], asthemaScaling);
+				dataController.removeSeries(fev_chart, "non smoker");
+				dataController.removeSeries(fev_chart, "smoker");
+				dataController.removeSeries(fev_chart, "after cessation");
+				dataController.addSeries(fev_chart, "Healthy", fevData[3], "blue");
+				dataController.addSeries(fev_chart, "Yours", fevData[4], "red");
+				dataController.addSeries(fev_chart, "Cessation", fevData[5], "green");
+				dataController.renderPlot(fev_chart);
+				if (fev_legend == undefined) {
+					fev_legend = document.getElementById("fev_legend");
+					dataController.createLegend(fev_chart, fev_legend);
+				}
+				var lungAge = dataController.findLungAge(age, fevData[0], fevData[1]);
+				writeLungAge(age, lungAge);
+			}
+		
+			function sidebar_click()
+			{
+				if (document.getElementById('my_sidebar').className == 'sidebar sidebar-left sidebar-open')
+					document.getElementById('my_sidebar').className = 'sidebar sidebar-left sidebar-closed';
+				else
+					document.getElementById('my_sidebar').className = 'sidebar sidebar-left sidebar-open';
+			}
+			
+			function updateUniformsWithDetails() {
+				var age = Math.floor(userData["Current Age"] + 0.5);
+				start_age = userData["Age started smoking"] * 0.01;
+				if (start_age < 0.0)
+					start_age = 0.0;
+				cellUniforms["starting_time"].value = start_age;
+				cellUniforms["severity"].value = userData["Packs Per Day"] * 1.0;
+			}
+			
+			function lungsMeshready(shaderText) {
+				return function(mygeometry) {
+					if (lungsMaterial == undefined) {
+						lungsMaterial = new THREE.ShaderMaterial( {
+							vertexShader: shaderText[0],
+							fragmentShader: shaderText[1],
+							uniforms: cellUniforms
+						} );
+						lungsMaterial.side = THREE.DoubleSide;
+					}
+					if (flowMaterial == undefined) {
+						flowMaterial = new THREE.ShaderMaterial( {
+							vertexShader: shaderText[2],
+							fragmentShader: shaderText[3],
+							uniforms: flowUniforms
+						} );
+						flowMaterial.side = THREE.DoubleSide;
+					}
+					
+					mygeometry.setMaterial(lungsMaterial)
+					lungsGeometries.push(mygeometry);
+					lungMeshIsReady = true;
+					updateUniformsWithDetails();
+				}
+			}
+			
+			function treesMeshready() {
+				return function(mygeometry) {
+					treesGeometries.push(mygeometry);
+					mygeometry.morph.material.visible = false;
+				}
+			}
+			
+			function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
+				return function () {
+					var directionalLight = zincRenderer.getCurrentScene().directionalLight;
+					cellUniforms["directionalLightDirection"].value.set(directionalLight.position.x,
+						directionalLight.position.y,
+						directionalLight.position.z);
+					flowUniforms["directionalLightDirection"].value.set(directionalLight.position.x,
+						directionalLight.position.y,
+						directionalLight.position.z);
+					cellUniforms["time"].value = zincRenderer.getCurrentTime()/3000;
+					//console.log(cellUniforms["time"].value)
+					var age = parseInt(cellUniforms["time"].value *100.0);
+					if (age != renderer_Age) {
+						renderer_Age = age;
+						var element = document.getElementById("renderer_Age");
+						if (element)
+							element.innerHTML =  "Simulated Age: " + renderer_Age;
+					}
+					if (zincRenderer.playAnimation == true)
+					{
+						var sliderElement = document.getElementById("age_slider");
+						sliderElement.value = renderer_Age;
+					}
+				};
+			}
+			
+			function updateMaterials(modelsName)
+			{
+				if (modelsName != currentViewingModel)
+				{
+					if (modelsName == "Tree") {
+						if (lungsMaterial) {
+							lungsMaterial.visible = false;	
+						}
+						if (flowMaterial) {
+    						flowMaterial.visible = false;
+    					}
+    					var len = treesGeometries.length;
+    					for (var i = 0; i < len; i++) {
+    						treesGeometries[i].morph.material.visible = true;
+    					} 	
+					}
+					else {
+					    if (lungsMaterial) {
+    						lungsMaterial.visible = true;
+    					}
+    					if (flowMaterial) {
+    						flowMaterial.visible = true;
+    					}
+    					var len = treesGeometries.length;
+    					for (var i = 0; i < len; i++) {
+    						treesGeometries[i].morph.material.visible = false;
+    					}
+    					if (modelsName == "Tar") {
+    						var len = lungsGeometries.length;
+    						for (var i = 0; i < len; i++) {
+    							lungsGeometries[i].setMaterial(lungsMaterial);
+    						}
+    					}
+    					else {
+    						var len = lungsGeometries.length;
+    						for (var i = 0; i < len; i++) {
+    							lungsGeometries[i].setMaterial(flowMaterial);
+    						} 						
+    					}
+					}
+					currentViewingModel = modelsName;
+				}
+			}
+	  			
+			function guiChanged() {
+				if (dataController)
+					updateFEVChart();
+				if (zincRenderer)
+				{
+					zincRenderer.setPlayRate(userData['Speed']);
+					if (lungMeshIsReady) {
+						updateMaterials(viewingModel[userData['3D Models']]);
+						updateUniformsWithDetails();
+					}
+				}
+			}
+			
+			function initDatGUI() {
+				var gui = new dat.GUI();
+				gui.width = 280;
+				var resetViewButton = { 'Reset view':function(){ zincRenderer.resetView(); }};
+				var playButton = { 'Play':function(){ zincRenderer.playAnimation = true; }};
+				var stopButton = { 'Stop':function(){ zincRenderer.playAnimation = false; }};
+				gui.add( userData, 'Current Age', 1, 99, 1 ).onChange( guiChanged );
+				gui.add( userData, 'Asthema Severity', Object.keys( asthemaLevel ) ).onChange( guiChanged );
+				gui.add( userData, 'Gender', Object.keys( gender ) ).onChange( guiChanged );
+				gui.add( userData, 'Age started smoking', 0, 99, 1 ).onChange( guiChanged );
+				gui.add( userData, 'Packs Per Day', 0, 10, 0.1 ).onChange( guiChanged );
+				gui.add( userData, 'Height', 70, 250, 1 ).onChange( guiChanged );
+				gui.add( userData, '3D Models', Object.keys(viewingModel)).onChange( guiChanged );
+				gui.add( userData, 'Speed', 10, 500, 10).onChange( guiChanged );
+				gui.add(playButton,'Play');
+				gui.add(stopButton,'Stop');
+				gui.add(resetViewButton,'Reset view');
+				guiChanged();
+			}
+			
+			function initCollapsibleGUI() {
+    			$("#lungPanel").on('shown.bs.collapse', function(){
+        			if (dataController)
+						updateFEVChart();
+					else
+						alert('Char is not yet available, please try again later.');
+    			});
+			}
+			
+			function initGUI()
+			{
+				initDatGUI();
+				initCollapsibleGUI();
+			}
+			
+			container = document.getElementById( "container" );
+			
+			function init3Dmodels() {
+				zincRenderer = new Zinc.Renderer(container, window);
+				zincRenderer.initialiseVisualisation();
+				zincRenderer.addPreRenderCallbackFunction(updateUniforms(zincRenderer, cellUniforms, flowUniforms));
+				loadExternalFiles(['shaders/clean_cell.vs', 'shaders/clean_cell.fs', 'shaders/display_flow.vs',
+					'shaders/display_flow.fs'], function (shaderText) {
+					zincRenderer.loadFromViewURL('./lung_2/lung2', lungsMeshready(shaderText));
+				}, function (url) {
+				    alert('Failed to download "' + url + '"');
+				}); 
+				zincRenderer.loadModelsURL(['./lung_2/trachea.json'], [0xE6B380]);
+				zincRenderer.loadModelsURL(['./lung_2/tree_LLL_1.json', './lung_2/tree_LUL_1.json',
+					'./lung_2/tree_RLL_1.json','./lung_2/tree_RML_1.json','./lung_2/tree_RUL_1.json'],
+					[0xFFFF00, 0x57DB94, 0xFF7300, 0x9400CF, 0x33D1FF], [1.0], [0.0], [0.0], treesMeshready());
+				zincRenderer.setPlayRate(100);
+				zincRenderer.animate();
+			}
+
+			initGUI();
+			init3Dmodels();
+
+		</script>
+
+	</body>
+</html>
