@@ -188,23 +188,16 @@ float rand(vec2 co){
 
 float colorScale(vec2 seed) {
 #define pi 3.14159;
-	float temp = (seed.x ) * 2.0 * pi;
+	float scaling = 1.0;
 	float time_elapsed = time - starting_time;
 	if (time_elapsed < 0.0)
 	{
 		time_elapsed = 0.0;
 	}
-	float threshold = 1.0 - (sin(temp)+ 1.0) / (2.0);
-	//threshold = threshold / ( 1.0 + time_elapsed * 2.0);
-	float current_value = severity * 3.0 * (time_elapsed);
-	float scaling = 1.0;
-	if (current_value > threshold) {
-		scaling = (1.0 - (current_value - threshold));
+	float current_value = severity * 3.7 * (time_elapsed);
+	if (current_value > seed.x) {
+		scaling = (1.0 - (current_value - seed.x));
 	}
-	if (scaling < 0.1)
-		scaling = 0.1;
-	
-	
 	return scaling;	
 }
 

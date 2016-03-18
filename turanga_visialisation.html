@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" style="height:100%">
 	<head>
-		<title>Testing Turanga</title>
+		<title>Turanga Lung Visualisations</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
@@ -11,7 +11,7 @@
 				color: #fff;
 				margin: 0px;
 				overflow: hidden;
-			}
+			}fd
 			#info {
 				color: #fff;
 				position: absolute;
@@ -53,12 +53,12 @@
 	</head>
 
 	<body style="height:100%">
-		<p id='myText'><b id='temp'>Lung Health</b> </p>
 		<div class="row">
 			<div class="col-sm-4">
-			</div>
+				<div id="playToggle" class="play"></div>
+			</div>	
 			<div class="col-sm-4">
-				<input id="age_slider" type="range" min="0" max="100" step="1" oninput="updateSlider(this.value)" style="height: 100%;"/>
+				<input id="age_slider" type="range" min="0" max="100" value ="0" step="1" oninput="updateSlider(this.value)" style="height: 64px;"/>
 			</div>
 			<div class="col-sm-4">
 			</div>
@@ -75,6 +75,7 @@
 			</div>
 		</div>
 		
+		
 		<div id="container">
 			<div id="BackgroundImage">
 				<a href="http://www.abi.auckland.ac.nz/en.html">
@@ -84,22 +85,58 @@
 					<img src="images/turanga_banner_0_transparent.png" style="width:40%"> 
 				</a>
 			</div>
-			<div class="sidebar sidebar-left sidebar-closed" data-reactid=".0.1.0"  id="my_sidebar">
+			<div class="sidebar sidebar-left sidebar-open" data-reactid=".0.1.0"  id="my_sidebar">
 				<div class="sidebar-dock-button" data-reactid=".0.1.0.0" onclick="sidebar_click()">
 				</div>
 				<div class="sidebar-content-container" data-reactid=".0.1.0.1">
 					<div class="sidebar-content" data-reactid=".0.1.0.1.0">
 					  <div class="panel-group" id="accordion">
+					  	<div class="panel panel-default">
+					      <div class="panel-heading">
+					        <h4 class="panel-title">
+					          <a data-toggle="collapse" data-parent="#accordion" href="#collapseWelcome">Welcome to the Turanga Lungs Visualisation App</a>
+					        </h4>
+					      </div>
+					      <div id="collapseWelcome" class="panel-collapse collapse in" >
+					      	<ul>
+							  <font size=5>
+							    <p></p>
+							    <font size=6>
+									<p>Welcome and thanks for using the Turanga Lung Visualisation Application.</p>
+								</font>
+								<p></p>
+								<p></p>
+								<p>By using this app, you will:</p>
+								<font size=4>
+								  <li>Explore and find information regarding the effects of smoking have on your health,</li>
+	  							  <li>Personalise the lung models based on your smoking history and visualise them,</li>
+	  							  <li>Find out your estimated lung functions,</li>
+	  							  <li>Learn some facts about tobacco smoking. </li>
+  								</font>
+  								<p></p>
+  								<p>How to use:</p>
+								<font size=4>
+								  <li>Click on each tab for more information.</li>
+	  							  <li>Click on the vertical bar on the right to minimse this windows and view the lungs,</li>
+	  							  <li>Once this window is minimised, a vertical bar will appear on the left, click on it to reopen this window.</li>
+	  							  <li>Begin personalising the lungs model and get your estimated lung functions result by clicking on the "How about my lungs" bottom on the top-right corner.</li>
+	  							  <li>Click the play bottom on top of the screen to see how your lungs do at different age.</li>
+	  							  <li>Tips: You can change personal details and see how it affects the lung models and the estimated lung functions.</li>
+  								</font>
+							  </font>
+							</ul>
+					      </div>
+					    </div>
 					    <div class="panel panel-default">
 					      <div class="panel-heading">
 					        <h4 class="panel-title">
-					          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">3D Lungs Viewer Controls</a>
+					          <a data-toggle="collapse" data-parent="#accordion" href="#collapseControls">3D Lungs Viewer Controls</a>
 					        </h4>
 					      </div>
-					      <div id="collapse1" class="panel-collapse collapse">
+					      <div id="collapseControls" class="panel-collapse collapse">
 					        <div>
-								<img src="images/mouse_instruction_small.jpg" style="left: 10%;top: 100px;width:45%">
-								<img src="images/touch_control.jpg" style="right: 10px;top: 100px;width: 45%">  
+								<img src="images/mouse_instruction_small.jpg" style="left: 10%;top: 100px;width:40%">
+								<img src="images/touch_control.jpg" style="right: 10px;top: 100px;width: 40%">  
 
 							</div>
 					      </div>
@@ -141,15 +178,15 @@
 							<ul>
 								<font size=5>
 								  	<p>Having COPD (chronic obstructive pulmonary disease) means that your airways are obstructed and the tissue inside the lungs is damaged.</p>
-								  	<p>Over 15 percent of all smokers are likely to become affected. Statistics also shows that 85 - 90 percent of COPD arises from smoking in New Zealand and is the fourth leading cause of deatf after cancer, heart disease and stroke.</p>
-								  	Studies have found that COPD greatly affects quality of life negatively:
+								  	<p>Over 15 percent of all smokers are likely to become affected. Statistics also shows that 85 - 90 percent of COPD arises from smoking in New Zealand and is the fourth leading cause of death after cancer, heart disease and stroke.</p>
+						
 								  	<font size=4>
 								  		<li>Between one-third to half of all patients with COPD have sleep disorders.</li>
 								  		<li>At least one-third of patients have their social activities affected, and 58 percent were going out less.</li>
 								  		<li>22 percent needed regular help from family; 54 percent needed constant help.</li>
 								  	</font>
 								  	<p></p>
-	  								<p>Unlike asthema, COPD is not reversible, however, quitting smoking is the best way to protect lungs from futher damage and keep COPD symptoms from getting worst.</p>			
+	  								<p>Unlike asthma, COPD is not reversible, however, quitting smoking is the best way to protect lungs from futher damage and keep COPD symptoms from getting worst.</p>			
   								</font>
 							</ul>
 					      </div>
@@ -165,7 +202,7 @@
 							<ul>
 								<font size=5>
 								  	<li>Tobacco smoke contains more than 7,000 chemicals. About 70 of them are known to cause cancer.</li>
-	  								<li>About 30000 people die in New Zealand each yead and around 5,000 of those are caused by smoking or second-hand smoke.</li>
+	  								<li>About 30000 people die in New Zealand each year and around 5,000 of those are caused by smoking or second-hand smoke.</li>
 	  								<li>Half of all regular smokers die early from a smoking related disease.</li>
 	  								<li>Internationally, tobacco smoke is responsible for about 1 in 10 adult deaths.</li>
 	  								<li>Smoking affects sporting performance negatively; exercising requires oxygen but smoking reduces oxygen intake.</li>
@@ -202,7 +239,23 @@
 
 		<script>
 			
+
 			var zincRenderer = null;
+			
+			$(document).ready(function() {
+        		$('#playToggle').bind("click", function() {
+          			if ($(this).attr("class") == "play")
+          			{
+             			$(this).attr("class", "pause");
+             			zincRenderer.playAnimation = true;
+             		}
+          			else
+          			{
+             			$(this).attr("class", "play");
+             			zincRenderer.playAnimation = false;	
+             		}
+        		});
+      		});
 			
 			var cellUniforms= THREE.UniformsUtils.merge( [
 				{
@@ -218,7 +271,7 @@
 					"starting_time": { type: "f", value: 0.0 },
 					"severity": { type: "f", value: 0.0 },
 					"cellsDensity": { type: "f", value: 0.1 },
-					"tarDensity":  { type: "f", value: 0.02 }
+					"tarDensity":  { type: "f", value: 0.01 }
 				}
 			] );
 			
@@ -244,8 +297,8 @@
 			var lungMeshIsReady = false;
 	  						
 			var gender = {
-				Male:  'Male',
-				Female: 'Female'
+				"Male":  "Male",
+				"Female": "Female"
 			};
 			
 			var viewingModel = {
@@ -254,8 +307,8 @@
 				"Tree": "Tree"				
 			}
 			
-			/* Accourding to studies, asthema severity affects percentage FEV1 */
-			var asthemaLevel = {
+			/* Accourding to studies, asthma severity affects percentage FEV1 */
+			var asthmaLevel = {
 				"None" : 1.0,
 				"Mild" : 0.8,
 				"Moderate" : 0.7,
@@ -263,11 +316,11 @@
 			}
 		
 			var userData = {
-				'Current Age': 27,
-				'Gender' : "male",
-				'Asthema Severity' : "None",
+				'Current Age': 25,
+				'Gender' : "Male",
+				'Asthma Severity' : "None",
 				'Age started smoking': 18,
-				'Packs Per Day': 1,
+				'Packs Per Day': 1.0,
 				'Height' : 180,
 				'3D Models' : "Lungs (Tar)",
 				'Speed' : 100
@@ -291,12 +344,12 @@
 			}
 		
 			function updateFEVChart() {
-				var asthemaScaling = asthemaLevel[userData['Asthema Severity']]
+				var asthmaScaling = asthmaLevel[userData['Asthma Severity']]
 				var fev_chart = document.getElementById("fev_chart");
 				dataController.createPlot(fev_chart, "age", "FEV1");
 				var age = Math.floor(userData["Current Age"] + 0.5);
 				var fevData = dataController.calculateFEVData(age, userData["Gender"],
-					age - userData["Age started smoking"], userData["Packs Per Day"], userData["Height"], asthemaScaling);
+					age - userData["Age started smoking"], userData["Packs Per Day"], userData["Height"], asthmaScaling);
 				dataController.removeSeries(fev_chart, "non smoker");
 				dataController.removeSeries(fev_chart, "smoker");
 				dataController.removeSeries(fev_chart, "after cessation");
@@ -431,8 +484,10 @@
 					currentViewingModel = modelsName;
 				}
 			}
+			
+		 
 	  			
-			function guiChanged() {
+			function datGuiChanged() {
 				if (dataController)
 					updateFEVChart();
 				if (zincRenderer)
@@ -445,24 +500,30 @@
 				}
 			}
 			
+			function updateDatGui()
+			{
+				  for (var i in gui.__controllers) {
+    				gui.__controllers[i].updateDisplay();
+ 				 }
+			}
+			
 			function initDatGUI() {
+				dat.GUI.TEXT_CLOSED = "Finish";
+				dat.GUI.TEXT_OPEN  = "How about my lungs?";
 				var gui = new dat.GUI();
-				gui.width = 280;
+				gui.close();
+				gui.width = 350;
 				var resetViewButton = { 'Reset view':function(){ zincRenderer.resetView(); }};
-				var playButton = { 'Play':function(){ zincRenderer.playAnimation = true; }};
-				var stopButton = { 'Stop':function(){ zincRenderer.playAnimation = false; }};
-				gui.add( userData, 'Current Age', 1, 99, 1 ).onChange( guiChanged );
-				gui.add( userData, 'Asthema Severity', Object.keys( asthemaLevel ) ).onChange( guiChanged );
-				gui.add( userData, 'Gender', Object.keys( gender ) ).onChange( guiChanged );
-				gui.add( userData, 'Age started smoking', 0, 99, 1 ).onChange( guiChanged );
-				gui.add( userData, 'Packs Per Day', 0, 10, 0.1 ).onChange( guiChanged );
-				gui.add( userData, 'Height', 70, 250, 1 ).onChange( guiChanged );
-				gui.add( userData, '3D Models', Object.keys(viewingModel)).onChange( guiChanged );
-				gui.add( userData, 'Speed', 10, 500, 10).onChange( guiChanged );
-				gui.add(playButton,'Play');
-				gui.add(stopButton,'Stop');
+				gui.add( userData, 'Current Age', 1, 99, 1 ).onChange( datGuiChanged );
+				gui.add( userData, 'Asthma Severity', Object.keys( asthmaLevel ) ).onChange( datGuiChanged );
+				gui.add( userData, 'Gender', Object.keys( gender ) ).onChange( datGuiChanged );
+				gui.add( userData, 'Age started smoking', 0, 99, 1 ).onChange( datGuiChanged );
+				var packsController = gui.add( userData, 'Packs Per Day', 0, 5, 0.1 ).onChange( datGuiChanged );
+				gui.add( userData, 'Height', 70, 250, 1 ).onChange( datGuiChanged );
+				gui.add( userData, '3D Models', Object.keys(viewingModel)).onChange( datGuiChanged );
+				gui.add( userData, 'Speed', 10, 500, 10).onChange( datGuiChanged );
 				gui.add(resetViewButton,'Reset view');
-				guiChanged();
+				datGuiChanged();
 			}
 			
 			function initCollapsibleGUI() {
@@ -497,6 +558,7 @@
 					'./lung_2/tree_RLL_1.json','./lung_2/tree_RML_1.json','./lung_2/tree_RUL_1.json'],
 					[0xFFFF00, 0x57DB94, 0xFF7300, 0x9400CF, 0x33D1FF], [1.0], [0.0], [0.0], treesMeshready());
 				zincRenderer.setPlayRate(100);
+				zincRenderer.playAnimation = false;
 				zincRenderer.animate();
 			}
 

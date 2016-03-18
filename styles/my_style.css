@@ -43,7 +43,7 @@ left:0
 }
 
 .sidebar-dock-button {
-background-color:#2e2e2e;
+background-color:#00467F;
 background-repeat:no-repeat;
 opacity:.8;
 position:absolute;
@@ -55,7 +55,7 @@ cursor:pointer
 }
 
 .sidebar-dock-button:hover {
-background-color:#535353
+background-color:#00689F
 }
 
 .sidebar-left>.sidebar-dock-button {
@@ -191,4 +191,28 @@ div.transbox p {
   margin: 5%;
   font-weight: bold;
   color: #000000;
+}
+
+.play {
+  width:64px;
+  height:64px;
+  right: 10px;
+  background-image: url(./images/play_small.png);
+  float:right;
+}
+
+.play:hover {
+  background-image: url(./images/play_hover_small.png);
+}
+
+.pause {
+  width:64px;
+  height:64px;
+  right: 10px;
+  background-image: url(./images/pause_small.png);
+  float:right;
+}
+
+.pause:hover {
+  background-image: url(./images/pause_hover_small.png);
 }
