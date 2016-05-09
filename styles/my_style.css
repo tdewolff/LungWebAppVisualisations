@@ -198,7 +198,6 @@ div.transbox p {
   height:64px;
   right: 10px;
   background-image: url(./images/play_small.png);
-  float:right;
 }
 
 .play:hover {
@@ -210,7 +209,6 @@ div.transbox p {
   height:64px;
   right: 10px;
   background-image: url(./images/pause_small.png);
-  float:right;
 }
 
 .pause:hover {
