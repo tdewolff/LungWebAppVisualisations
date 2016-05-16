@@ -44,6 +44,7 @@
   		<link rel="stylesheet" type="text/css" href="styles/dat-gui-swec.css">
 		<link rel="stylesheet" type="text/css" href="styles/my_style.css">
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<script src="js/display_airways_flow.js"></script>
 		<script src="js/three.min.js"></script>
 		<script src="js/zinc_threejs_control.js"></script>
 		<script src="js/zinc_3js_renderer.js"></script>
@@ -278,25 +279,23 @@
 			] );
 			
 			var flowUniforms= THREE.UniformsUtils.merge( [
-				{
-					"emissive" : { type: "c", value: new THREE.Color( 0x000000 ) },
-					"specular" : { type: "c", value: new THREE.Color( 0x111111 ) },
-					"shininess": { type: "f", value: 100 },
-					"diffuse": { type: "c", value: new THREE.Color( 0xeecaa2 ) },
-					"ambientLightColor": { type: "c", value: new THREE.Color( 0x444444 ) },
-					"directionalLightColor": { type: "c", value: new THREE.Color( 0x888888 ) },
-					"directionalLightDirection": { type: "v3", value: new THREE.Vector3()  },
-					"upperValue": { type: "f", value: 0.82 },
-					"lowerValue": { type: "f", value: 0.334 }
-				}
-			] );
+			{
+				"ambient"  : { type: "c", value: new THREE.Color( 0xffffff ) },
+				"emissive" : { type: "c", value: new THREE.Color( 0x000000 ) },
+				"specular" : { type: "c", value: new THREE.Color( 0x111111 ) },
+				"shininess": { type: "f", value: 100 },
+				"ambientLightColor": { type: "c", value: new THREE.Color( 0x444444 ) },
+				"directionalLightColor": { type: "c", value: new THREE.Color( 0x888888 ) },
+				"directionalLightDirection": { type: "v3", value: new THREE.Vector3()  },
+				"time": { type: "f", value: 0.0 },
+				"starting_time": { type: "f", value: 0.0 },
+				"severity": { type: "f", value: 1.0 }
+			} ] );
 			
-			var treesGeometries = [];
-			var lungsGeometries = [];
-			var currentViewingModel = "Tar";
-			var lungsMaterial = undefined;
-			var flowMaterial = undefined;
+			var lungsScene = undefined;
+			var airwaysScene = undefined;
 			var lungMeshIsReady = false;
+			var airwaysIsReady = false;
 	  						
 			var gender = {
 				"Male":  "Male",
@@ -304,9 +303,8 @@
 			};
 			
 			var viewingModel = {
-				"Lungs (Tar)": "Tar",
-				"Lungs (Flow)": "Flow",
-				"Tree": "Tree"				
+				"Lungs (Tar)": "Lungs",
+				"Airways": "Airways"				
 			}
 			
 			/* Accourding to studies, asthma severity affects percentage FEV1 */
@@ -325,7 +323,7 @@
 				'Packs Per Day': 1.0,
 				'Height' : 180,
 				'3D Models' : "Lungs (Tar)",
-				'Speed' : 100
+				'Speed' : 500
 			};
 			
 			var renderer_Age = 0;
@@ -382,38 +380,34 @@
 					start_age = 0.0;
 				cellUniforms["starting_time"].value = start_age;
 				cellUniforms["severity"].value = userData["Packs Per Day"] * 1.0;
+				flowUniforms["starting_time"].value = start_age;
+				flowUniforms["severity"].value = userData["Packs Per Day"] * 1.0;
 			}
 			
-			function lungsMeshready(shaderText) {
-				return function(mygeometry) {
-					if (lungsMaterial == undefined) {
-						lungsMaterial = new THREE.ShaderMaterial( {
-							vertexShader: shaderText[0],
-							fragmentShader: shaderText[1],
-							uniforms: cellUniforms
-						} );
-						lungsMaterial.side = THREE.DoubleSide;
-					}
-					if (flowMaterial == undefined) {
-						flowMaterial = new THREE.ShaderMaterial( {
-							vertexShader: shaderText[2],
-							fragmentShader: shaderText[3],
-							uniforms: flowUniforms
-						} );
-						flowMaterial.side = THREE.DoubleSide;
-					}
-					
-					mygeometry.setMaterial(lungsMaterial)
-					lungsGeometries.push(mygeometry);
-					lungMeshIsReady = true;
-					updateUniformsWithDetails();
+			function airwaysMeshReady(scene, shaderText) {
+				return function(bufferGeometry) {
+					var flowMaterial = new THREE.ShaderMaterial( {
+						vertexShader: shaderText[0],
+						fragmentShader: shaderText[1],
+						uniforms: flowUniforms
+					} );
+					flowMaterial.side = THREE.DoubleSide;
+					scene.addZincGeometry(bufferGeometry, 10001, undefined, undefined, false, false, true, undefined, flowMaterial);
+					airwaysIsReady = true;
 				}
 			}
 			
-			function treesMeshready() {
+			function lungsMeshReady(shaderText) {
 				return function(mygeometry) {
-					treesGeometries.push(mygeometry);
-					mygeometry.morph.material.visible = false;
+					var lungsMaterial = new THREE.ShaderMaterial( {
+						vertexShader: shaderText[0],
+						fragmentShader: shaderText[1],
+						uniforms: cellUniforms
+					} );
+					lungsMaterial.side = THREE.DoubleSide;
+					mygeometry.setMaterial(lungsMaterial)
+					lungMeshIsReady = true;
+					updateUniformsWithDetails();
 				}
 			}
 			
@@ -427,7 +421,7 @@
 						directionalLight.position.y,
 						directionalLight.position.z);
 					cellUniforms["time"].value = zincRenderer.getCurrentTime()/3000;
-					//console.log(cellUniforms["time"].value)
+					flowUniforms["time"].value = zincRenderer.getCurrentTime()/3000;
 					var age = parseInt(cellUniforms["time"].value *100.0);
 					if (age != renderer_Age) {
 						renderer_Age = age;
@@ -443,62 +437,25 @@
 				};
 			}
 			
-			function updateMaterials(modelsName)
-			{
-				if (modelsName != currentViewingModel)
-				{
-					if (modelsName == "Tree") {
-						if (lungsMaterial) {
-							lungsMaterial.visible = false;	
-						}
-						if (flowMaterial) {
-    						flowMaterial.visible = false;
-    					}
-    					var len = treesGeometries.length;
-    					for (var i = 0; i < len; i++) {
-    						treesGeometries[i].morph.material.visible = true;
-    					} 	
-					}
-					else {
-					    if (lungsMaterial) {
-    						lungsMaterial.visible = true;
-    					}
-    					if (flowMaterial) {
-    						flowMaterial.visible = true;
-    					}
-    					var len = treesGeometries.length;
-    					for (var i = 0; i < len; i++) {
-    						treesGeometries[i].morph.material.visible = false;
-    					}
-    					if (modelsName == "Tar") {
-    						var len = lungsGeometries.length;
-    						for (var i = 0; i < len; i++) {
-    							lungsGeometries[i].setMaterial(lungsMaterial);
-    						}
-    					}
-    					else {
-    						var len = lungsGeometries.length;
-    						for (var i = 0; i < len; i++) {
-    							lungsGeometries[i].setMaterial(flowMaterial);
-    						} 						
-    					}
-					}
-					currentViewingModel = modelsName;
+			function showModels(modelsName) {
+				console.log(modelsName);
+				var myTime = zincRenderer.getCurrentTime();
+				if (modelsName == "Airways") {
+					zincRenderer.setCurrentScene(airwaysScene);
+				} else {
+					zincRenderer.setCurrentScene(lungsScene);
 				}
+				zincRenderer.setMorphsTime(myTime);		
 			}
 			
-		 
-	  			
 			function datGuiChanged() {
 				if (dataController)
 					updateFEVChart();
 				if (zincRenderer)
 				{
 					zincRenderer.setPlayRate(userData['Speed']);
-					if (lungMeshIsReady) {
-						updateMaterials(viewingModel[userData['3D Models']]);
-						updateUniformsWithDetails();
-					}
+					showModels(viewingModel[userData['3D Models']]);
+					updateUniformsWithDetails();
 				}
 			}
 			
@@ -523,7 +480,7 @@
 				var packsController = gui.add( userData, 'Packs Per Day', 0, 5, 0.1 ).onChange( datGuiChanged );
 				gui.add( userData, 'Height', 70, 250, 1 ).onChange( datGuiChanged );
 				gui.add( userData, '3D Models', Object.keys(viewingModel)).onChange( datGuiChanged );
-				gui.add( userData, 'Speed', 10, 500, 10).onChange( datGuiChanged );
+				gui.add( userData, 'Speed', 100, 2000, 100).onChange( datGuiChanged );
 				gui.add(resetViewButton,'Reset view');
 				datGuiChanged();
 			}
@@ -549,17 +506,26 @@
 				zincRenderer = new Zinc.Renderer(container, window);
 				zincRenderer.initialiseVisualisation();
 				zincRenderer.addPreRenderCallbackFunction(updateUniforms(zincRenderer, cellUniforms, flowUniforms));
-				loadExternalFiles(['shaders/clean_cell.vs', 'shaders/clean_cell.fs', 'shaders/display_flow.vs',
-					'shaders/display_flow.fs'], function (shaderText) {
-					zincRenderer.loadFromViewURL('./lung_2/lung2', lungsMeshready(shaderText));
+				lungsScene = zincRenderer.createScene("Lungs");
+				loadExternalFiles(['shaders/clean_cell.vs', 'shaders/clean_cell.fs'], function (shaderText) {
+					lungsScene.loadFromViewURL('lung_2/lung2', lungsMeshReady(shaderText));
 				}, function (url) {
 				    alert('Failed to download "' + url + '"');
-				}); 
-				zincRenderer.loadModelsURL(['./lung_2/trachea.json'], [0xE6B380]);
-				zincRenderer.loadModelsURL(['./lung_2/tree_LLL_1.json', './lung_2/tree_LUL_1.json',
-					'./lung_2/tree_RLL_1.json','./lung_2/tree_RML_1.json','./lung_2/tree_RUL_1.json'],
-					[0xFFFF00, 0x57DB94, 0xFF7300, 0x9400CF, 0x33D1FF], [1.0], [0.0], [0.0], treesMeshready());
-				zincRenderer.setPlayRate(100);
+				});
+				zincRenderer.setCurrentScene(lungsScene);
+				if (airwaysScene == undefined)
+				{
+					airwaysScene = zincRenderer.createScene("Airways");
+					airwaysScene.loadViewURL('airways/smoker_flow_view.json');
+					loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
+						loadURLsIntoBufferGeometry('airways/smoker_flow_1.json', airwaysMeshReady(airwaysScene, shaderText));
+					}, function (url) {
+				  	alert('Failed to download "' + url + '"');
+					});
+				}	
+				
+				
+				zincRenderer.setPlayRate(500);
 				zincRenderer.playAnimation = false;
 				zincRenderer.animate();
 			}
