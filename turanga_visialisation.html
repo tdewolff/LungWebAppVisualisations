@@ -158,7 +158,7 @@
 											<p> Please enter and confirm your details </p>
 				      					</div>
 				      					<div class="rightChartTitle">
-				      						<p> FEV1 - forced expiratory volume in 1 second</p>
+				      						<p> Forced expiratory volume in 1 second (FEV1) compared with 25 years old non-smoker.</p>
 				      					</div>
 										<div id = "fev_chart" class="rightChart">
 				      					</div>
@@ -339,8 +339,22 @@
 			
 			function writeLungAge(actualAge, lungAge) {
 				var element = document.getElementById("predicted_lungAge");
-            	if (element)
-        			element.innerHTML =  "You are a " + actualAge + " year old " + userData["Gender"] + ". Based on your smoking history, your lung function is estimated to equal that of an average " + lungAge + " year old non-smoker."
+            if (element)
+            {
+        			var pack = userData["Packs Per Day"];
+        			if (pack > 0.0)
+        			{
+        			   var asthmaScaling = asthmaLevel[userData['Asthma Severity']];
+        				if (1.0 > asthmaScaling) {
+        					element.innerHTML = "Smoking while having asthma affects personal health greatly, please seek medical advise as soon as possible.";
+        				} else {
+        					element.innerHTML =  "You are a " + actualAge + " year old " + userData["Gender"] + ". Based on your smoking history, your lung function is estimated to equal that of an average " + lungAge + " year old non-smoker."
+        				}
+        			}	
+        			else {
+        				element.innerHTML =  "You are not currently smoking, great job! Stay healthy."	
+        			}
+        		}	
 			}
 		
 			function updateFEVChart() {
@@ -392,7 +406,9 @@
 						uniforms: flowUniforms
 					} );
 					flowMaterial.side = THREE.DoubleSide;
+					flowMaterial.depthTest = true;
 					scene.addZincGeometry(bufferGeometry, 10001, undefined, undefined, false, false, true, undefined, flowMaterial);
+					scene.viewAll();
 					airwaysIsReady = true;
 				}
 			}
@@ -420,8 +436,8 @@
 					flowUniforms["directionalLightDirection"].value.set(directionalLight.position.x,
 						directionalLight.position.y,
 						directionalLight.position.z);
-					cellUniforms["time"].value = zincRenderer.getCurrentTime()/3000;
-					flowUniforms["time"].value = zincRenderer.getCurrentTime()/3000;
+					cellUniforms["time"].value = zincRenderer.getCurrentTime()/3000.0;
+					flowUniforms["time"].value = zincRenderer.getCurrentTime()/3000.0;
 					var age = parseInt(cellUniforms["time"].value *100.0);
 					if (age != renderer_Age) {
 						renderer_Age = age;
@@ -472,7 +488,7 @@
 				var gui = new dat.GUI();
 				gui.close();
 				gui.width = 350;
-				var resetViewButton = { 'Reset view':function(){ zincRenderer.resetView(); }};
+				var resetViewButton = { 'Reset view':function(){ zincRenderer.viewAll(); }};
 				gui.add( userData, 'Current Age', 1, 99, 1 ).onChange( datGuiChanged );
 				gui.add( userData, 'Asthma Severity', Object.keys( asthmaLevel ) ).onChange( datGuiChanged );
 				gui.add( userData, 'Gender', Object.keys( gender ) ).onChange( datGuiChanged );
