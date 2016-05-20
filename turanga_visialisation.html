@@ -111,20 +111,19 @@
 								<p></p>
 								<p>By using this app, you will:</p>
 								<font size=4>
-								  <li>Explore and find information regarding the effects of smoking have on your health,</li>
-	  							  <li>Personalise the lung models based on your smoking history and visualise them,</li>
-	  							  <li>Find out your estimated lung functions,</li>
-	  							  <li>Learn some facts about tobacco smoking. </li>
+								  <li>Learn how smoking affects your health.</li>
+	  							  <li>View lung models personalised with your smoking history.</li>
+	  							  <li>Find out your estimated lung function as you age.</li>
   								</font>
   								<p></p>
   								<p>How to use:</p>
 								<font size=4>
-								  <li>Click on each tab for more information.</li>
-	  							  <li>Click on the vertical bar on the right to minimse this windows and view the lungs,</li>
-	  							  <li>Once this window is minimised, a vertical bar will appear on the left, click on it to reopen this window.</li>
-	  							  <li>Begin personalising the lungs model and get your estimated lung functions result by clicking on the "How about my lungs" bottom on the top-right corner.</li>
-	  							  <li>Click the play bottom on top of the screen to see how your lungs do at different age.</li>
-	  							  <li>Tips: You can change personal details and see how it affects the lung models and the estimated lung functions.</li>
+								  <li>Click on each tab (below) for more information.</li>
+	  							  <li>Click on the blue vertical bar on the right to hide this panel and view the lungs. The blue vertical bar remains on the left and can be clicked to show this panel.</li>
+	  							  <li>Click on “How about my lungs?” and enter details such as age, rate of smoking etc. which affect the lungs and their function. You can change these details at any time and see the effects immediately.</li>
+	  							  <li>View the 3-D lungs using the mouse or touch screen controls (see the tab below). You can switch between viewing 3-D Models of lung surfaces illustrating tar build-up, and airways showing differences in flow compared to healthy individuals.</li>
+	  							  <li>Adjust the time slider along the top of the screen to project to different ages. Click on the play button to animate.</li>
+	  							  <li>Open the ‘Estimated Lung Function’ tab below and see how it changes with age and ceasing smoking.</li>
   								</font>
 							  </font>
 							</ul>
@@ -133,7 +132,7 @@
 					    <div class="panel panel-default">
 					      <div class="panel-heading">
 					        <h4 class="panel-title">
-					          <a data-toggle="collapse" data-parent="#accordion" href="#collapseControls">3D Lungs Viewer Controls</a>
+					          <a data-toggle="collapse" data-parent="#accordion" href="#collapseControls">3D Viewer Controls</a>
 					        </h4>
 					      </div>
 					      <div id="collapseControls" class="panel-collapse collapse">
@@ -155,15 +154,15 @@
 								<div id="chartContainer">
 									<div class="content">
 										<div class="leftChart" id="predicted_lungAge">
-											<p> Please enter and confirm your details </p>
+											<p> <font size=4>Please enter and confirm your details </font></p>
 				      					</div>
 				      					<div class="rightChartTitle">
-				      						<p> Forced expiratory volume in 1 second (FEV1) compared with 25 years old non-smoker.</p>
+				      						<p> <font size=3>Graph of Forced Expiratory Volume (FEV1) compared with healthy 25 year old non-smoker, versus age in years.</font></p>
 				      					</div>
 										<div id = "fev_chart" class="rightChart">
 				      					</div>
 				      					<div class="rightLegend">
-				      					    <div id = "fev_legend">
+				      						<div id = "fev_legend">
 				      						</div>
 				      					</div>
 				      				</div>
@@ -189,7 +188,7 @@
 								  		<li>22 percent needed regular help from family; 54 percent needed constant help.</li>
 								  	</font>
 								  	<p></p>
-	  								<p>Unlike asthma, COPD is not reversible, however, quitting smoking is the best way to protect lungs from futher damage and keep COPD symptoms from getting worst.</p>			
+	  								<p>Unlike asthma, COPD is not reversible, however, quitting smoking is the best way to protect lungs from futher damage and keep COPD symptoms from getting worse.</p>			
   								</font>
 							</ul>
 					      </div>
@@ -198,14 +197,14 @@
 					    <div class="panel panel-default">
 					      <div class="panel-heading">
 					        <h4 class="panel-title">
-					          <a data-toggle="collapse" data-parent="#accordion" href="#fact_collapse">Facts about smoking</a>
+					          <a data-toggle="collapse" data-parent="#accordion" href="#fact_collapse">Facts About Smoking</a>
 					        </h4>
 					      </div>
 					      <div id="fact_collapse" class="panel-collapse collapse">
 							<ul>
 								<font size=5>
-								  	<li>Tobacco smoke contains more than 7,000 chemicals. About 70 of them are known to cause cancer.</li>
-	  								<li>About 30000 people die in New Zealand each year and around 5,000 of those are caused by smoking or second-hand smoke.</li>
+								  	<li>Tobacco smoke contains more than 7,000 chemicals, about 70 of which are known to cause cancer.</li>
+	  								<li>About 30,000 people die in New Zealand each year and around 5,000 of those are caused by smoking or second-hand smoke.</li>
 	  								<li>Half of all regular smokers die early from a smoking related disease.</li>
 	  								<li>Internationally, tobacco smoke is responsible for about 1 in 10 adult deaths.</li>
 	  								<li>Smoking affects sporting performance negatively; exercising requires oxygen but smoking reduces oxygen intake.</li>
@@ -222,12 +221,17 @@
 					      </div>
 					      <div id="mortality_collapse" class="panel-collapse collapse">
 					        <div style="margin: auto;">
+					        	<ul>
+					        	<font size=4>
+					        		Proportions of smoking-attributed diseases causing death.
+					        	</font>
+					        	</ul>
 								<img src="images/smoking_mortality_males.jpg" style="top: 100px;width:100%;max-width: 700px;">
 								<img src="images/smoking_mortality_females.jpg" style="top: 100px;width:100%;max-width: 700px;">  
 								<p>
 								</p>
 								<font size=3>
-					        		Data above are findings of the Surgeon Generals's report in United State.
+					        		Data above are findings of the Surgeon General's report in United State.
 					        		Charts are produced by Kelly Burrowes. 
 					        	</font>
 							</div>
@@ -339,22 +343,24 @@
 			
 			function writeLungAge(actualAge, lungAge) {
 				var element = document.getElementById("predicted_lungAge");
-            if (element)
-            {
+            	if (element)
+            	{
         			var pack = userData["Packs Per Day"];
         			if (pack > 0.0)
         			{
         			   var asthmaScaling = asthmaLevel[userData['Asthma Severity']];
         				if (1.0 > asthmaScaling) {
-        					element.innerHTML = "Smoking while having asthma affects personal health greatly, please seek medical advise as soon as possible.";
+        					element.innerHTML = "Smoking on top of the reduced lung function with asthma has significant risks: medical advice is recommended.";
         				} else {
-        					element.innerHTML =  "You are a " + actualAge + " year old " + userData["Gender"] + ". Based on your smoking history, your lung function is estimated to equal that of an average " + lungAge + " year old non-smoker."
+        					element.innerHTML =  "You are a " + actualAge + " year old " + userData["Gender"].toLowerCase() + ". Based on your smoking history, your lung function is estimated to equal that of an average " + lungAge + " year old non-smoker."
         				}
         			}	
         			else {
         				element.innerHTML =  "You are not currently smoking, great job! Stay healthy."	
         			}
-        		}	
+        			element.style.font = "italic bold 20px arial,serif";
+        		}
+        		
 			}
 		
 			function updateFEVChart() {
@@ -367,9 +373,9 @@
 				dataController.removeSeries(fev_chart, "non smoker");
 				dataController.removeSeries(fev_chart, "smoker");
 				dataController.removeSeries(fev_chart, "after cessation");
-				dataController.addSeries(fev_chart, "Healthy", fevData[3], "blue");
-				dataController.addSeries(fev_chart, "Yours", fevData[4], "red");
-				dataController.addSeries(fev_chart, "Cessation", fevData[5], "green");
+				dataController.addSeries(fev_chart, "You: at current rate of smoking", fevData[4], "red");
+				dataController.addSeries(fev_chart, "Healthy, never smoked", fevData[3], "blue");
+				dataController.addSeries(fev_chart, "You: non-smoking from now", fevData[5], "green");
 				dataController.renderPlot(fev_chart);
 				if (fev_legend == undefined) {
 					fev_legend = document.getElementById("fev_legend");
