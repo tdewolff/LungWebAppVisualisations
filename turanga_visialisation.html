@@ -341,18 +341,25 @@
 				});
 			});
 			
-			function writeLungAge(actualAge, lungAge) {
+			function writeLungAge(actualAge, lungAge, lungAgeAt25) {
 				var element = document.getElementById("predicted_lungAge");
             	if (element)
             	{
         			var pack = userData["Packs Per Day"];
         			if (pack > 0.0)
         			{
-        			   var asthmaScaling = asthmaLevel[userData['Asthma Severity']];
-        				if (1.0 > asthmaScaling) {
+        			   	var asthmaScaling = asthmaLevel[userData['Asthma Severity']];
+        			   	if (1.0 > asthmaScaling) {
         					element.innerHTML = "Smoking on top of the reduced lung function with asthma has significant risks: medical advice is recommended.";
         				} else {
-        					element.innerHTML =  "You are a " + actualAge + " year old " + userData["Gender"].toLowerCase() + ". Based on your smoking history, your lung function is estimated to equal that of an average " + lungAge + " year old non-smoker."
+        					if (actualAge >= 25) 
+        						element.innerHTML =  "You are a " + actualAge + " years old " + userData["Gender"].toLowerCase() + ". Based on your smoking history, your lung function is estimated to be equavalent to an average " + lungAge + " years old non-smoker."
+        					else {
+        						var packString = "packs";
+        						if (userData["Packs Per Day"] == 1)
+        							packString = "pack";
+        						element.innerHTML =  "You are a " + actualAge + " years old " + userData["Gender"].toLowerCase() + ". If you keep smoking " + userData["Packs Per Day"] + " " + packString +  " per day, at 25 year old, your lung function is estimated to be equavalent to an average " + lungAgeAt25 + " years old non-smoker."
+        					}
         				}
         			}	
         			else {
@@ -368,7 +375,7 @@
 				var fev_chart = document.getElementById("fev_chart");
 				dataController.createPlot(fev_chart, "age", "FEV1");
 				var age = Math.floor(userData["Current Age"] + 0.5);
-				var fevData = dataController.calculateFEVData(age, userData["Gender"],
+				var fevData = dataController.calculateFEVData(age, userData["Gender"].toLowerCase(),
 					age - userData["Age started smoking"], userData["Packs Per Day"], userData["Height"], asthmaScaling);
 				dataController.removeSeries(fev_chart, "non smoker");
 				dataController.removeSeries(fev_chart, "smoker");
@@ -382,7 +389,8 @@
 					dataController.createLegend(fev_chart, fev_legend);
 				}
 				var lungAge = dataController.findLungAge(age, fevData[0], fevData[1]);
-				writeLungAge(age, lungAge);
+				var lungAgeAt25 = dataController.findLungAge(25, fevData[0], fevData[1]);
+				writeLungAge(age, lungAge, lungAgeAt25);
 			}
 		
 			function sidebar_click()
@@ -471,6 +479,9 @@
 			}
 			
 			function datGuiChanged() {
+				var packsPerDay = userData["Packs Per Day"] * 10.0;
+				packsPerDay = Math.round(packsPerDay) / 10.0;
+				userData["Packs Per Day"] = packsPerDay;
 				if (dataController)
 					updateFEVChart();
 				if (zincRenderer)
