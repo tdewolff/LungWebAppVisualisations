@@ -190,13 +190,14 @@ float colorScale(vec2 seed) {
 #define pi 3.14159;
 	float scaling = 1.0;
 	float time_elapsed = time - starting_time;
+	scaling = 1.0 - 0.3 * time;
 	if (time_elapsed < 0.0)
 	{
 		time_elapsed = 0.0;
 	}
 	float current_value = severity * 3.7 * (time_elapsed);
 	if (current_value > seed.x) {
-		scaling = (1.0 - (current_value - seed.x));
+		scaling = (scaling  - 0.4 * (current_value - seed.x));
 	}
 	return scaling;	
 }

@@ -61,15 +61,19 @@ vec3 calculateSpectrumColor(float value)
 
 
 vec3 calculateColor() {
-	vec3 color_diff = color_end - color_begin;
+	vec3 normal_old = color_begin;
+	vec3 smoker_old = color_end;
 	float time_elapsed = time - starting_time;
 	if (time_elapsed < 0.0)
 	{
 		time_elapsed = 0.0;
 	}
-	float delta = color_diff[2];
-	delta = delta / (0.65 - 0.18);
-	float flowValue = color_begin[2] + delta * time_elapsed * severity; 
+	float delta = 0.0;
+	delta = (normal_old[0] - 0.5) / (0.9 - 0.18) * time_elapsed;
+	if (severity > 0.0)
+		delta = (smoker_old[0] - 0.5) / (0.65 - 0.18) * time_elapsed * severity + delta;
+		
+	float flowValue = delta + 0.5; 
 	vec3 my_color = calculateSpectrumColor(1.0 - flowValue);
 	return my_color;
 }
