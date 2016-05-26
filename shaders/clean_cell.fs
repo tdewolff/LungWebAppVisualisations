@@ -186,20 +186,26 @@ float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
 }
 
-float colorScale(vec2 seed) {
+vec3 colorScale(vec2 seed) {
 #define pi 3.14159;
 	float scaling = 1.0;
 	float time_elapsed = time - starting_time;
-	scaling = 1.0 - 0.3 * time;
+	scaling = 1.0 - 0.2 * time;
 	if (time_elapsed < 0.0)
 	{
 		time_elapsed = 0.0;
 	}
-	float current_value = severity * 3.7 * (time_elapsed);
+	// log function here to make dark patch appear earlier and slow down at the end
+	float current_value = log(100.0 * severity * time_elapsed) / 3.0;
+	//current_value dictates area of patchiness. larger number = lower contrast
+	if (current_value > 1.8)
+		current_value = 1.8;
+	// the following adjust the colour of patches, using a constant 0.45 at this moment
 	if (current_value > seed.x) {
-		scaling = (scaling  - 0.4 * (current_value - seed.x));
+		scaling = (scaling - 0.3 * (current_value - seed.x));
 	}
-	return scaling;	
+	vec3 rgb_scale = vec3(scaling * scaling, scaling, scaling);
+	return rgb_scale ;	
 }
 
 void main(void) {
@@ -211,14 +217,13 @@ void main(void) {
 	vec2 F = cellular(vTexCoord3D.xyz);
 	vec2 F_tar = cellular(tarPosition3D.xyz);
 	float n = F.y-F.x;
-	float scaling = colorScale(F_tar);
+	vec3 rgb_scale = colorScale(F_tar);
 	vec3 normalScaling = vec3(1.0, 1.0, 1.0);
 	if (n < 0.1)
 	{
 		normalScaling.z = 0.1 + n * 9.0 ;
 		adjustDiffuse = vec3(0.78, 0.51, 0.51);
 	}
-	//adjustDiffuse = adjustDiffuse * vec3(scaling, scaling, scaling);
 	float specularStrength = 1.0;
 	vec3 normal = normalize( vNormal );
 
@@ -260,6 +265,9 @@ vec3 totalSpecular = vec3( 0.0 );
 #endif
 	gl_FragColor = vec4(1.0, 0.5, 0.5, 1.0);
 	gl_FragColor.xyz = gl_FragColor.xyz * ( emissive + totalDiffuse + ambientLightColor * ambient ) + totalSpecular;
- 	gl_FragColor.xyz = gl_FragColor.xyz * vec3(scaling, scaling, scaling);
+ 	gl_FragColor.xyz = gl_FragColor.xyz * rgb_scale;
+ 	if (gl_FragColor.y > gl_FragColor.x)
+ 		gl_FragColor.x = gl_FragColor.y;
+ 	
 //	gl_FragColor.xyz = vec3(threshold, threshold, threshold);
 }
