@@ -365,12 +365,12 @@
         					element.innerHTML = "Smoking on top of the reduced lung function with asthma has significant risks: medical advice is recommended.";
         				} else {
         					if (actualAge >= 25) 
-        						element.innerHTML =  "You are a " + actualAge + " years old " + userData["Gender"].toLowerCase() + ". Based on your smoking history, your lung function is estimated to be equavalent to an average " + lungAge + " years old non-smoker."
+        						element.innerHTML =  "You are a " + actualAge + " year old " + userData["Gender"].toLowerCase() + ". Based on your smoking history, your lung function is estimated to be equavalent to an average " + lungAge + " year old non-smoker."
         					else {
         						var packString = "packs";
         						if (userData["Packs Per Day"] == 1)
         							packString = "pack";
-        						element.innerHTML =  "You are a " + actualAge + " years old " + userData["Gender"].toLowerCase() + ". If you keep smoking " + userData["Packs Per Day"] + " " + packString +  " per day, at 25 year old, your lung function is estimated to be equavalent to an average " + lungAgeAt25 + " years old non-smoker."
+        						element.innerHTML =  "You are a " + actualAge + " year old " + userData["Gender"].toLowerCase() + ". If you keep smoking " + userData["Packs Per Day"] + " " + packString +  " per day, at 25 year old, your lung function is estimated to be equavalent to an average " + lungAgeAt25 + " year old non-smoker."
         					}
         				}
         			}	
