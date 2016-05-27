@@ -214,3 +214,33 @@ div.transbox p {
 .pause:hover {
   background-image: url(./images/pause_hover_small.png);
 }
+
+.twitter-share-button[style]
+{ 
+transform: scale(3.0);
+-ms-transform: scale(3.0);
+-webkit-transform: scale(3.0);
+-o-transform: scale(3.0);
+-moz-transform: scale(3.0);
+transform-origin: top left;
+-ms-transform-origin: top left;
+-webkit-transform-origin: top left;
+-moz-transform-origin: top left;
+-webkit-transform-origin: top left;
+vertical-align: top !important;
+zoom:3.0
+}
+
+.fb-share-button
+{
+transform: scale(3.0);
+-ms-transform: scale(3.0);
+-webkit-transform: scale(3.0);
+-o-transform: scale(3.0);
+-moz-transform: scale(3.0);
+transform-origin: top left;
+-ms-transform-origin: top left;
+-webkit-transform-origin: top left;
+-moz-transform-origin: top left;
+-webkit-transform-origin: top left;
+}

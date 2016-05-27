@@ -4,11 +4,15 @@
 		<title>Lung Visualisations and Lung Age Estimation</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<meta property="og:url"           content="http://sites.bioeng.auckland.ac.nz/turanga/index.html" />
+		<meta property="og:url"           content="http://sites.bioeng.auckland.ac.nz/turanga/" />
 		<meta property="og:type"          content="website" />
 		<meta property="og:title"         content="Personalised Lung Visualisations and Lung Age Estimation" />
 		<meta property="og:description"   content="Lung Age Estimation and 3D Lungs Visualisation" />
 		<meta property="og:image"         content="images/lungapp.jpg" />
+		
+		
+		
+
 		
 		<style>		
 			body {
@@ -29,18 +33,6 @@
 			}
 			#info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
 		</style>
-		
-		
-		<script>
-  			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  			ga('create', 'UA-78357308-1', 'auto');
-  			ga('send', 'pageview');
-
-		</script>
 
   		<script>
 	    	var dojoConfig = {
@@ -69,18 +61,30 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: 1, parseOnLoad: true" ></script>
-
+		<script src="https://apis.google.com/js/platform.js" async defer></script>
 	</head>
 
 	<body style="height:100%">
-			<div id="fb-root"></div>
-			<script>(function(d, s, id) {
-	  		var js, fjs = d.getElementsByTagName(s)[0];
-	  		if (d.getElementById(id)) return;
-	  		js = d.createElement(s); js.id = id;
-	  		js.src = "https://connect.facebook.net/en_US/sdk.js";
-	  		fjs.parentNode.insertBefore(js, fjs);
-			}(document, 'script', 'facebook-jssdk'));</script>
+		<script>
+		(function(d, s, id) {
+  			var js, fjs = d.getElementsByTagName(s)[0];
+  			if (d.getElementById(id)) return;
+  			js = d.createElement(s); js.id = id;
+  			js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6";
+  			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+		
+		!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+		
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  		ga('create', 'UA-78357308-1', 'auto');
+  		ga('send', 'pageview');
+		
+		</script>
 	
 	
 		<div class="row">
@@ -273,9 +277,10 @@
 					        </h4>
 					      </div>
 					      <div id="share_collapse" class="panel-collapse collapse">
-					      	<div style="margin: auto;width:100%;height:100px;">
-									<div class="fb-share-button" data-href="http://sites.bioeng.auckland.ac.nz/turanga/" data-layout="button" data-mobile-iframe="true"></div>
-								</div>
+					      	<div id="fb-root"></div>
+					      	<div class="g-plus" data-action="share" data-width="120" data-height="60" data-annotation="none" data-href="http://sites.bioeng.auckland.ac.nz/turanga"></div>
+							<div class="fb-share-button" data-href="http://sites.bioeng.auckland.ac.nz/turanga/" data-layout="button" data-mobile-iframe="true" style="vertical-align:top;zoom:3;*display:inline"></div>
+							<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://sites.bioeng.auckland.ac.nz/turanga/index.html" data-text="Personalised Lung Visualisations and Lung Age Estimation" data-via="ABIaucklandacnz" data-hashtags="stopsmoking">Tweet</a>					      	
 					      </div>
 					    </div>
 					    
