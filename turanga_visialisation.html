@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" style="height:100%">
 	<head>
-		<title>Turanga Lung Visualisations</title>
+		<title>Lung Visualisations and Lung Age Estimation</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<style>
+		<meta property="og:url"           content="http://sites.bioeng.auckland.ac.nz/turanga/index.html" />
+		<meta property="og:type"          content="website" />
+		<meta property="og:title"         content="Personalised Lung Visualisations and Lung Age Estimation" />
+		<meta property="og:description"   content="Lung Age Estimation and 3D Lungs Visualisation" />
+		<meta property="og:image"         content="images/lungapp.jpg" />
+		
+		<style>		
 			body {
 				font-family: Monospace;
 				background-color: #000;
@@ -63,9 +69,20 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: 1, parseOnLoad: true" ></script>
+
 	</head>
 
 	<body style="height:100%">
+			<div id="fb-root"></div>
+			<script>(function(d, s, id) {
+	  		var js, fjs = d.getElementsByTagName(s)[0];
+	  		if (d.getElementById(id)) return;
+	  		js = d.createElement(s); js.id = id;
+	  		js.src = "https://connect.facebook.net/en_US/sdk.js";
+	  		fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));</script>
+	
+	
 		<div class="row">
 			<div class="col-sm-3">
 			</div>
@@ -89,7 +106,6 @@
 			<div class="col-sm-5">
 			</div>
 		</div>
-		
 		
 		<div id="container">
 			<div id="BackgroundImage">
@@ -132,10 +148,10 @@
 								<font size=4>
 								  <li>Click on each tab (below) for more information.</li>
 	  							  <li>Click on the blue vertical bar on the right to hide this panel and view the lungs. The blue vertical bar remains on the left and can be clicked to show this panel.</li>
-	  							  <li>Click on â€œHow about my lungs?â€� and enter details such as age, rate of smoking etc. which affect the lungs and their function. You can change these details at any time and see the effects immediately.</li>
+	  							  <li>Click on "How about my lungs?" and enter details such as age, rate of smoking etc. which affect the lungs and their function. You can change these details at any time and see the effects immediately.</li>
 	  							  <li>View the 3-D lungs using the mouse or touch screen controls (see the tab below). You can switch between viewing 3-D Models of lung surfaces illustrating tar build-up, and airways showing differences in flow compared to healthy individuals.</li>
 	  							  <li>Adjust the time slider along the top of the screen to project to different ages. Click on the play button to animate.</li>
-	  							  <li>Open the â€˜Estimated Lung Functionâ€™ tab below and see how it changes with age and ceasing smoking.</li>
+	  							  <li>Open the "Estimated Lung Function" tab below and see how it changes with age and ceasing smoking.</li>
   								</font>
 							  </font>
 							</ul>
@@ -250,6 +266,18 @@
 					      </div>
 					    </div>
 					    
+					    <div class="panel panel-default">
+					      <div class="panel-heading">
+					        <h4 class="panel-title">
+					          <a data-toggle="collapse" data-parent="#accordion" href="#share_collapse">Share</a>
+					        </h4>
+					      </div>
+					      <div id="share_collapse" class="panel-collapse collapse">
+					      	<div style="margin: auto;width:100%;height:100px;">
+									<div class="fb-share-button" data-href="http://sites.bioeng.auckland.ac.nz/turanga/" data-layout="button" data-mobile-iframe="true"></div>
+								</div>
+					      </div>
+					    </div>
 					    
 					    <div class="panel panel-default">
 					      <div class="panel-heading">
