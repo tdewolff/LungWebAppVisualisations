@@ -28,6 +28,7 @@
 				display:block;
 			}
 			#info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
+			.hoverPanel{ cursor: pointer }
 		</style>
 
   		<script>
@@ -135,10 +136,10 @@
 				<div class="sidebar-content-container" data-reactid=".0.1.0.1">
 					<div class="sidebar-content" data-reactid=".0.1.0.1.0">
 					  <div class="panel-group" id="accordion">
-					  	<div class="panel panel-default">
+					  	<div class="panel panel-default hoverPanel" data-toggle="collapse" data-parent="#accordion" href="#collapseWelcome">
 					      <div class="panel-heading">
 					        <h4 class="panel-title">
-					          <a data-toggle="collapse" data-parent="#accordion" href="#collapseWelcome">Welcome to the Turanga Lungs Visualisation App</a>
+					          <a>Welcome to the Turanga Lungs Visualisation App</a>
 					        </h4>
 					      </div>
 					      <div id="collapseWelcome" class="panel-collapse collapse in" >
@@ -170,10 +171,10 @@
 							</ul>
 					      </div>
 					    </div>
-					    <div class="panel panel-default">
+					    <div class="panel panel-default hoverPanel" data-toggle="collapse" data-parent="#accordion" href="#collapseControls">
 					      <div class="panel-heading">
 					        <h4 class="panel-title">
-					          <a data-toggle="collapse" data-parent="#accordion" href="#collapseControls">3D Viewer Controls</a>
+					          <a>3D Viewer Controls</a>
 					        </h4>
 					      </div>
 					      <div id="collapseControls" class="panel-collapse collapse">
@@ -184,10 +185,10 @@
 							</div>
 					      </div>
 					    </div>
-					    <div class="panel panel-default">
+					    <div class="panel panel-default hoverPanel" data-toggle="collapse" data-parent="#accordion" href="#lungPanel">
 					      <div class="panel-heading">
 					        <h4 class="panel-title">
-					          <a data-toggle="collapse" data-parent="#accordion" href="#lungPanel">Estimated Lung Functions</a>
+					          <a>Estimated Lung Functions</a>
 					        </h4>
 					      </div>
 					      <div id="lungPanel" class="panel-collapse collapse">
@@ -211,10 +212,10 @@
 							</div>
 					      </div>
 					    </div>
-					   	<div class="panel panel-default">
+					   	<div class="panel panel-default hoverPanel" data-toggle="collapse" data-parent="#accordion" href="#copd_collpase">
 					      <div class="panel-heading">
 					        <h4 class="panel-title">
-					          <a data-toggle="collapse" data-parent="#accordion" href="#copd_collpase">Smoking and COPD</a>
+					          <a>Smoking and COPD</a>
 					        </h4>
 					      </div>
 					      <div id="copd_collpase" class="panel-collapse collapse">
@@ -235,10 +236,10 @@
 					      </div>
 					    </div>
 					    
-					    <div class="panel panel-default">
+					    <div class="panel panel-default hoverPanel"  data-toggle="collapse" data-parent="#accordion" href="#fact_collapse">
 					      <div class="panel-heading">
 					        <h4 class="panel-title">
-					          <a data-toggle="collapse" data-parent="#accordion" href="#fact_collapse">Facts About Smoking</a>
+					          <a>Facts About Smoking</a>
 					        </h4>
 					      </div>
 					      <div id="fact_collapse" class="panel-collapse collapse">
@@ -254,10 +255,10 @@
 					      </div>
 					    </div>
 					    
-					    <div class="panel panel-default">
+					    <div class="panel panel-default hoverPanel"  data-toggle="collapse" data-parent="#accordion" href="#mortality_collapse">
 					      <div class="panel-heading">
 					        <h4 class="panel-title">
-					          <a data-toggle="collapse" data-parent="#accordion" href="#mortality_collapse">Smoking Attributable Mortality</a>
+					          <a>Smoking Attributable Mortality</a>
 					        </h4>
 					      </div>
 					      <div id="mortality_collapse" class="panel-collapse collapse">
@@ -279,10 +280,10 @@
 					      </div>
 					    </div>
 					    
-					    <div class="panel panel-default">
+					    <div class="panel panel-default hoverPanel"  data-toggle="collapse" data-parent="#accordion" href="#share_collapse">
 					      <div class="panel-heading">
 					        <h4 class="panel-title">
-					          <a data-toggle="collapse" data-parent="#accordion" href="#share_collapse">Share</a>
+					          <a>Share</a>
 					        </h4>
 					      </div>
 					      <div id="share_collapse" class="panel-collapse collapse">
@@ -293,10 +294,10 @@
 					      </div>
 					    </div>
 					    
-					    <div class="panel panel-default">
+					    <div class="panel panel-default hoverPanel"  data-toggle="collapse" data-parent="#accordion" href="#feedback_collapse">
 					      <div class="panel-heading">
 					        <h4 class="panel-title">
-					          <a data-toggle="collapse" data-parent="#accordion" href="#feedback_collapse">Feedback</a>
+					          <a>Feedback</a>
 					        </h4>
 					      </div>
 					      <div id="feedback_collapse" class="panel-collapse collapse">
@@ -396,7 +397,7 @@
 			
 			var viewingModel = {
 				"Lungs (Tar)": "Lungs",
-				"Airways": "Airways"				
+				"Airways (Flow)": "Airways"				
 			}
 			
 			/* Accourding to studies, asthma severity affects percentage FEV1 */
