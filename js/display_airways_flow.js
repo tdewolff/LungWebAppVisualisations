@@ -134,9 +134,9 @@ function myLoader(finishCallback) {
     }
 }
 
-function loadURLsIntoBufferGeometry(url, finishCallback)
+function loadURLsIntoBufferGeometry(url, finishCallback, progressCallback, errorCallback)
 {
 	var loader = new THREE.JSONLoader( true );
     var colour = Zinc.defaultMaterialColor;
-    loader.load( url, myLoader(finishCallback));
+    loader.load( url, myLoader(finishCallback), progressCallback, errorCallback);
 }

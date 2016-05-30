@@ -9,11 +9,7 @@
 		<meta property="og:title"         content="Personalised Lung Visualisations and Lung Age Estimation" />
 		<meta property="og:description"   content="Lung Age Estimation and 3D Lungs Visualisation" />
 		<meta property="og:image"         content="images/lungapp.jpg" />
-		
-		
-		
-
-		
+			
 		<style>		
 			body {
 				font-family: Monospace;
@@ -66,21 +62,21 @@
 
 	<body style="height:100%">
 		<script>
-		 window.fbAsyncInit = function() {
-    		FB.init({
-      			appId      : '1088224474577906',
-      			xfbml      : true,
-      			version    : 'v2.6'
-    		});
-  		};
+		window.fbAsyncInit = function() {
+        	FB.init({
+            	appId      : '1088224474577906',
+            	xfbml      : true,
+            	version    : 'v2.6'
+            });
+        };
 		
 		(function(d, s, id) {
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'))
+  			var js, fjs = d.getElementsByTagName(s)[0];
+  			if (d.getElementById(id)) return;
+  			js = d.createElement(s); js.id = id;
+  			js.src = "//connect.facebook.net/en_US/sdk.js";
+  			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
 		
 		!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 		
@@ -94,6 +90,13 @@
 		
 		</script>
 	
+		<div id="loadingOverlay" class="loadingOverlay pageOverlay">
+			<div class="loadingMessage">Please wait, while the 3D lung models are being loaded..</div>
+			<li>
+				<div id="lungsProgressMessage" class="downloadMessage">Initialising Lungs...</div>
+				<div id="airwaysProgressMessage" class="downloadMessage">Initialising Airways...</div>
+			</li>
+		</div>
 	
 		<div class="row">
 			<div class="col-sm-3">
@@ -311,6 +314,27 @@
 
 		<script>
 			
+			var loadingPage;
+			require(["dojo/_base/declare","dojo/dom","dojo/dom-style", "dojo/_base/fx"],
+				function(declare, dom, domStyle, fx){
+				    var _loadingPage = declare(null, {
+				        overlayNode:null,
+				        constructor:function(){
+				            // save a reference to the overlay
+				            this.overlayNode = dom.byId("loadingOverlay");
+				        },
+				        // called to hide the loading overlay
+				        endLoading:function(){
+						    fx.fadeOut({
+						        node: this.overlayNode,
+						        onEnd: function(node){
+						            domStyle.set(node, 'display', 'none');
+						        }
+						    }).play();
+				        }
+				    });
+				    loadingPage = new _loadingPage();
+			});
 
 			var zincRenderer = null;
 			
@@ -365,6 +389,7 @@
 			var airwaysScene = undefined;
 			var lungMeshIsReady = false;
 			var airwaysIsReady = false;
+			var airwaysDownloadStatus = [0, 0, false];
 	  						
 			var gender = {
 				"Male":  "Male",
@@ -600,6 +625,69 @@
 			
 			container = document.getElementById( "container" );
 			
+			function onAirwaysDownloadProgress(xhr) {
+				airwaysDownloadStatus[0] = xhr.total;
+	    		airwaysDownloadStatus[1] = xhr.loaded;
+			}
+
+			function onAirwaysDownloadError( xhr ) {
+				airwaysDownloadStatus[2] = true;
+			};
+			
+			function endLoading() {
+				loadingPage.endLoading();
+			}
+			
+			function updateDownloadProgress() {
+				var error = false;
+				if (lungsScene) {
+					var element = document.getElementById("lungsProgressMessage");
+					if (lungMeshIsReady) {
+						element.innerHTML =  "Downloading Lungs... Completed."
+					} else {
+						var progress = lungsScene.getDownloadProgress();
+						if (progress[2] == false) {
+							var totalString = "unknown";
+							if (progress.totalSize > 0)
+								totalString = parseInt(progress[0]/1024).toString() + " KB";
+							if (element)
+								element.innerHTML =  "Loading Lungs... (" + parseInt(progress[1]/1024).toString() + " KB  of " + totalString + ").";
+						} else {
+							error = true;
+							if (element)
+								element.innerHTML =  "Loading Lungs... Failed to load models. Please try again later.";
+						}
+					}
+				}
+				if (airwaysScene) {
+					var element = document.getElementById("airwaysProgressMessage");
+					var progress = airwaysScene.getDownloadProgress();
+					if (airwaysIsReady) {
+						element.innerHTML =  "Downloading Airways... Completed."
+					} else {
+						if (airwaysDownloadStatus[2] == false) {
+							var totalString = "unknown";
+							if (airwaysDownloadStatus[0] > 0)
+								totalString = parseInt(parseInt(airwaysDownloadStatus[0]/1024)).toString() + " KB";
+							if (element)
+								element.innerHTML =  "Loading Airways... (" + parseInt(airwaysDownloadStatus[1]/1024).toString() + " KB  of" + totalString + ").";
+						} else {
+							error = true;
+							if (element)
+								element.innerHTML =  "Loading Airways... Failed to load models. Please try again later.";
+						}
+					}
+				}
+				
+				if (lungMeshIsReady && airwaysIsReady) {
+					setTimeout(endLoading, 1000);
+				}
+				else if (error == false) {
+					setTimeout(updateDownloadProgress, 500);
+				}
+			}
+			
+			
 			function init3Dmodels() {
 				zincRenderer = new Zinc.Renderer(container, window);
 				zincRenderer.initialiseVisualisation();
@@ -610,19 +698,26 @@
 				}, function (url) {
 				    alert('Failed to download "' + url + '"');
 				});
+				var element = document.getElementById("lungsProgressMessage");
+				if (element)
+						element.innerHTML = "Loading Lungs...";
+				
 				zincRenderer.setCurrentScene(lungsScene);
 				if (airwaysScene == undefined)
 				{
 					airwaysScene = zincRenderer.createScene("Airways");
 					airwaysScene.loadViewURL('airways/smoker_flow_view.json');
 					loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
-						loadURLsIntoBufferGeometry('airways/smoker_flow_1.json', airwaysMeshReady(airwaysScene, shaderText));
+						loadURLsIntoBufferGeometry('airways/smoker_flow_1.json', 
+						airwaysMeshReady(airwaysScene, shaderText), onAirwaysDownloadProgress, onAirwaysDownloadError);
 					}, function (url) {
 				  	alert('Failed to download "' + url + '"');
 					});
-				}	
-				
-				
+				}
+				var element = document.getElementById("airwaysProgressMessage");
+				if (element)
+						element.innerHTML =  "Loading Airways...";	
+				updateDownloadProgress();
 				zincRenderer.setPlayRate(500);
 				zincRenderer.playAnimation = false;
 				zincRenderer.animate();
