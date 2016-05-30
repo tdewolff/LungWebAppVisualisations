@@ -638,7 +638,7 @@
 				loadingPage.endLoading();
 			}
 			
-			function updateDownloadProgress() {
+			var updateDownloadProgress = function() {
 				var error = false;
 				if (lungsScene) {
 					var element = document.getElementById("lungsProgressMessage");
