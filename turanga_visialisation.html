@@ -643,7 +643,7 @@
 				if (lungsScene) {
 					var element = document.getElementById("lungsProgressMessage");
 					if (lungMeshIsReady) {
-						element.innerHTML =  "Downloading Lungs... Completed."
+						element.innerHTML =  "Loading Lungs... Completed."
 					} else {
 						var progress = lungsScene.getDownloadProgress();
 						if (progress[2] == false) {
@@ -663,7 +663,7 @@
 					var element = document.getElementById("airwaysProgressMessage");
 					var progress = airwaysScene.getDownloadProgress();
 					if (airwaysIsReady) {
-						element.innerHTML =  "Downloading Airways... Completed."
+						element.innerHTML =  "Loading Airways... Completed."
 					} else {
 						if (airwaysDownloadStatus[2] == false) {
 							var totalString = "unknown";
