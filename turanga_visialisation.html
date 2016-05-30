@@ -651,7 +651,7 @@
 							if (progress.totalSize > 0)
 								totalString = parseInt(progress[0]/1024).toString() + " KB";
 							if (element)
-								element.innerHTML =  "Loading Lungs... (" + parseInt(progress[1]/1024).toString() + " KB  of " + totalString + ").";
+								element.innerHTML =  "Loading Lungs... (" + parseInt(progress[1]/1024).toString() + " KB/" + totalString + ").";
 						} else {
 							error = true;
 							if (element)
@@ -670,7 +670,7 @@
 							if (airwaysDownloadStatus[0] > 0)
 								totalString = parseInt(parseInt(airwaysDownloadStatus[0]/1024)).toString() + " KB";
 							if (element)
-								element.innerHTML =  "Loading Airways... (" + parseInt(airwaysDownloadStatus[1]/1024).toString() + " KB  of" + totalString + ").";
+								element.innerHTML =  "Loading Airways... (" + parseInt(airwaysDownloadStatus[1]/1024).toString() + " KB/" + totalString + ").";
 						} else {
 							error = true;
 							if (element)
@@ -686,7 +686,6 @@
 					setTimeout(updateDownloadProgress, 500);
 				}
 			}
-			
 			
 			function init3Dmodels() {
 				zincRenderer = new Zinc.Renderer(container, window);
