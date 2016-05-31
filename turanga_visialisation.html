@@ -46,8 +46,11 @@
     		function updateSlider(slideAmount) {
 				this.zincRenderer.setMorphsTime(slideAmount * 30);
     		}
+    		
+    		
     	</script>
   		<script src="js/dat.gui.min.js"></script>
+  		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/claro/claro.css">
   		<link rel="stylesheet" type="text/css" href="styles/dat-gui-swec.css">
 		<link rel="stylesheet" type="text/css" href="styles/my_style.css">
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -59,9 +62,11 @@
   		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: 1, parseOnLoad: true" ></script>
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
+		<script>require(["dijit/Dialog", "dijit/form/TextBox"]);</script>
+		
 	</head>
 
-	<body style="height:100%">
+	<body class="claro" style="height:100%">
 		<script>
 		window.fbAsyncInit = function() {
         	FB.init({
@@ -90,11 +95,11 @@
   		ga('send', 'pageview');
 		
 		</script>
+				
 	
 		<div id="loadingOverlay" class="loadingOverlay pageOverlay">
-			<div class="loadingMessage">Please wait, while the 3D lung models are being loaded...</div>
-			<div id="lungsProgressMessage" class="downloadMessage">Initialising Lungs...</div>
-			<div id="airwaysProgressMessage" class="downloadMessage">Initialising Airways...</div>
+			<div class="loadingMessage">Please wait, while the 3D models are being loaded...</div>
+			<div id="progressMessage" class="downloadMessage">Initialising Lungs...</div>
 		</div>
 	
 		<div class="row">
@@ -109,17 +114,16 @@
 			<div class="col-sm-4">
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-5">
-			</div>
-			<div class="col-sm-2">
-				<h3 id="renderer_Age" >
-					Simulated Age: 0
-				</h3>
-			</div>
-			<div class="col-sm-5">
-			</div>
+		<div style="text-align: center">
+			<h3 id="renderer_Age" >
+				Simulated Age: 0
+			</h3>
 		</div>
+				
+		<div style="text-align: center; display:None" id="ColourDialogTrigger">
+			<span class="button" onClick="colourDialog.show();">Why is the colour changing?</span>
+		</div>
+		
 		
 		<div id="container">
 			<div id="BackgroundImage">
@@ -304,11 +308,44 @@
 								<iframe src="https://docs.google.com/forms/d/1u_53mOD6iGPaNNm1puw5YZXPGkBq5Yi9e5KdKpwpb_8/viewform?embedded=true" width="100%" height="500px" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
 					      </div>
 					    </div>
-					    
+					    <div class="panel panel-default hoverPanel"  data-toggle="collapse" data-parent="#accordion" href="#about_collapse">
+					      <div class="panel-heading">
+					        <h4 class="panel-title">
+					          <a>Aboout</a>
+					        </h4>
+					      </div>
+					      <div id="about_collapse" class="panel-collapse collapse">
+							<ul>
+								<font size=5>
+								  	<p>This app is developed by the Auckland Bioengineering Insitute (ABI) and funded by Tobacco Control Research Tūranga. <br>
+								  	Tobacco Control Research Tūranga is an organisation funded by the New Zealand government and aims to reduce smoking in New Zealand.<br>
+								  	<li>Research by: Dr Merryn Tawhai, Dr Kelly Burrowes (ABI Lung Group) and Alan Wu (ABI software team)</li>
+	  								<li>Advised by: Dr Merryn Tawhai, Dr Kelly Burrowes and Dr Richard Christie (ABI software team)</li>
+	  								<li>Designed and Programmed by: Alan Wu (ABI software team)</li>
+	  								<p>We would like to give special thanks to Professor Chris Bullen (National Institute for Health Innovation, University of Auckland),
+	  								Associate Professor Marewa Glover (Research Centre for Māori Health & Development, Massey University) and Tobacco Control Research Tūranga.<p>
+  								</font>
+							</ul>
+					      </div>
+					    </div>
 					  </div>
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<div data-dojo-type="dijit/Dialog" data-dojo-id="colourDialog" title="Why is the colour changing">
+    		<table class="dijitDialogPaneContentArea">
+        		<p>Air flow in lungs changes as a person age,however there are other factors that may affect it, <br>
+        			including smoking.<br>
+            		Smoking may cause air flow in lungs to be too low or too high <br>
+            		and may affect oxygen intake into the rest of the body.<br>
+        			Please take a look at the effect of smoking on air flows through our airways 3D model.
+        		</p>
+        		<tr>
+        			<img src="images/colour_bar.jpg" align="middle" style="width:100%;max-width: 500px;">
+        		</tr>
+    		</table>
 		</div>
 
 		<script>
@@ -330,10 +367,25 @@
 						            domStyle.set(node, 'display', 'none');
 						        }
 						    }).play();
-				        }
+				        },
+				        beginLoading:function(){
+				        	fx.fadeIn({
+						        node: this.overlayNode,
+						        onEnd: function(node){
+						            domStyle.set(node, {"opacity":0.9, 'display': 'initial'});
+						        }
+						    }).play();
+						  }
 				    });
 				    loadingPage = new _loadingPage();
 			});
+			
+		//	require(["dijit/Tooltip", "dojo/domReady!"], function(Tooltip){
+    	//		new Tooltip({
+        //			connectId: ["colourExplanation"],
+        //			label: "the text for the tooltip"
+    	//		});
+		//	});
 
 			var zincRenderer = null;
 			
@@ -513,6 +565,7 @@
 					scene.addZincGeometry(bufferGeometry, 10001, undefined, undefined, false, false, true, undefined, flowMaterial);
 					scene.viewAll();
 					airwaysIsReady = true;
+					showModels("Airways");
 				}
 			}
 			
@@ -529,7 +582,7 @@
 					updateUniformsWithDetails();
 				}
 			}
-			
+					
 			function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 				return function () {
 					var directionalLight = zincRenderer.getCurrentScene().directionalLight;
@@ -559,10 +612,22 @@
 			function showModels(modelsName) {
 				console.log(modelsName);
 				var myTime = zincRenderer.getCurrentTime();
+				var element = document.getElementById("ColourDialogTrigger");
 				if (modelsName == "Airways") {
-					zincRenderer.setCurrentScene(airwaysScene);
+					if (airwaysScene == undefined)
+					{
+						initialiseAirways();
+					}
+					else
+					{
+						element.style.display = "block";
+						element.style.textAlign = "center";
+						zincRenderer.setCurrentScene(airwaysScene);
+					}
+
 				} else {
 					zincRenderer.setCurrentScene(lungsScene);
+					element.style.display = "None";
 				}
 				zincRenderer.setMorphsTime(myTime);		
 			}
@@ -637,10 +702,57 @@
 				loadingPage.endLoading();
 			}
 			
-			var updateDownloadProgress = function() {
+			var updateAirwaysDownloadProgress = function() {
+				var error = false;
+				if (airwaysScene) {
+					var element = document.getElementById("progressMessage");
+					if (airwaysIsReady) {
+						element.innerHTML =  "Loading Airways... Completed."
+					} else {
+						if (airwaysDownloadStatus[2] == false) {
+							var totalString = "unknown";
+							if (airwaysDownloadStatus[0] > 0)
+								totalString = parseInt(parseInt(airwaysDownloadStatus[0]/1024)).toString() + " KB";
+							if (element)
+								element.innerHTML =  "Loading Airways... (" + parseInt(airwaysDownloadStatus[1]/1024).toString() + " KB/" + totalString + ").";
+						} else {
+							error = true;
+							if (element)
+								element.innerHTML =  "Loading Airways... Failed to load models. Please try again later.";
+						}
+					}
+				}
+				if (airwaysIsReady) {
+					setTimeout(endLoading, 1000);
+				}
+				else if (error == false) {
+					setTimeout(updateAirwaysDownloadProgress, 500);
+				}
+			}
+			
+			function initialiseAirways() {
+				if (airwaysScene == undefined)
+				{
+					loadingPage.beginLoading();
+					var element = document.getElementById("progressMessage");
+					if (element)
+						element.innerHTML =  "Loading Airways...";	
+					airwaysScene = zincRenderer.createScene("Airways");
+					airwaysScene.loadViewURL('airways/smoker_flow_view.json');
+					loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
+						loadURLsIntoBufferGeometry('airways/smoker_flow_1.json', 
+						airwaysMeshReady(airwaysScene, shaderText), onAirwaysDownloadProgress, onAirwaysDownloadError);
+					}, function (url) {
+				  		alert('Failed to download "' + url + '"');
+					});
+					updateAirwaysDownloadProgress();
+				}
+			}
+			
+			var updateLungsDownloadProgress = function() {
 				var error = false;
 				if (lungsScene) {
-					var element = document.getElementById("lungsProgressMessage");
+					var element = document.getElementById("progressMessage");
 					if (lungMeshIsReady) {
 						element.innerHTML =  "Loading Lungs... Completed."
 					} else {
@@ -658,31 +770,11 @@
 						}
 					}
 				}
-				if (airwaysScene) {
-					var element = document.getElementById("airwaysProgressMessage");
-					var progress = airwaysScene.getDownloadProgress();
-					if (airwaysIsReady) {
-						element.innerHTML =  "Loading Airways... Completed."
-					} else {
-						if (airwaysDownloadStatus[2] == false) {
-							var totalString = "unknown";
-							if (airwaysDownloadStatus[0] > 0)
-								totalString = parseInt(parseInt(airwaysDownloadStatus[0]/1024)).toString() + " KB";
-							if (element)
-								element.innerHTML =  "Loading Airways... (" + parseInt(airwaysDownloadStatus[1]/1024).toString() + " KB/" + totalString + ").";
-						} else {
-							error = true;
-							if (element)
-								element.innerHTML =  "Loading Airways... Failed to load models. Please try again later.";
-						}
-					}
-				}
-				
-				if (lungMeshIsReady && airwaysIsReady) {
+				if (lungMeshIsReady) {
 					setTimeout(endLoading, 1000);
 				}
 				else if (error == false) {
-					setTimeout(updateDownloadProgress, 500);
+					setTimeout(updateLungsDownloadProgress, 500);
 				}
 			}
 			
@@ -696,26 +788,12 @@
 				}, function (url) {
 				    alert('Failed to download "' + url + '"');
 				});
-				var element = document.getElementById("lungsProgressMessage");
+				var element = document.getElementById("progressMessage");
 				if (element)
 						element.innerHTML = "Loading Lungs...";
 				
 				zincRenderer.setCurrentScene(lungsScene);
-				if (airwaysScene == undefined)
-				{
-					airwaysScene = zincRenderer.createScene("Airways");
-					airwaysScene.loadViewURL('airways/smoker_flow_view.json');
-					loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
-						loadURLsIntoBufferGeometry('airways/smoker_flow_1.json', 
-						airwaysMeshReady(airwaysScene, shaderText), onAirwaysDownloadProgress, onAirwaysDownloadError);
-					}, function (url) {
-				  	alert('Failed to download "' + url + '"');
-					});
-				}
-				var element = document.getElementById("airwaysProgressMessage");
-				if (element)
-						element.innerHTML =  "Loading Airways...";	
-				updateDownloadProgress();
+				updateLungsDownloadProgress();
 				zincRenderer.setPlayRate(500);
 				zincRenderer.playAnimation = false;
 				zincRenderer.animate();
