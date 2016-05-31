@@ -1,1 +1,2 @@
-{"farPlane": 1751.6, "nearPlane": 0.176981, "upVector": [0.0, 0.0, 1.0], "numberOfResources": 5, "targetPosition": [186.639, 192.809, -173.458], "timeEnabled": [0, 0, 0, 0, 0], "morphColour" : [0, 0, 0, 0, 0], "eyePosition": [186.639, -413.219, -173.458]}
+{"farPlane": 1751.440535, "nearPlane": 0.017516, "upVector": [0.0098, 0.116, 0.993], "numberOfResources": 5, "targetPosition": [ 191.53887071939, 
+192.655, -223.314], "timeEnabled": [0,0,0,0,0], "morphColour" : [0,0,0,0,0], "eyePosition": [190.494, -361.189, -158.468]}

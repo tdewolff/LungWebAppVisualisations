@@ -477,9 +477,9 @@
 				'Asthma Severity' : "None",
 				'Age started smoking': 18,
 				'Packs Per Day': 1.0,
-				'Height' : 180,
+				'Height (cm)' : 180,
 				'3D Models' : "Lungs (Tar)",
-				'Speed' : 500
+				'Play Speed' : 500
 			};
 			
 			var renderer_Age = 0;
@@ -528,7 +528,7 @@
 				dataController.createPlot(fev_chart, "age", "FEV1");
 				var age = Math.floor(userData["Current Age"] + 0.5);
 				var fevData = dataController.calculateFEVData(age, userData["Gender"].toLowerCase(),
-					age - userData["Age started smoking"], userData["Packs Per Day"], userData["Height"], asthmaScaling);
+					age - userData["Age started smoking"], userData["Packs Per Day"], userData["Height (cm)"], asthmaScaling);
 				dataController.removeSeries(fev_chart, "non smoker");
 				dataController.removeSeries(fev_chart, "smoker");
 				dataController.removeSeries(fev_chart, "after cessation");
@@ -574,7 +574,11 @@
 					flowMaterial.side = THREE.DoubleSide;
 					flowMaterial.depthTest = true;
 					scene.addZincGeometry(bufferGeometry, 10001, undefined, undefined, false, false, true, undefined, flowMaterial);
-					scene.viewAll();
+					scene.camera.near = 26.122;
+					scene.camera.far = 1283.065;
+					scene.camera.position.set( -128.056, 372.601, -162.547);
+					scene.camera.target = new THREE.Vector3( -128.304, -120.691, -162.547  );
+					scene.camera.up.set( 0, 0, 1.0);
 					airwaysIsReady = true;
 					showModels("Airways");
 				}
@@ -651,7 +655,7 @@
 					updateFEVChart();
 				if (zincRenderer)
 				{
-					zincRenderer.setPlayRate(userData['Speed']);
+					zincRenderer.setPlayRate(userData['Play Speed']);
 					showModels(viewingModel[userData['3D Models']]);
 					updateUniformsWithDetails();
 				}
@@ -676,9 +680,9 @@
 				gui.add( userData, 'Gender', Object.keys( gender ) ).onChange( datGuiChanged );
 				gui.add( userData, 'Age started smoking', 0, 99, 1 ).onChange( datGuiChanged );
 				var packsController = gui.add( userData, 'Packs Per Day', 0, 5, 0.1 ).onChange( datGuiChanged );
-				gui.add( userData, 'Height', 70, 250, 1 ).onChange( datGuiChanged );
+				gui.add( userData, 'Height (cm)', 70, 250, 1 ).onChange( datGuiChanged );
 				gui.add( userData, '3D Models', Object.keys(viewingModel)).onChange( datGuiChanged );
-				gui.add( userData, 'Speed', 100, 2000, 100).onChange( datGuiChanged );
+				gui.add( userData, 'Play Speed', 100, 2000, 100).onChange( datGuiChanged );
 				gui.add(resetViewButton,'Reset view');
 				datGuiChanged();
 			}
