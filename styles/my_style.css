@@ -43,7 +43,7 @@ left:0
 }
 
 .sidebar-dock-button {
-background-color:#00467F;
+background-color:#008ABF;
 background-repeat:no-repeat;
 opacity:.8;
 position:absolute;
@@ -55,7 +55,7 @@ cursor:pointer
 }
 
 .sidebar-dock-button:hover {
-background-color:#00689F
+background-color:#00ACDF
 }
 
 .sidebar-left>.sidebar-dock-button {
