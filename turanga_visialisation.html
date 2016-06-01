@@ -58,6 +58,7 @@
 		<script src="js/three.min.js"></script>
 		<script src="js/zinc_threejs_control.js"></script>
 		<script src="js/zinc_3js_renderer.js"></script>
+		<script src="js/Detector.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: 1, parseOnLoad: true" ></script>
@@ -68,6 +69,7 @@
 
 	<body class="claro" style="height:100%">
 		<script>
+		
 		window.fbAsyncInit = function() {
         	FB.init({
             	appId      : '1088224474577906',
@@ -98,8 +100,9 @@
 				
 	
 		<div id="loadingOverlay" class="loadingOverlay pageOverlay">
-			<div class="loadingMessage">Please wait, while the 3D models are being loaded...</div>
+			<div class="loadingMessage" id="loadingMessage">Please wait, while the 3D models are being loaded...</div>
 			<div id="progressMessage" class="downloadMessage">Initialising Lungs...</div>
+			<div id="continueMessage" class="downloadMessage button" style="display:None">Click here to continue.</div>
 		</div>
 	
 		<div class="row">
@@ -505,12 +508,12 @@
         					element.innerHTML = "Smoking on top of the reduced lung function with asthma has significant risks: medical advice is recommended.";
         				} else {
         					if (actualAge >= 25) 
-        						element.innerHTML =  "You are a " + actualAge + " year old " + userData["Gender"].toLowerCase() + ". Based on your smoking history, your lung function is estimated to be equavalent to an average " + lungAge + " year old non-smoker."
+        						element.innerHTML =  "You are a " + actualAge + " year old " + userData["Gender"].toLowerCase() + ". Based on your smoking history, your lung function is estimated to be equivalent to an average " + lungAge + " year old non-smoker."
         					else {
         						var packString = "packs";
         						if (userData["Packs Per Day"] == 1)
         							packString = "pack";
-        						element.innerHTML =  "You are a " + actualAge + " year old " + userData["Gender"].toLowerCase() + ". If you keep smoking " + userData["Packs Per Day"] + " " + packString +  " per day, at 25 year old, your lung function is estimated to be equavalent to an average " + lungAgeAt25 + " year old non-smoker."
+        						element.innerHTML =  "You are a " + actualAge + " year old " + userData["Gender"].toLowerCase() + ". If you keep smoking " + userData["Packs Per Day"] + " " + packString +  " per day, at 25 year old, your lung function is estimated to be equivalent to an average " + lungAgeAt25 + " year old non-smoker."
         					}
         				}
         			}	
@@ -631,7 +634,11 @@
 				if (modelsName == "Airways") {
 					if (airwaysScene == undefined)
 					{
-						initialiseAirways();
+						var errorString = undefined;
+						if ( ! Detector.webgl )
+							errorString = Detector.getWebGLErrorMessage();
+						if (errorString == undefined)
+							initialiseAirways();
 					}
 					else
 					{
@@ -713,7 +720,7 @@
 				airwaysDownloadStatus[2] = true;
 			};
 			
-			function endLoading() {
+			endLoading = function() {
 				loadingPage.endLoading();
 			}
 			
@@ -794,24 +801,40 @@
 			}
 			
 			function init3Dmodels() {
-				zincRenderer = new Zinc.Renderer(container, window);
-				zincRenderer.initialiseVisualisation();
-				zincRenderer.addPreRenderCallbackFunction(updateUniforms(zincRenderer, cellUniforms, flowUniforms));
-				lungsScene = zincRenderer.createScene("Lungs");
-				loadExternalFiles(['shaders/clean_cell.vs', 'shaders/clean_cell.fs'], function (shaderText) {
-					lungsScene.loadFromViewURL('lung_2/lung2', lungsMeshReady(shaderText));
-				}, function (url) {
-				    alert('Failed to download "' + url + '"');
-				});
-				var element = document.getElementById("progressMessage");
-				if (element)
-						element.innerHTML = "Loading Lungs...";
-				
-				zincRenderer.setCurrentScene(lungsScene);
-				updateLungsDownloadProgress();
-				zincRenderer.setPlayRate(500);
-				zincRenderer.playAnimation = false;
-				zincRenderer.animate();
+				var errorString = undefined;
+				if ( ! Detector.webgl )
+					errorString = Detector.getWebGLErrorMessage();
+				if (errorString == undefined) {
+					zincRenderer = new Zinc.Renderer(container, window);
+					zincRenderer.initialiseVisualisation();
+					zincRenderer.addPreRenderCallbackFunction(updateUniforms(zincRenderer, cellUniforms, flowUniforms));
+					lungsScene = zincRenderer.createScene("Lungs");
+					loadExternalFiles(['shaders/clean_cell.vs', 'shaders/clean_cell.fs'], function (shaderText) {
+						lungsScene.loadFromViewURL('lung_2/lung2', lungsMeshReady(shaderText));
+					}, function (url) {
+					    alert('Failed to download "' + url + '"');
+					});
+					var element = document.getElementById("progressMessage");
+					if (element)
+							element.innerHTML = "Loading Lungs...";
+					zincRenderer.setCurrentScene(lungsScene);
+					updateLungsDownloadProgress();
+					zincRenderer.setPlayRate(500);
+					zincRenderer.playAnimation = false;
+					zincRenderer.animate();
+				} else {
+					errorString = errorString + "<br>However you can use the Estimated Lung Function and check out other information on this page.";
+					var element = document.getElementById("progressMessage");
+					if (element)
+						element.innerHTML = errorString;
+					var element = document.getElementById("continueMessage");
+					if (element){
+						element.style.display = "block";
+						element.onclick = endLoading;
+					}
+					var element = document.getElementById("loadingMessage")
+						element.innerHTML = "Oops..";
+				}
 			}
 
 			initGUI();
