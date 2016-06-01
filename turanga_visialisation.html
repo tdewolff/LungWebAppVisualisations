@@ -823,7 +823,7 @@
 					zincRenderer.playAnimation = false;
 					zincRenderer.animate();
 				} else {
-					errorString = errorString + "<br>However you can use the Estimated Lung Function and check out other information on this page.";
+					errorString = "WebGL is required to display the interactive 3D models.<br>" + errorString + "<br>However you can use the Estimated Lung Function and check out other information on this page.";
 					var element = document.getElementById("progressMessage");
 					if (element)
 						element.innerHTML = errorString;
@@ -833,7 +833,7 @@
 						element.onclick = endLoading;
 					}
 					var element = document.getElementById("loadingMessage")
-						element.innerHTML = "Oops..";
+						element.innerHTML = "Oops...";
 				}
 			}
 
