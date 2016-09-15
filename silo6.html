@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+	<head>
+		<title>MedTech CORE - Lung Simulation</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<meta property="og:url"			  content="http://sites.bioeng.auckland.ac.nz/silo6_lung/" />
+		<meta property="og:type"		  content="website" />
+		<meta property="og:title"		  content="Personalised Lung Estimation and Visualisation." />
+		<meta property="og:description"	  content="Using parameters from an individual estimate the state of the lung and provide a 3D visualisation representative of the individual." />
+		<meta property="og:image"		  content="images/lungapp.jpg" />
+		<style>
+		.flex-container {
+			display: -webkit-flex;
+			display: flex;
+			-webkit-flex-flow: row wrap;
+			flex-flow: row wrap;
+			font-weight: bold;
+			text-align: center;
+		}
+
+		.flex-container > * {
+			padding: 10px;
+			flex: 1 100%;
+		}
+
+		.flex-container-col {
+			display: -webkit-flex;
+			display: flex;
+			-webkit-flex-flow: column wrap;
+			flex-flow: column wrap;
+			font-weight: bold;
+			text-align: center;
+		}
+
+		.flex-container-col > * {
+			padding: 10px;
+			flex: 1 100%;
+		}
+
+		.main {
+			text-align: left;
+			background: cornflowerblue;
+		}
+		
+		.aside-content {
+			flex-grow: 1;
+		}
+		
+		.fixbottom {
+			align-self: flex-end;
+		}
+
+		.header {background: coral;}
+		.footer {background: lightgreen;}
+		.aside {background: moccasin;}
+		.section {background: violet;}
+		.buttons {background: teal;}
+
+		@media all and (min-width: 600px) {
+			.aside { flex: 1 1 auto; }
+		}
+
+		@media all and (min-width: 800px) {
+			.main	 { flex: 3 3 0px; }
+			.aside { flex: 1 1 0px;}
+			.aside { order: 1; }
+			.main	 { order: 2; }
+			.section { order: 3; }
+			.footer	 { order: 4; }
+		}
+		</style>
+		</head>
+		<body>
+		<div class="flex-container">
+			<header class="header">Header</header>
+			<aside class="aside flex-container">
+				<div class="aside-content">
+					<h1>Info</h1>
+					<p>Some helpful info</p>
+				</div>
+				<div class="logos fixbottom">
+					<a href="http://www.abi.auckland.ac.nz/en.html">
+						<img src="images/abi-hc-rgb.png" style="width:50%">
+					</a>
+					<a href="http://www.turanga.org.nz/">
+						<img src="images/turanga_banner_0_transparent.png" style="width:25%;"> 
+					</a>
+				</div>
+			</aside>
+			<article class="article main">
+				<div class="view">
+					<img src="images/lung_surface.png" style="width:55%">
+				</div>
+				<div class="buttons">
+					<button >View Lung</button>
+					<button >View Lung Airways</button>
+					<button >View Lung Blood Vessels</button>
+					<button >Start my interactive lung</button>
+				</div>
+			</article>
+			<footer class="footer">Footer</footer>
+		</div>
+
+</html>
