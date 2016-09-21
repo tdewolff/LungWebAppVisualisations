@@ -9,145 +9,44 @@
 		<meta property="og:title"		  content="Personalised Lung Estimation and Visualisation." />
 		<meta property="og:description"	  content="Using parameters from an individual estimate the state of the lung and provide a 3D visualisation representative of the individual." />
 		<meta property="og:image"		  content="images/lungapp.jpg" />
+		<link rel="stylesheet" type="text/css" href="styles/common.css">
 		<link rel="stylesheet" type="text/css" href="styles/buttons.css">
-		<style>
-		
-		/* Force full width and height */
-		html, body, .viewport {
-			width: 100%;
-			height: 100%;
-			margin: 0;
-		}
-		
-		/* items flex/expand vertically */
-		.vbox {
-			display: -webkit-flex;
-			display: -moz-flex;
-			display: -ms-flex;
-			display: flex;
-			-webkit-flex-direction: column;
-			-moz-flex-direction: column;
-			-ms-flex-direction: column;
-			flex-direction: column;
-		}
-
-		/* items flex/expand horizontally */
-		.hbox {
-			display: -webkit-flex;
-			display: -moz-flex;
-			display: -ms-flex;
-			display: flex;
-			-webkit-flex-direction: row;
-			-moz-flex-direction: row;
-			-ms-flex-direction: row;
-			flex-direction: row;
-		}
-
-		/*
-		.flex-container {
-			display: -webkit-flex;
-			display: flex;
-			-webkit-flex-flow: row wrap;
-			flex-flow: row wrap;
-			font-weight: bold;
-			text-align: center;
-		}
-
-		.flex-container > * {
-			padding: 10px;
-			flex: 1 100%;
-		}
-*/
-		.main {
-			text-align: left;
-			background: cornflowerblue;
-		}
-
-		/*
-		.aside-content {
-			flex-grow: 1;
-		}
-*/
-		.fixbottom {
-			align-self: flex-end;
-		}
-		
-		.main {
-			-webkit-flex: 1;
-			-moz-flex: 1;
-			-ms-flex: 1;
-			flex: 1;
-		}
-		article {
-			overflow-y: auto;
-			-webkit-flex: 5;
-			-moz-flex: 5;
-			-ms-flex: 5;
-			flex: 5;
-		}
-		aside, nav {
-			-webkit-flex: 1;
-			-moz-flex: 1;
-			-ms-flex: 1;
-			flex: 1;
-		}
-
-
-		.header {background: coral;}
-		.footer {background: lightgreen;}
-		.aside {background: moccasin;}
-		.section {background: violet;}
-		.buttons {background: teal;}
-		.view {background: orange;}
-
-		/*
-		@media all and (min-width: 600px) {
-			.aside { flex: 1 1 auto; }
-		}
-
-		@media all and (min-width: 800px) {
-			.main	 { flex: 3 3 0px; }
-			.aside { flex: 1 1 0px;}
-			.aside { order: 1; }
-			.main	 { order: 2; }
-			.section { order: 3; }
-			.footer	 { order: 4; }
-		}
-		*/
-		</style>
+		<link rel="stylesheet" type="text/css" href="styles/overlay.css">
 	</head>
-	<body class="vbox viewport">
-		<header class="header" style="display: none;">Header</header>
-		<section class="main hbox">
-			<aside>
-				<div class="aside-content">
-					<h1>Info</h1>
-					<p>Some helpful info</p>
-				</div>
-				<div class="logos fixbottom">
+	<body class="expand vbox viewport">
+		<section class="expand">
+			<nav class="expand vbox">
+				<h1>
+					Information Panel
+				</h1>
+				<p class="flexgrow">Information panel. Here we can include some brief commentary about how to use the software, what they are seeing when they turn things on and off.</p>
+				<div class="logos fixend">
 					<a href="http://www.abi.auckland.ac.nz/en.html">
 						<img src="images/abi-hc-rgb.png" style="width:50%">
 					</a>
 					<a href="http://www.turanga.org.nz/">
-						<img src="images/turanga_banner_0_transparent.png" style="width:25%;"> 
+						<img src="images/turanga_banner_0_transparent.png" style="width:25%;">
 					</a>
 				</div>
-			</aside>
-			<article class="article main" style="padding: 0px;">
-				<div id="zinc_rendered_view" class="view">
+			</nav>
+			<article class="expand vbox">
+
+				<div id="zinc_rendered_view" class="view flexgrow">
 					<div id="loadingOverlay" class="loadingOverlay pageOverlay">
-						<div class="loadingMessage" id="loadingMessage">Please wait, while the 3D models are being loaded...</div>
+						<!--
+						<div id="loadingMessage" class="loadingMessage">Please wait, while the 3D models are being loaded...</div>
 						<div id="progressMessage" class="downloadMessage">Initialising Lungs...</div>
 						<div id="continueMessage" class="downloadMessage button" style="display:None">Click here to continue.</div>
+						-->
 					</div>
 					<div style="text-align: center; display: none;">
 						<h3 id="renderer_Age" >
 							Simulated Age: 0
 						</h3>
 					</div>
-					<img id="placeholder_image" src="images/lung_surface.png">
 				</div>
-				<div class="buttons" style="justify-content: flex-end;">
+
+				<div class="buttons">
 					<div class='cool_btn1 cool_btn_rd green'>
 						<h1 class='top'>View <i>Lung</i></h1>
 						<h2>&#xe001</h2>
@@ -160,16 +59,13 @@
 						<h1 class='top'>View <i>Blood Vessels</i></h1>
 						<h2>&#xe002</h2>
 					</div>
-					<div class='cool_btn1 cool_btn_next orange fixbottom'>
+					<div class='cool_btn1 cool_btn_next orange fixend'>
 						<h1 class='top'>Start <i>interactive lung</i></h1>
 						<h2>I</h2>
 					</div>
 				</div>
 			</article>
 		</section>
-		<footer class="footer" style="display: none;">
-			<h2>Footer</h2>
-		</footer>
 		<script src="js/three.min.js"></script>
 		<script src="js/zinc_threejs_control.js"></script>
 		<script src="js/zinc_3js_renderer.js"></script>
@@ -178,289 +74,7 @@
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: 1, parseOnLoad: true" ></script>
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
-		<script>
-			var loadingPage;
-			require(["dojo/_base/declare","dojo/dom","dojo/dom-style", "dojo/_base/fx"],
-				function(declare, dom, domStyle, fx){
-				    var _loadingPage = declare(null, {
-				        overlayNode:null,
-				        constructor:function(){
-				            // save a reference to the overlay
-				            this.overlayNode = dom.byId("loadingOverlay");
-				        },
-				        // called to hide the loading overlay
-				        endLoading:function(){
-						    fx.fadeOut({
-						        node: this.overlayNode,
-						        onEnd: function(node){
-						            domStyle.set(node, 'display', 'none');
-						        }
-						    }).play();
-				        },
-				        beginLoading:function(){
-				        	fx.fadeIn({
-						        node: this.overlayNode,
-						        onEnd: function(node){
-						            domStyle.set(node, {"opacity":0.9, 'display': 'initial'});
-						        }
-						    }).play();
-						  }
-				    });
-				    loadingPage = new _loadingPage();
-			});
-		</script>
-		<script>
-		console.log("Start ...");
-			var container = document.getElementById( "zinc_rendered_view" );
-			var zincRenderer = undefined;
-			var lungsScene = undefined;
-			var lungMeshIsReady = false;
-			var airwaysIsReady = false;
-			var airwaysDownloadStatus = [0, 0, false];
-			var renderer_Age = 0;
-			
-			function lungsMeshReady(shaderText) {
-				return function(mygeometry) {
-					var lungsMaterial = new THREE.ShaderMaterial( {
-						vertexShader: shaderText[0],
-						fragmentShader: shaderText[1],
-						uniforms: cellUniforms
-					} );
-					lungsMaterial.side = THREE.DoubleSide;
-					mygeometry.setMaterial(lungsMaterial)
-					lungMeshIsReady = true;
-					updateUniformsWithDetails();
-				}
-			}
-					
-			function updateUniformsWithDetails() {
-				var age = Math.floor(userData["Current Age"] + 0.5);
-				start_age = userData["Age started smoking"] * 0.01;
-				if (start_age < 0.0)
-					start_age = 0.0;
-				cellUniforms["starting_time"].value = start_age;
-				cellUniforms["severity"].value = userData["Packs Per Day"] * 1.0;
-				flowUniforms["starting_time"].value = start_age;
-				flowUniforms["severity"].value = userData["Packs Per Day"] * 1.0;
-			}
-			
-			var cellUniforms = THREE.UniformsUtils.merge( [
-				{
-					"ambient"  : { type: "c", value: new THREE.Color( 0xffffff ) },
-					"emissive" : { type: "c", value: new THREE.Color( 0x000000 ) },
-					"specular" : { type: "c", value: new THREE.Color( 0x111111 ) },
-					"shininess": { type: "f", value: 100 },
-					"diffuse": { type: "c", value: new THREE.Color( 0xeecaa2 ) },
-					"ambientLightColor": { type: "c", value: new THREE.Color( 0x444444 ) },
-					"directionalLightColor": { type: "c", value: new THREE.Color( 0x888888 ) },
-					"directionalLightDirection": { type: "v3", value: new THREE.Vector3()  },
-					"time": { type: "f", value: 0.0 },
-					"starting_time": { type: "f", value: 0.0 },
-					"severity": { type: "f", value: 0.0 },
-					"cellsDensity": { type: "f", value: 0.1 },
-					"tarDensity":  { type: "f", value: 0.0175}
-				}
-			] );
-			
-			var flowUniforms = THREE.UniformsUtils.merge( [
-			{
-				"ambient"  : { type: "c", value: new THREE.Color( 0xffffff ) },
-				"emissive" : { type: "c", value: new THREE.Color( 0x000000 ) },
-				"specular" : { type: "c", value: new THREE.Color( 0x111111 ) },
-				"shininess": { type: "f", value: 100 },
-				"ambientLightColor": { type: "c", value: new THREE.Color( 0x444444 ) },
-				"directionalLightColor": { type: "c", value: new THREE.Color( 0x888888 ) },
-				"directionalLightDirection": { type: "v3", value: new THREE.Vector3()  },
-				"time": { type: "f", value: 0.0 },
-				"starting_time": { type: "f", value: 0.0 },
-				"severity": { type: "f", value: 1.0 }
-			} ] );
-			
-			var userData = {
-				'Current Age': 25,
-				'Gender' : "Male",
-				'Asthma Severity' : "None",
-				'Age started smoking': 18,
-				'Packs Per Day': 1.0,
-				'Height (cm)' : 180,
-				'3D Models' : "Lungs (Tar)",
-				'Play Speed' : 500
-			};
-			
-			function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
-				return function () {
-					var directionalLight = zincRenderer.getCurrentScene().directionalLight;
-					cellUniforms["directionalLightDirection"].value.set(directionalLight.position.x,
-						directionalLight.position.y,
-						directionalLight.position.z);
-					flowUniforms["directionalLightDirection"].value.set(directionalLight.position.x,
-						directionalLight.position.y,
-						directionalLight.position.z);
-					cellUniforms["time"].value = zincRenderer.getCurrentTime()/3000.0;
-					flowUniforms["time"].value = zincRenderer.getCurrentTime()/3000.0;
-					var age = parseInt(cellUniforms["time"].value *100.0);
-					if (age != renderer_Age) {
-						renderer_Age = age;
-						var element = document.getElementById("renderer_Age");
-						if (element)
-							element.innerHTML =  "Simulated Age: " + renderer_Age;
-					}
-					if (zincRenderer.playAnimation == true)
-					{
-						var sliderElement = document.getElementById("age_slider");
-						sliderElement.value = renderer_Age;
-					}
-				};
-			}
-
-			function onAirwaysDownloadProgress(xhr) {
-				airwaysDownloadStatus[0] = xhr.total;
-	    		airwaysDownloadStatus[1] = xhr.loaded;
-			}
-
-			function onAirwaysDownloadError( xhr ) {
-				airwaysDownloadStatus[2] = true;
-			};
-			
-			endLoading = function() {
-				loadingPage.endLoading();
-			}
-			
-			var updateAirwaysDownloadProgress = function() {
-				var error = false;
-				if (airwaysScene) {
-					var element = document.getElementById("progressMessage");
-					if (airwaysIsReady) {
-						element.innerHTML =  "Loading Airways... Completed."
-					} else {
-						if (airwaysDownloadStatus[2] == false) {
-							var totalString = "unknown";
-							if (airwaysDownloadStatus[0] > 0)
-								totalString = parseInt(parseInt(airwaysDownloadStatus[0]/1024)).toString() + " KB";
-							if (element)
-								element.innerHTML =  "Loading Airways... (" + parseInt(airwaysDownloadStatus[1]/1024).toString() + " KB/" + totalString + ").";
-						} else {
-							error = true;
-							if (element)
-								element.innerHTML =  "Loading Airways... Failed to load models. Please try again later.";
-						}
-					}
-				}
-				if (airwaysIsReady) {
-					setTimeout(endLoading, 1000);
-				}
-				else if (error == false) {
-					setTimeout(updateAirwaysDownloadProgress, 500);
-				}
-			}
-			
-			function initialiseAirways() {
-				if (airwaysScene == undefined)
-				{
-					loadingPage.beginLoading();
-					var element = document.getElementById("progressMessage");
-					if (element)
-						element.innerHTML =  "Loading Airways...";	
-					airwaysScene = zincRenderer.createScene("Airways");
-					airwaysScene.loadViewURL('airways/smoker_flow_view.json');
-					loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
-						loadURLsIntoBufferGeometry('airways/smoker_flow_1.json', 
-						airwaysMeshReady(airwaysScene, shaderText), onAirwaysDownloadProgress, onAirwaysDownloadError);
-					}, function (url) {
-				  		alert('Failed to download "' + url + '"');
-					});
-					updateAirwaysDownloadProgress();
-				}
-			}
-			
-			var updateLungsDownloadProgress = function() {
-				var error = false;
-				if (lungsScene) {
-					var element = document.getElementById("progressMessage");
-					if (lungMeshIsReady) {
-						element.innerHTML =  "Loading Lungs... Completed."
-					} else {
-						var progress = lungsScene.getDownloadProgress();
-						if (progress[2] == false) {
-							var totalString = "unknown";
-							if (progress.totalSize > 0)
-								totalString = parseInt(progress[0]/1024).toString() + " KB";
-							if (element)
-								element.innerHTML =  "Loading Lungs... (" + parseInt(progress[1]/1024).toString() + " KB/" + totalString + ").";
-						} else {
-							error = true;
-							if (element)
-								element.innerHTML =  "Loading Lungs... Failed to load models. Please try again later.";
-						}
-					}
-				}
-				if (lungMeshIsReady) {
-					setTimeout(endLoading, 1000);
-				}
-				else if (error == false) {
-					setTimeout(updateLungsDownloadProgress, 500);
-				}
-			}
-			
-			function init3Dmodels() {
-				var errorString = undefined;
-				if ( ! Detector.webgl )
-					errorString = Detector.getWebGLErrorMessage();
-				if (errorString == undefined) {
-					var placeholder_image = document.getElementById("placeholder_image");
-					zincRenderer = new Zinc.Renderer(container, window);
-					zincRenderer.initialiseVisualisation();
-					placeholder_image.style.display = "none";
-					zincRenderer.addPreRenderCallbackFunction(updateUniforms(zincRenderer, cellUniforms, flowUniforms));
-					lungsScene = zincRenderer.createScene("Lungs");
-					loadExternalFiles(['shaders/clean_cell.vs', 'shaders/clean_cell.fs'], function (shaderText) {
-						lungsScene.loadFromViewURL('lung_2/lung2', lungsMeshReady(shaderText));
-					}, function (url) {
-					    alert('Failed to download "' + url + '"');
-					});
-					var element = document.getElementById("progressMessage");
-					if (element)
-							element.innerHTML = "Loading Lungs...";
-					zincRenderer.setCurrentScene(lungsScene);
-					updateLungsDownloadProgress();
-					zincRenderer.setPlayRate(500);
-					zincRenderer.playAnimation = false;
-					zincRenderer.animate();
-				} else {
-					errorString = "WebGL is required to display the interactive 3D models.<br>" + errorString + "<br>However you can use the Estimated Lung Function and check out other information on this page.";
-					var element = document.getElementById("progressMessage");
-					if (element)
-						element.innerHTML = errorString;
-					var element = document.getElementById("continueMessage");
-					if (element){
-						element.style.display = "block";
-						element.onclick = endLoading;
-					}
-					var element = document.getElementById("loadingMessage")
-						element.innerHTML = "Oops...";
-				}
-			}
-			
-			init3Dmodels();
-		
-		</script>
-  		<script>
-	    	var dojoConfig = {
-				async: true,
-				// This code registers the correct location of the "demo" package
-				// so we can load Dojo from the CDN whilst still being able to
-				// load local modules
-				packages: [{
-					name: "js",
-					location: location.pathname.replace(/\/[^/]+$/, '')  + '/js'
-				}]
-			};
-			
-    		function updateSlider(slideAmount) {
-				this.zincRenderer.setMorphsTime(slideAmount * 30);
-    		}
-    		
-    		
-    	</script>
+		<script src="js/overlay.js"></script>
+		<script src="js/main.js"></script>
 	</body>
 </html>

@@ -580,6 +580,9 @@ Zinc.Renderer = function (containerIn, window) {
 	
 	this.initialiseVisualisation = function() {
 		renderer = new THREE.WebGLRenderer({ antialias: true });
+		console.log(renderer);
+		console.log(container.getBoundingClientRect());
+		//console.log(renderer.getClientRects());
 		renderer.setSize( container.clientWidth, container.clientHeight );
 		container.appendChild( renderer.domElement );
 		renderer.setClearColor( 0xffffff, 1);
