@@ -1,26 +1,25 @@
 var container = document.getElementById( "zinc_rendered_view" );
 var zincRenderer = undefined;
-var lungsScene = undefined;
-var lungMeshIsReady = false;
-var airwaysIsReady = false;
-var lungDownladStatus = [0, 0, false];
-var airwaysDownloadStatus = [0, 0, false];
+
+var surfaceStatus = {
+	"scene": undefined,
+	"initialised": false,
+	"download": {
+		"progress": 0,
+		"total": 0,
+	},
+};
+var airwaysStatus = {
+	"scene": undefined,
+	"initialised": false,
+	"download": {
+		"progress": 0,
+		"total": 0,
+	},
+}
+
 var renderer_Age = 0;
 
-function lungsMeshReady(shaderText) {
-	return function(mygeometry) {
-		var lungsMaterial = new THREE.ShaderMaterial( {
-			vertexShader: shaderText[0],
-			fragmentShader: shaderText[1],
-			uniforms: cellUniforms
-		} );
-		lungsMaterial.side = THREE.DoubleSide;
-		mygeometry.setMaterial(lungsMaterial)
-		lungMeshIsReady = true;
-		updateUniformsWithDetails();
-	}
-}
-		
 function updateUniformsWithDetails() {
 	var age = Math.floor(userData["Current Age"] + 0.5);
 	start_age = userData["Age started smoking"] * 0.01;
@@ -142,28 +141,18 @@ var updateAirwaysDownloadProgress = function() {
 	}
 }
 
-function initialiseAirways() {
-	if (airwaysScene == undefined)
-	{
-		loadingPage.beginLoading();
-		var element = document.getElementById("progressMessage");
-		if (element)
-			element.innerHTML =  "Loading Airways...";	
-		airwaysScene = zincRenderer.createScene("Airways");
-		airwaysScene.loadViewURL('airways/smoker_flow_view.json');
-		loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
-			loadURLsIntoBufferGeometry('airways/smoker_flow_1.json', 
-			airwaysMeshReady(airwaysScene, shaderText),
-			onAirwaysDownloadProgress,
-			onAirwaysDownloadError);
-		}, function (url) {
-	  		alert('Failed to download "' + url + '"');
-		});
-		updateAirwaysDownloadProgress();
+function isSceneInitialised(scene_name) {
+	var result = false;
+	if (scene_name == "Surface") {
+		result = surfaceStatus["initialised"];
+	} else if (scene_name == "Airways") {
+		result = airwaysStatus["initialised"];
 	}
+	
+	return result;
 }
 
-var updageModelDownloadProgress = function(model_name, scene, model_ready) {
+var updateModelDownloadProgress = function(model_name, scene, model_ready) {
 	var error = false;
 	if (scene) {
 		var element = document.getElementById("loadingOverlay");
@@ -188,20 +177,22 @@ var updageModelDownloadProgress = function(model_name, scene, model_ready) {
 		setTimeout(endLoading, 1000);
 	}
 	else if (error == false) {
-		setTimeout(updateModelDownloadProgress, 500, model_name, scene, model_ready);
+		setTimeout(updateModelDownloadProgress, 500, model_name, scene, isSceneInitialised(model_name));
 	}
 }
 
-}
-
-var updateLungsDownloadProgress = function() {
+var updateLungsDownloadProgress = function(scene) {
 	var error = false;
-	if (lungsScene) {
+	if (scene) {
 		var element = document.getElementById("progressMessage");
-		if (lungMeshIsReady) {
+		console.log("start: " + surfaceStatus["initialised"])
+		if (surfaceStatus["initialised"]) {
+			console.log("loading lungs ... Completed!")
 			element.innerHTML =  "Loading Lungs... Completed."
 		} else {
-			var progress = lungsScene.getDownloadProgress();
+			var progress = scene.getDownloadProgress();
+			console.log("progress report ... ")
+			console.log(progress);
 			if (progress[2] == false) {
 				var totalString = "unknown";
 				if (progress.totalSize > 0)
@@ -215,12 +206,169 @@ var updateLungsDownloadProgress = function() {
 			}
 		}
 	}
-	if (lungMeshIsReady) {
+	if (surfaceStatus["initialised"]) {
+		console.log("end loading soon!")
 		setTimeout(endLoading, 1000);
-	}
-	else if (error == false) {
+	} else if (error == false) {
 		setTimeout(updateLungsDownloadProgress, 500);
 	}
+}
+
+function initialiseAirways() {
+	if (airwaysScene == undefined)
+	{
+		loadingPage.beginLoading();
+		var element = document.getElementById("progressMessage");
+		if (element)
+			element.innerHTML =  "Loading Airways...";	
+		airwaysScene = zincRenderer.createScene("Airways");
+		airwaysScene.loadViewURL('airways/smoker_flow_view.json');
+		loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
+			loadURLsIntoBufferGeometry('airways/smoker_flow_1.json', 
+			airwaysMeshReady(airwaysScene, shaderText),
+			onAirwaysDownloadProgress,
+			onAirwaysDownloadError);
+		}, function (url) {
+	  		alert('Failed to download "' + url + '"');
+		});
+		updateAirwaysDownloadProgress();
+	}
+}
+
+function showModels(modelsName) {
+	console.log(modelsName);
+	var myTime = zincRenderer.getCurrentTime();
+	var element = document.getElementById("ColourDialogTrigger");
+	if (modelsName == "Airways") {
+		if (airwaysScene == undefined)
+		{
+			var errorString = undefined;
+			if ( ! Detector.webgl )
+				errorString = Detector.getWebGLErrorMessage();
+			if (errorString == undefined)
+				initialiseAirways();
+		}
+		else
+		{
+			element.style.display = "block";
+			element.style.textAlign = "center";
+			zincRenderer.setCurrentScene(airwaysScene);
+		}
+
+	} else {
+		zincRenderer.setCurrentScene(lungsScene);
+		element.style.display = "None";
+	}
+	zincRenderer.setMorphsTime(myTime);		
+}
+
+function airwaysMeshReady(scene, shaderText) {
+	return function(bufferGeometry) {
+		var flowMaterial = new THREE.ShaderMaterial( {
+			vertexShader: shaderText[0],
+			fragmentShader: shaderText[1],
+			uniforms: flowUniforms
+		} );
+		flowMaterial.side = THREE.DoubleSide;
+		flowMaterial.depthTest = true;
+		scene.addZincGeometry(bufferGeometry, 10001, undefined, undefined, false, false, true, undefined, flowMaterial);
+		scene.camera.near = 26.122;
+		scene.camera.far = 1283.065;
+		scene.camera.position.set( -128.056, 372.601, -162.547);
+		scene.camera.target = new THREE.Vector3( -128.304, -120.691, -162.547  );
+		scene.camera.up.set( 0, 0, 1.0);
+		airwaysIsReady = true;
+		showModels("Airways");
+	}
+}
+
+function lungsMeshReady(shaderText) {
+	console.log("lung mesh ready ...")
+	return function(mygeometry) {
+		var lungsMaterial = new THREE.ShaderMaterial( {
+			vertexShader: shaderText[0],
+			fragmentShader: shaderText[1],
+			uniforms: cellUniforms
+		} );
+		lungsMaterial.side = THREE.DoubleSide;
+		mygeometry.setMaterial(lungsMaterial)
+		surfaceStatus["initialised"] = true;
+		updateUniformsWithDetails();
+		console.log("all done ...")
+	}
+}
+
+function meshReady(sceneName, shaderText, uniforms) {
+	console.log("mesh " + sceneName + " is ready ...")
+	return function(mygeometry) {
+		var material = new THREE.ShaderMaterial( {
+			vertexShader: shaderText[0],
+			fragmentShader: shaderText[1],
+			uniforms: uniforms
+		} );
+		material.side = THREE.DoubleSide;
+		mygeometry.setMaterial(material)
+		if (sceneName == "Surface") {
+			surfaceStatus["initialised"] = true;
+		} else if (sceneName == "Airways") {
+			airwaysStatus["initialised"] = true;
+		}
+		updateUniformsWithDetails();
+		console.log("all done the mesh is ready ...")
+	}
+}
+		
+function initSurface(scene) {
+	loadExternalFiles(['shaders/clean_cell.vs', 'shaders/clean_cell.fs'], function (shaderText) {
+		scene.loadFromViewURL('surface/surface', meshReady(scene.sceneName, shaderText, cellUniforms));
+	}, function (url) {
+	    alert('Failed to download "' + url + '"');
+	});
+	//updateLungsDownloadProgress(scene);
+}
+
+function initAirways(scene) {
+	loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
+		scene.loadFromViewURL('airways/smoker_flow', meshReady(scene.sceneName, shaderText, cellUniforms));
+	}, function (url) {
+	    alert('Failed to download "' + url + '"');
+	});
+}
+
+function initScene(scene_name) {
+	scene = zincRenderer.createScene(scene_name);
+	if (scene_name == "Surface") {
+		initSurface(scene);
+	} else if (scene_name == "Airways") {
+		initAirways(scene);
+	}else {
+		console.log("Trying to initialise an undefined scene!!!")
+	}
+	updateModelDownloadProgress(scene_name, scene, isSceneInitialised(scene_name));
+	
+	return scene;
+}
+
+function setScene(scene_name) {
+	var currentScene = undefined;
+	if (scene_name == "Surface") {
+		if (!surfaceStatus["initialised"]) {
+			surfaceStatus["scene"] = initScene(scene_name);
+		}
+		currentScene = surfaceStatus["scene"];
+	} else if (scene_name == "Airways") {
+		if (!airwaysStatus["initialised"]) {
+			airwaysStatus["scene"] = initScene(scene_name);
+		}
+		currentScene = airwaysStatus["scene"];
+	} else {
+		console.log("Trying to set undefined scene!!!!")
+	}
+	zincRenderer.setCurrentScene(currentScene);
+}
+
+function modelButtonClicked(model_name) {
+	setScene(model_name);
 }
 
 function initZinc() {
@@ -231,7 +379,9 @@ function initZinc() {
 		zincRenderer = new Zinc.Renderer(container, window);
 		zincRenderer.initialiseVisualisation();
 		zincRenderer.addPreRenderCallbackFunction(updateUniforms(zincRenderer, cellUniforms, flowUniforms));
-		createScene("Lungs");
+		zincRenderer.setPlayRate(500);
+		zincRenderer.playAnimation = false;
+		zincRenderer.animate();
 	} else {
 		errorString = "WebGL is required to display the interactive 3D models.<br>" + errorString + "<br>";
 		var element = undefined;
@@ -281,7 +431,6 @@ function init3Dmodels() {
 }
 
 //init3Dmodels();
-initZinc();
 
 var dojoConfig = {
 	async: true,

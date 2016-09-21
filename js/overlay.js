@@ -1,4 +1,5 @@
 var loadingPage;
+
 require(["dojo/_base/declare","dojo/dom","dojo/dom-style", "dojo/_base/fx"],
 	function(declare, dom, domStyle, fx){
 	    var _loadingPage = declare(null, {

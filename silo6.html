@@ -47,19 +47,19 @@
 				</div>
 
 				<div class="buttons">
-					<div class='cool_btn1 cool_btn_rd green'>
+					<div class="cool_btn1 cool_btn_rd green" onclick="modelButtonClicked('Surface');">
 						<h1 class='top'>View <i>Lung</i></h1>
 						<h2>&#xe001</h2>
 					</div>
-					<div class='cool_btn1 cool_btn_rd teal'>
+					<div class="cool_btn1 cool_btn_rd teal" onclick="modelButtonClicked('Airways');">
 						<h1 class='top'>View <i>Airways</i></h1>
 						<h2>&#xe000</h2>
 					</div>
-					<div class='cool_btn1 cool_btn_rd blue'>
+					<div class="cool_btn1 cool_btn_rd blue" onclick="modelButtonClicked('Vessels');">
 						<h1 class='top'>View <i>Blood Vessels</i></h1>
 						<h2>&#xe002</h2>
 					</div>
-					<div class='cool_btn1 cool_btn_next orange fixend'>
+					<div class="cool_btn1 cool_btn_next orange fixend" onclick="modelButtonClicked('Start');">
 						<h1 class='top'>Start <i>interactive lung</i></h1>
 						<h2>I</h2>
 					</div>
@@ -76,5 +76,10 @@
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<script src="js/overlay.js"></script>
 		<script src="js/main.js"></script>
+		<script>
+			initZinc();
+			// Call in a fake button click to initialise view.
+			modelButtonClicked("Surface");
+		</script>
 	</body>
 </html>
