@@ -74,6 +74,14 @@ var userData = {
 	'Play Speed' : 500
 };
 
+function endLoading() {
+	loadingPage.endLoading();
+}
+
+function beginLoading() {
+	loadingPage.beginLoading();
+}
+
 function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 	return function () {
 		var directionalLight = zincRenderer.getCurrentScene().directionalLight;
@@ -98,10 +106,6 @@ function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 			sliderElement.value = renderer_Age;
 		}
 	};
-}
-
-endLoading = function() {
-	loadingPage.endLoading();
 }
 
 function isSceneInitialised(scene_name) {
