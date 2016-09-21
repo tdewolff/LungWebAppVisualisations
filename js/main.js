@@ -100,45 +100,8 @@ function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 	};
 }
 
-function onAirwaysDownloadProgress(xhr) {
-	airwaysDownloadStatus[0] = xhr.total;
-	airwaysDownloadStatus[1] = xhr.loaded;
-}
-
-function onAirwaysDownloadError( xhr ) {
-	airwaysDownloadStatus[2] = true;
-};
-
 endLoading = function() {
 	loadingPage.endLoading();
-}
-
-var updateAirwaysDownloadProgress = function() {
-	var error = false;
-	if (airwaysScene) {
-		var element = document.getElementById("progressMessage");
-		if (airwaysIsReady) {
-			element.innerHTML =  "Loading Airways... Completed."
-		} else {
-			if (airwaysDownloadStatus[2] == false) {
-				var totalString = "unknown";
-				if (airwaysDownloadStatus[0] > 0)
-					totalString = parseInt(parseInt(airwaysDownloadStatus[0]/1024)).toString() + " KB";
-				if (element)
-					element.innerHTML =  "Loading Airways... (" + parseInt(airwaysDownloadStatus[1]/1024).toString() + " KB/" + totalString + ").";
-			} else {
-				error = true;
-				if (element)
-					element.innerHTML =  "Loading Airways... Failed to load models. Please try again later.";
-			}
-		}
-	}
-	if (airwaysIsReady) {
-		setTimeout(endLoading, 1000);
-	}
-	else if (error == false) {
-		setTimeout(updateAirwaysDownloadProgress, 500);
-	}
 }
 
 function isSceneInitialised(scene_name) {
@@ -181,125 +144,7 @@ var updateModelDownloadProgress = function(model_name, scene, model_ready) {
 	}
 }
 
-var updateLungsDownloadProgress = function(scene) {
-	var error = false;
-	if (scene) {
-		var element = document.getElementById("progressMessage");
-		console.log("start: " + surfaceStatus["initialised"])
-		if (surfaceStatus["initialised"]) {
-			console.log("loading lungs ... Completed!")
-			element.innerHTML =  "Loading Lungs... Completed."
-		} else {
-			var progress = scene.getDownloadProgress();
-			console.log("progress report ... ")
-			console.log(progress);
-			if (progress[2] == false) {
-				var totalString = "unknown";
-				if (progress.totalSize > 0)
-					totalString = parseInt(progress[0]/1024).toString() + " KB";
-				if (element)
-					element.innerHTML =  "Loading Lungs... (" + parseInt(progress[1]/1024).toString() + " KB/" + totalString + ").";
-			} else {
-				error = true;
-				if (element)
-					element.innerHTML =  "Loading Lungs... Failed to load models. Please try again later.";
-			}
-		}
-	}
-	if (surfaceStatus["initialised"]) {
-		console.log("end loading soon!")
-		setTimeout(endLoading, 1000);
-	} else if (error == false) {
-		setTimeout(updateLungsDownloadProgress, 500);
-	}
-}
-
-function initialiseAirways() {
-	if (airwaysScene == undefined)
-	{
-		loadingPage.beginLoading();
-		var element = document.getElementById("progressMessage");
-		if (element)
-			element.innerHTML =  "Loading Airways...";	
-		airwaysScene = zincRenderer.createScene("Airways");
-		airwaysScene.loadViewURL('airways/smoker_flow_view.json');
-		loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
-			loadURLsIntoBufferGeometry('airways/smoker_flow_1.json', 
-			airwaysMeshReady(airwaysScene, shaderText),
-			onAirwaysDownloadProgress,
-			onAirwaysDownloadError);
-		}, function (url) {
-	  		alert('Failed to download "' + url + '"');
-		});
-		updateAirwaysDownloadProgress();
-	}
-}
-
-function showModels(modelsName) {
-	console.log(modelsName);
-	var myTime = zincRenderer.getCurrentTime();
-	var element = document.getElementById("ColourDialogTrigger");
-	if (modelsName == "Airways") {
-		if (airwaysScene == undefined)
-		{
-			var errorString = undefined;
-			if ( ! Detector.webgl )
-				errorString = Detector.getWebGLErrorMessage();
-			if (errorString == undefined)
-				initialiseAirways();
-		}
-		else
-		{
-			element.style.display = "block";
-			element.style.textAlign = "center";
-			zincRenderer.setCurrentScene(airwaysScene);
-		}
-
-	} else {
-		zincRenderer.setCurrentScene(lungsScene);
-		element.style.display = "None";
-	}
-	zincRenderer.setMorphsTime(myTime);		
-}
-
-function airwaysMeshReady(scene, shaderText) {
-	return function(bufferGeometry) {
-		var flowMaterial = new THREE.ShaderMaterial( {
-			vertexShader: shaderText[0],
-			fragmentShader: shaderText[1],
-			uniforms: flowUniforms
-		} );
-		flowMaterial.side = THREE.DoubleSide;
-		flowMaterial.depthTest = true;
-		scene.addZincGeometry(bufferGeometry, 10001, undefined, undefined, false, false, true, undefined, flowMaterial);
-		scene.camera.near = 26.122;
-		scene.camera.far = 1283.065;
-		scene.camera.position.set( -128.056, 372.601, -162.547);
-		scene.camera.target = new THREE.Vector3( -128.304, -120.691, -162.547  );
-		scene.camera.up.set( 0, 0, 1.0);
-		airwaysIsReady = true;
-		showModels("Airways");
-	}
-}
-
-function lungsMeshReady(shaderText) {
-	console.log("lung mesh ready ...")
-	return function(mygeometry) {
-		var lungsMaterial = new THREE.ShaderMaterial( {
-			vertexShader: shaderText[0],
-			fragmentShader: shaderText[1],
-			uniforms: cellUniforms
-		} );
-		lungsMaterial.side = THREE.DoubleSide;
-		mygeometry.setMaterial(lungsMaterial)
-		surfaceStatus["initialised"] = true;
-		updateUniformsWithDetails();
-		console.log("all done ...")
-	}
-}
-
 function meshReady(sceneName, shaderText, uniforms) {
-	console.log("mesh " + sceneName + " is ready ...")
 	return function(mygeometry) {
 		var material = new THREE.ShaderMaterial( {
 			vertexShader: shaderText[0],
@@ -314,7 +159,6 @@ function meshReady(sceneName, shaderText, uniforms) {
 			airwaysStatus["initialised"] = true;
 		}
 		updateUniformsWithDetails();
-		console.log("all done the mesh is ready ...")
 	}
 }
 		
@@ -324,7 +168,6 @@ function initSurface(scene) {
 	}, function (url) {
 	    alert('Failed to download "' + url + '"');
 	});
-	//updateLungsDownloadProgress(scene);
 }
 
 function initAirways(scene) {
@@ -392,45 +235,6 @@ function initZinc() {
 		}
 	}
 }
-
-function init3Dmodels() {
-	var errorString = undefined;
-	if ( ! Detector.webgl )
-		errorString = Detector.getWebGLErrorMessage();
-	if (errorString == undefined) {
-		zincRenderer = new Zinc.Renderer(container, window);
-		zincRenderer.initialiseVisualisation();
-		zincRenderer.addPreRenderCallbackFunction(updateUniforms(zincRenderer, cellUniforms, flowUniforms));
-		lungsScene = zincRenderer.createScene("Lungs");
-		loadExternalFiles(['shaders/clean_cell.vs', 'shaders/clean_cell.fs'], function (shaderText) {
-			lungsScene.loadFromViewURL('surface/surface', lungsMeshReady(shaderText));
-		}, function (url) {
-		    alert('Failed to download "' + url + '"');
-		});
-		var element = document.getElementById("progressMessage");
-		if (element)
-				element.innerHTML = "Loading Lungs...";
-		zincRenderer.setCurrentScene(lungsScene);
-		updateLungsDownloadProgress();
-		zincRenderer.setPlayRate(500);
-		zincRenderer.playAnimation = false;
-		zincRenderer.animate();
-	} else {
-		errorString = "WebGL is required to display the interactive 3D models.<br>" + errorString + "<br>However you can use the Estimated Lung Function and check out other information on this page.";
-		var element = document.getElementById("progressMessage");
-		if (element)
-			element.innerHTML = errorString;
-		var element = document.getElementById("continueMessage");
-		if (element){
-			element.style.display = "block";
-			element.onclick = endLoading;
-		}
-		var element = document.getElementById("loadingMessage")
-			element.innerHTML = "Oops...";
-	}
-}
-
-//init3Dmodels();
 
 var dojoConfig = {
 	async: true,
