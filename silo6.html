@@ -16,10 +16,12 @@
 	<body class="expand vbox viewport">
 		<section class="expand">
 			<nav class="expand vbox">
-				<h1>
-					Information Panel
-				</h1>
-				<p class="flexgrow">Information panel. Here we can include some brief commentary about how to use the software, what they are seeing when they turn things on and off.</p>
+				<div class="navcontent flexgrow">
+					<h1>
+						Information Panel
+					</h1>
+					<p>Information panel. Here we can include some brief commentary about how to use the software, what they are seeing when they turn things on and off.</p>
+				</div>
 				<div class="logos fixend">
 					<a href="http://www.abi.auckland.ac.nz/en.html">
 						<img src="images/abi-hc-rgb.png" style="width:50%">
@@ -46,7 +48,7 @@
 					</div>
 				</div>
 
-				<div class="buttons">
+				<div class="buttons expand">
 					<div class="cool_btn1 cool_btn_rd green" onclick="modelButtonClicked('Surface');">
 						<h1 class='top'>View <i>Lung</i></h1>
 						<h2>&#xe001</h2>
@@ -55,11 +57,16 @@
 						<h1 class='top'>View <i>Airways</i></h1>
 						<h2>&#xe000</h2>
 					</div>
+					<!--
 					<div class="cool_btn1 cool_btn_rd blue" onclick="modelButtonClicked('Vessels');">
 						<h1 class='top'>View <i>Blood Vessels</i></h1>
 						<h2>&#xe002</h2>
 					</div>
-					<div class="cool_btn1 cool_btn_next orange fixend" onclick="modelButtonClicked('Start');">
+						-->
+					<div class="flexgrow">
+						<!-- spacer div -->
+					</div>
+					<div class="cool_btn1 cool_btn_next orange fixend" onclick="interactiveLungButtonClicked();">
 						<h1 class='top'>Start <i>interactive lung</i></h1>
 						<h2>I</h2>
 					</div>

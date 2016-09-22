@@ -183,6 +183,7 @@ function initAirways(scene) {
 }
 
 function initScene(scene_name) {
+	beginLoading();
 	scene = zincRenderer.createScene(scene_name);
 	if (scene_name == "Surface") {
 		initSurface(scene);
@@ -238,6 +239,10 @@ function initZinc() {
 			element.onclick = endLoading;
 		}
 	}
+}
+
+function interactiveLungButtonClicked() {
+	console.log("Interactive lung clicked");
 }
 
 var dojoConfig = {
