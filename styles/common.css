@@ -98,6 +98,13 @@ article {background: purple;}
 .buttons {background: teal;}
 .view {background: orange;}
 
+input {
+    text-align: center;
+    width: 40px;
+    margin: 4px;
+    color: salmon;
+}
+
 /*		
 @media all and (min-width: 600px) {
 	aside { flex: 1 1 auto; }

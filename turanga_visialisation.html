@@ -802,7 +802,7 @@
 					zincRenderer.addPreRenderCallbackFunction(updateUniforms(zincRenderer, cellUniforms, flowUniforms));
 					lungsScene = zincRenderer.createScene("Lungs");
 					loadExternalFiles(['shaders/clean_cell.vs', 'shaders/clean_cell.fs'], function (shaderText) {
-						lungsScene.loadFromViewURL('lung_2/lung2', lungsMeshReady(shaderText));
+						lungsScene.loadFromViewURL('surface/surface', lungsMeshReady(shaderText));
 					}, function (url) {
 					    alert('Failed to download "' + url + '"');
 					});

@@ -241,8 +241,64 @@ function initZinc() {
 	}
 }
 
+function setInputsToUserDataValues() {
+	var age = document.getElementById("renderer_Age");
+	var age_input = document.getElementById("age_input");
+	var height_input = document.getElementById("height_input");
+	var gender_input = undefined;
+	if (userData["Gender"] == "Male") {
+		gender_input = document.getElementById("male_radiobutton");
+	} else {
+		gender_input = document.getElementById("female_radiobutton");
+	}
+	gender_input.checked = true;
+	age_input.value = userData["Current Age"];
+	height_input.value = userData["Height (cm)"];
+}
+
+function setPage(pageIndex) {
+	var pages = document.getElementsByClassName("toggleByPageNumber");
+	var pages_length = pages.length;
+	for (var i = 0; i < pages_length; i++) {
+		var e = pages[i];
+		if (e.classList.contains("page_" + pageIndex)) {
+			e.style.display = "block";
+		} else {
+			e.style.display = "none";
+		}
+	}
+}
+
 function interactiveLungButtonClicked() {
-	console.log("Interactive lung clicked");
+	setPage(1);
+}
+
+function setUserDataValue(identifier, value) {
+	if (identifier == "height_input") {
+		userData["Height (cm)"] = value;
+	} else if (identifier == "age_input") {
+		userData["Current Age"] = value;
+	} else {
+		console.log("Uh Oh unknown identifier " + identifier + " with value: " + value);
+	}
+}
+
+function addClicked(owner) {
+	owner.previousElementSibling.value = +owner.previousElementSibling.value + 1;
+	setUserDataValue(owner.previousElementSibling.id, owner.previousElementSibling.value);
+	updateUniformsWithDetails();
+}
+
+function subClicked(owner) {
+	if (owner.nextElementSibling.value > 0) {
+		owner.nextElementSibling.value = +owner.nextElementSibling.value - 1;
+		setUserDataValue(owner.nextElementSibling.id, owner.nextElementSibling.value);
+		updateUniformsWithDetails();
+	}
+}
+
+function resetViewButtonClicked() {
+	zincRenderer.viewAll();
 }
 
 var dojoConfig = {
@@ -260,3 +316,9 @@ function updateSlider(slideAmount) {
 	this.zincRenderer.setMorphsTime(slideAmount * 30);
 }
 
+require(["dojo/domReady!"], function(){
+	setInputsToUserDataValues();
+});
+
+$( "#navcontent_page_0" ).load("page_0.html");
+$( "#navcontent_page_1" ).load("page_1.html");
