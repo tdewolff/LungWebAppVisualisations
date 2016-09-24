@@ -31,7 +31,7 @@
 					<a href="http://www.turanga.org.nz/">
 						<img src="images/turanga_banner_0_transparent.png" style="width:25%;">
 					</a>
-					<div onclick="setPage(0);" style="display: inline;">
+					<div onclick="startAgain();" style="display: inline;">
 						<img src="styles/images/start_again.png" style="width: 20%;">
 					</div>
 				</div>
@@ -85,7 +85,6 @@
 		<script src="js/zinc_threejs_control.js"></script>
 		<script src="js/zinc_3js_renderer.js"></script>
 		<script src="js/Detector.js"></script>
-		<script src="http://www.w3schools.com/lib/w3data.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: 1, parseOnLoad: true" ></script>
@@ -93,11 +92,7 @@
 		<script src="js/overlay.js"></script>
 		<script src="js/main.js"></script>
 		<script>
-			w3IncludeHTML();
-			setPage(0);
 			initZinc();
-			// Call in a fake button click to initialise view.
-			modelButtonClicked("Surface");
 		</script>
 	</body>
 </html>

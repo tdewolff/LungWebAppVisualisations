@@ -21,14 +21,14 @@ var airwaysStatus = {
 var renderer_Age = 0;
 
 function updateUniformsWithDetails() {
-	var age = Math.floor(userData["Current Age"] + 0.5);
-	start_age = userData["Age started smoking"] * 0.01;
+	var age = Math.floor(subjectDetails.age + 0.5);
+	start_age = subjectDetails.ageStartedSmoking * 0.01;
 	if (start_age < 0.0)
 		start_age = 0.0;
 	cellUniforms["starting_time"].value = start_age;
-	cellUniforms["severity"].value = userData["Packs Per Day"] * 1.0;
+	cellUniforms["severity"].value = subjectDetails.packsPerDay * 1.0;
 	flowUniforms["starting_time"].value = start_age;
-	flowUniforms["severity"].value = userData["Packs Per Day"] * 1.0;
+	flowUniforms["severity"].value = subjectDetails.packsPerDay * 1.0;
 }
 
 var cellUniforms = THREE.UniformsUtils.merge( [
@@ -62,6 +62,16 @@ var flowUniforms = THREE.UniformsUtils.merge( [
 	"starting_time": { type: "f", value: 0.0 },
 	"severity": { type: "f", value: 1.0 }
 } ] );
+
+function person(age, height, gender) {
+	this.age = age;
+	this.height = height // cm
+	this.gender = gender;
+	this.asthmaSeverity = "none";
+	this.ageStartedSmoking = 18;
+	this.packsPerDay = 1.0;
+}
+var subjectDetails = new person(11, 143, "Male");
 
 var userData = {
 	'Current Age': 25,
@@ -241,19 +251,23 @@ function initZinc() {
 	}
 }
 
-function setInputsToUserDataValues() {
+function resetSubjectDetails() {
+	subjectDetails = new person(11, 143, "Male");
+}
+
+function setInputsToSubjectDetailsValues() {
 	var age = document.getElementById("renderer_Age");
 	var age_input = document.getElementById("age_input");
 	var height_input = document.getElementById("height_input");
 	var gender_input = undefined;
-	if (userData["Gender"] == "Male") {
+	if (subjectDetails.gender == "Male") {
 		gender_input = document.getElementById("male_radiobutton");
 	} else {
 		gender_input = document.getElementById("female_radiobutton");
 	}
 	gender_input.checked = true;
-	age_input.value = userData["Current Age"];
-	height_input.value = userData["Height (cm)"];
+	age_input.value = subjectDetails.age;
+	height_input.value = subjectDetails.height;
 }
 
 function setPage(pageIndex) {
@@ -297,6 +311,13 @@ function subClicked(owner) {
 	}
 }
 
+function startAgain() {
+	resetSubjectDetails();
+	setPage(0);
+	setInputsToSubjectDetailsValues();
+	modelButtonClicked("Surface");
+}
+
 function resetViewButtonClicked() {
 	zincRenderer.viewAll();
 }
@@ -317,7 +338,7 @@ function updateSlider(slideAmount) {
 }
 
 require(["dojo/domReady!"], function(){
-	setInputsToUserDataValues();
+	startAgain();
 });
 
 $( "#navcontent_page_0" ).load("page_0.html");
