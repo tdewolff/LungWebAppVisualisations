@@ -1,3 +1,9 @@
+.medtechbackground {
+	background-image: url("images/medtech_background.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
 html, body, section {
 /*			width: 100%; */
 	height: 100%;
@@ -8,7 +14,7 @@ header, footer, section,
 nav, article, aside {
 	border: 1px solid black;
 	padding: 0.25em;
-	margin: 0.25em;
+	margin: 0.0em;
 	border-radius: 0.25em;
 }
 
@@ -91,11 +97,11 @@ aside, nav {
 
 header {background: coral;}
 footer {background: lightgreen;}
-nav {background: pink;}
+/* nav {background: pink;} */
 aside {background: moccasin;}
-section {background: green;}
-article {background: purple;}
-.buttons {background: teal;}
+/* section {background: green;} */
+/* article {background: purple;} */
+/* .buttons {background: teal;} */
 .view {background: orange;}
 
 input {
