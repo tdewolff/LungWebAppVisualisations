@@ -1,11 +1,5 @@
-.medtechbackground {
-	background-image: url("images/medtech_background.png");
-	background-size: contain;
-	background-repeat: no-repeat;
-}
-
 html, body, section {
-/*			width: 100%; */
+/*	width: 100%; */
 	height: 100%;
 	margin: 0;
 }
@@ -18,6 +12,17 @@ nav, article, aside {
 	border-radius: 0.25em;
 }
 
+.medtechbackground {
+	background-image: url("images/medtech_background.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+#lung_scene {
+	border: 1px solid black;
+	background-color: #F00;
+	position: absolute;
+}
 .expand {
 	display: -webkit-flex;
 	display: -moz-flex;

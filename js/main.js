@@ -337,6 +337,41 @@ function updateSlider(slideAmount) {
 	this.zincRenderer.setMorphsTime(slideAmount * 30);
 }
 
+var image = { width: 1920, height: 1080 };
+var target = { x: 651.54, y: 204.68, width: 620, height: 620 };
+
+var pointer = $('#lung_scene');
+
+$(document).ready(updatePointer);
+$(window).resize(updatePointer);
+
+function updatePointer() {
+	// Where is this margin comming from?
+	var windowWidth = $('#main_section').width() + 10;
+	var windowHeight = $('#main_section').height() + 10;
+
+	// Get largest dimension increase
+	var xScale = (windowWidth) / image.width;
+	var yScale = (windowHeight) / image.height;
+	var scale;
+	var yOffset = 0;
+	var xOffset = 0;
+
+	if (xScale > yScale) {
+		scale = yScale;
+	} else {
+		scale = xScale;
+	}
+	yOffset = (windowHeight - image.height * scale) / 2;
+	xOffset = (windowWidth - image.width * scale) / 2;
+
+	pointer.css('top', (target.y) * scale + yOffset);
+	pointer.css('left', (target.x) * scale + xOffset);
+	pointer.css('width', (target.width) * scale);
+	pointer.css('height', (target.height) * scale);
+	pointer.css('border-radius', ((target.width) * scale ) / 2);
+}
+
 require(["dojo/domReady!"], function(){
 	startAgain();
 });
