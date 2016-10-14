@@ -13,9 +13,49 @@
 		<link rel="stylesheet" type="text/css" href="styles/buttons.css">
 		<link rel="stylesheet" type="text/css" href="styles/overlay.css">
 	</head>
-	<body class="expand vbox viewport">
-		<section id="main_section" class="expand medtechbackground">
-			<div id="lung_scene"></div>
+	<body class="expand vbox viewport" style="position: relative;">
+		<section id="main_section" class="expand">
+			<div class="medtechbackground"></div>
+			<div id="zinc_rendered_view" class="view flexgrow pointerCursor">
+				<div id="loadingOverlay" class="loadingOverlay pageOverlay" style="top: 0;left: 0;position: absolute;">
+				</div>
+				<div style="text-align: center; display: none;">
+					<h3 id="renderer_Age" >
+						Simulated Age: 0
+					</h3>
+				</div>
+			</div>
+			<div id="navcontent">
+				<div id="navcontent_page_0" class="toggleByPageNumber page_0"></div>
+				<div id="navcontent_page_1" class="toggleByPageNumber page_1"></div>
+				<!-- 
+				<div w3-include-html="page_0.html" class="toggleByPageNumber page_0"></div>
+				<div w3-include-html="page_1.html" class="toggleByPageNumber page_1"></div>
+					-->
+			</div>
+			<div id="fundingLogos" class="logos">
+				<a href="http://www.abi.auckland.ac.nz/en.html">
+					<img src="images/abi-hc-rgb.png" style="width:100%"/>
+				</a>
+				<a href="http://www.turanga.org.nz/">
+					<img src="images/turanga_banner_0_transparent.png" style="width:100%;"/>
+				</a>
+			</div>
+			<div id="startAgain" class="start_again_button button">
+				<img src="styles/images/start_again.png" onclick="startAgain();" style="width: 100%"/>
+			</div>
+			<div id="reset_button" class="button" onclick="resetViewButtonClicked();">
+				<img src="styles/images/reset_button.png" style="width: 100%"/>
+			</div>
+			<div id="surfaceButton" class="surface_button view_button button" onclick="modelButtonClicked('Surface');">
+				<h1>View <i>Lung</i></h1>
+			</div>
+			<div id="airwaysButton" class="airways_button view_button button" onclick="modelButtonClicked('Airways');">
+				<h1>View <i>Airways</i></h1>
+			</div>
+			<div id="actionButton">
+				Action Button
+			</div>
 		</section>
 		<script src="js/three.min.js"></script>
 		<script src="js/zinc_threejs_control.js"></script>
@@ -26,9 +66,7 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: 1, parseOnLoad: true" ></script>
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<script src="js/overlay.js"></script>
+		<script src="js/layout.js"></script>
 		<script src="js/main.js"></script>
-		<script>
-			initZinc();
-		</script>
 	</body>
 </html>

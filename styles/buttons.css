@@ -58,6 +58,51 @@
   content: "\e002";
 }
 
+.button {
+	cursor: pointer;
+	z-index: 3;
+}
+
+.view_button h1 {
+  text-align: center;
+  /* font-size: 50px; */
+  /* margin: 20px 0 0 0; */
+  color: #333;
+  text-shadow: 0 1px 0 white, 0 -1px 0 rgba(0, 0, 0, 0.5);
+  font-family: 'Lobster', cursive;
+  font-weight: normal;
+  line-height: 1;
+}
+
+.view_button h1 i {
+  display: block;
+  font-style: normal;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: helvetica, arial, sans-serif;
+  text-shadow: none;
+}
+
+.airways_button {
+	background-image:url(./images/view_airways_btn.svg);
+	background-repeat:no-repeat;
+}
+
+.resetButton {
+	background-image:url(./images/reset_button.png);
+	background-repeat:no-repeat;
+}
+
+.surface_button {
+	background-image:url(./images/view_lung_btn.svg);
+	background-repeat:no-repeat;
+}
+
+.start_again_button {
+	background-image:url(./images/start_again_btn.svg);
+	background-repeat:no-repeat;
+}
+
 /* line 13, ../sass/screen.scss */
 body {
   font-family: helvetica, arial, sans-serif;
