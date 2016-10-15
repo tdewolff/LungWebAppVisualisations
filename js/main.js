@@ -259,21 +259,15 @@ function setInputsToSubjectDetailsValues() {
 	var age = document.getElementById("renderer_Age");
 	var age_input = document.getElementById("age_input");
 	var height_input = document.getElementById("height_input");
-	/*
-	var gender_input = undefined;
-	if (subjectDetails.gender == "Male") {
-		gender_input = document.getElementById("male_radiobutton");
-	} else {
-		gender_input = document.getElementById("female_radiobutton");
-	}
-	gender_input.checked = true;
-	*/
-	var number_display = age_input.getElementsByClassName('NumberDisplay')[0];
-	console.log(age_input);
-	console.log(number_display);
-	number_display.innerHTML = subjectDetails.age;
-	number_display = height_input.getElementsByClassName('NumberDisplay')[0];
-	number_display.innerHTML = subjectDetails.height;
+	var gender_input = document.getElementById("gender_input");
+		
+	var value_display = age_input.getElementsByClassName('ValueDisplay')[0];
+
+	value_display.innerHTML = subjectDetails.age;
+	value_display = height_input.getElementsByClassName('ValueDisplay')[0];
+	value_display.innerHTML = subjectDetails.height;
+	value_display = gender_input.getElementsByClassName('ValueDisplay')[0];
+	value_display.innerHTML = (subjectDetails.gender == "Male") ? 'M' : 'F';
 }
 
 function setPage(pageIndex) {
@@ -298,6 +292,8 @@ function setUserDataValue(identifier, value) {
 		userData["Height (cm)"] = value;
 	} else if (identifier == "age_input") {
 		userData["Current Age"] = value;
+	} else if (identifier == "gender_input") {
+		userData["Gender"] = value;
 	} else {
 		console.log("Uh Oh unknown identifier " + identifier + " with value: " + value);
 	}
@@ -305,7 +301,7 @@ function setUserDataValue(identifier, value) {
 
 function addClicked(owner) {
 	var adder_button = owner.parentNode;
-	var number_display = owner.parentNode.getElementsByClassName('NumberDisplay')[0];
+	var number_display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];
 	number_display.innerHTML = +number_display.innerHTML + 1;
 	setUserDataValue(adder_button.parentNode.id, number_display.innerHTML);
 	updateUniformsWithDetails();
@@ -313,12 +309,24 @@ function addClicked(owner) {
 
 function subClicked(owner) {
 	var adder_button = owner.parentNode;
-	var number_display = owner.parentNode.getElementsByClassName('NumberDisplay')[0];
+	var number_display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];
 	if (number_display && number_display.innerHTML > 0) {
 		number_display.innerHTML = +number_display.innerHTML - 1;
 		setUserDataValue(adder_button.parentNode.id, number_display.innerHTML);
 		updateUniformsWithDetails();
 	}
+}
+
+function maleClicked(owner) {
+	var adder_button = owner.parentNode;
+	var gender_display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];
+	gender_display.innerHTML = 'M';
+}
+
+function femaleClicked(owner) {
+	var adder_button = owner.parentNode;
+	var gender_display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];
+	gender_display.innerHTML = 'F';
 }
 
 function startAgain() {

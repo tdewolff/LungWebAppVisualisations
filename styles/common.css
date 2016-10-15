@@ -30,40 +30,7 @@ nav, article, aside {
 	z-index: 2;
 }
 
-.AdderButton {
-	background-image: url("images/medtech_adder_increment_base.svg");
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
-	vertical-align: middle;
-	display: inline-block;
-	position: relative;
-	width: 35%;
-	height: 100%;
-}
-
-.PlusButton {
-	background-image: url("images/medtech_adder_plus.svg");
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
-	position: absolute;
-	top: 1%;
-	left: 32%;
-	width: 36%;
-	height: 19%;
-}
-
-.MinusButton {
-	background-image: url("images/medtech_adder_minus.svg");
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
-	position: absolute;
-	top: 80%;
-	left: 32%;
-	width: 36%;
-	height: 19%;
-}
-
-.NumberDisplay {
+.ValueDisplay {
 	position: relative;
 	top: 45%;
 	left: 30.5%;
@@ -81,7 +48,7 @@ nav, article, aside {
 
 #navcontent, #startAgain, #fundingLogos, 
 #airwaysButton, #surfaceButton, #actionButton, 
-#reset_button, #age_input, #height_input {
+#reset_button, #age_input, #height_input, #gender_input {
 	position: absolute;
 }
 

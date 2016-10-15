@@ -33,6 +33,9 @@ var ageInputDivTarget = { x: 1318, y: 802, width: 317, height: 212 };
 var heightInputDiv = $('#height_input');
 var heightInputDivTarget = { x: 1500, y: 602, width: 317, height: 212 };
 
+var genderInputDiv = $('#gender_input');
+var genderInputDivTarget = { x: 1543, y: 438, width: 317, height: 212 };
+
 // $(document).ready(updateDiv);
 $(window).resize(updateDiv);
 
@@ -44,19 +47,25 @@ function setElementLocation(targetElement, targetValues, scale, xOffset, yOffset
 }
 
 function setViewButtonSizes(targetElement, scale) {
-	var h1 = targetElement[0].getElementsByTagName('h1');
-	var i = targetElement[0].getElementsByTagName('i');
-	h1[0].style.fontSize = '' + 50 * scale + 'px';
-	i[0].style.fontSize = '' + 27 * scale + 'px';
-	h1[0].style.marginTop = '' + 25 * scale + 'px';
+	var h1_tags = targetElement[0].getElementsByTagName('h1');
+	var i_tags = targetElement[0].getElementsByTagName('i');
+	var i;
+	for (i = 0; i < h1_tags.length; i++) {
+		h1_tags[i].style.fontSize = '' + 50 * scale + 'px';
+		i_tags[i].style.fontSize = '' + 27 * scale + 'px';
+		h1_tags[i].style.marginTop = '' + 25 * scale + 'px';
+	}
 }
 
 function setActionButtonSizes(targetElement, scale) {
-	var h1 = targetElement[0].getElementsByTagName('h1');
-	var i = targetElement[0].getElementsByTagName('i');
-	h1[0].style.fontSize = '' + 86 * scale + 'px';
-	i[0].style.fontSize = '' + 22 * scale + 'px';
-	h1[0].style.marginTop = '' + 38 * scale + 'px';
+	var h1_tags = targetElement[0].getElementsByTagName('h1');
+	var i_tags = targetElement[0].getElementsByTagName('i');
+	var i;
+	for (i = 0; i < h1_tags.length; i++) {
+		h1_tags[i].style.fontSize = '' + 86 * scale + 'px';
+		i_tags[i].style.fontSize = '' + 22 * scale + 'px';
+		h1_tags[i].style.marginTop = '' + 38 * scale + 'px';
+	}
 }
 
 function updateDiv() {
@@ -91,6 +100,7 @@ function updateDiv() {
 	setElementLocation(resetViewDiv, resetViewDivTarget, scale, xOffset, yOffset);
 	setElementLocation(ageInputDiv, ageInputDivTarget, scale, xOffset, yOffset);
 	setElementLocation(heightInputDiv, heightInputDivTarget, scale, xOffset, yOffset);
+	setElementLocation(genderInputDiv, genderInputDivTarget, scale, xOffset, yOffset);
 
 	setViewButtonSizes(surfaceButtonDiv, scale);
 	setViewButtonSizes(airwaysButtonDiv, scale);
