@@ -71,7 +71,7 @@ function person(age, height, gender) {
 	this.ageStartedSmoking = 18;
 	this.packsPerDay = 1.0;
 }
-var subjectDetails = new person(11, 143, "Male");
+var subjectDetails = new person(11, 152, "Male");
 
 var userData = {
 	'Current Age': 25,
@@ -134,19 +134,19 @@ var updateModelDownloadProgress = function(model_name, scene, model_ready) {
 	if (scene) {
 		var element = document.getElementById("loadingOverlay");
 		if (model_ready) {
-			element.innerHTML =  "Loading " + model_name + "... Completed."
+			element.innerHTML =  "Loading " + model_name + " ... Completed."
 		} else {
 			var progress = scene.getDownloadProgress();
 			if (progress[2] == false) {
-				var totalString = "unknown";
+				var totalString = "";
 				if (progress.totalSize > 0)
 					totalString = parseInt(progress[0]/1024).toString() + " KB";
 				if (element)
-					element.innerHTML =  "Loading " + model_name + "... (" + parseInt(progress[1]/1024).toString() + " KB/" + totalString + ").";
+					element.innerHTML =  "Loading " + model_name + " ... (" + parseInt(progress[1]/1024).toString() + " KB" + (totalString ? "/" + totalString : "") + ").";
 			} else {
 				error = true;
 				if (element)
-					element.innerHTML =  "Loading " + model_name + "... Failed to load models. Please try again later.";
+					element.innerHTML =  "Loading " + model_name + " ... Failed to load models. Please try again later.";
 			}
 		}
 	}
@@ -252,13 +252,14 @@ function initZinc() {
 }
 
 function resetSubjectDetails() {
-	subjectDetails = new person(11, 143, "Male");
+	subjectDetails = new person(11, 152, "Male");
 }
 
 function setInputsToSubjectDetailsValues() {
 	var age = document.getElementById("renderer_Age");
 	var age_input = document.getElementById("age_input");
 	var height_input = document.getElementById("height_input");
+	/*
 	var gender_input = undefined;
 	if (subjectDetails.gender == "Male") {
 		gender_input = document.getElementById("male_radiobutton");
@@ -266,8 +267,13 @@ function setInputsToSubjectDetailsValues() {
 		gender_input = document.getElementById("female_radiobutton");
 	}
 	gender_input.checked = true;
-	age_input.value = subjectDetails.age;
-	height_input.value = subjectDetails.height;
+	*/
+	var number_display = age_input.getElementsByClassName('NumberDisplay')[0];
+	console.log(age_input);
+	console.log(number_display);
+	number_display.innerHTML = subjectDetails.age;
+	number_display = height_input.getElementsByClassName('NumberDisplay')[0];
+	number_display.innerHTML = subjectDetails.height;
 }
 
 function setPage(pageIndex) {
@@ -298,15 +304,19 @@ function setUserDataValue(identifier, value) {
 }
 
 function addClicked(owner) {
-	owner.previousElementSibling.value = +owner.previousElementSibling.value + 1;
-	setUserDataValue(owner.previousElementSibling.id, owner.previousElementSibling.value);
+	var adder_button = owner.parentNode;
+	var number_display = owner.parentNode.getElementsByClassName('NumberDisplay')[0];
+	number_display.innerHTML = +number_display.innerHTML + 1;
+	setUserDataValue(adder_button.parentNode.id, number_display.innerHTML);
 	updateUniformsWithDetails();
 }
 
 function subClicked(owner) {
-	if (owner.nextElementSibling.value > 0) {
-		owner.nextElementSibling.value = +owner.nextElementSibling.value - 1;
-		setUserDataValue(owner.nextElementSibling.id, owner.nextElementSibling.value);
+	var adder_button = owner.parentNode;
+	var number_display = owner.parentNode.getElementsByClassName('NumberDisplay')[0];
+	if (number_display && number_display.innerHTML > 0) {
+		number_display.innerHTML = +number_display.innerHTML - 1;
+		setUserDataValue(adder_button.parentNode.id, number_display.innerHTML);
 		updateUniformsWithDetails();
 	}
 }
@@ -316,7 +326,7 @@ function startAgain() {
 	setPage(0);
 	setInputsToSubjectDetailsValues();
 	modelButtonClicked("Surface");
-	zincRenderer.viewAll();
+	//zincRenderer.viewAll();
 }
 
 function resetViewButtonClicked() {

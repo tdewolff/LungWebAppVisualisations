@@ -1,5 +1,7 @@
 
-var image = { width: 1920, height: 1080 };
+var imageSize = { width: 1920, height: 1080 };
+
+var body = document.getElementsByTagName('body')[0];
 
 var zincScene = $('#zinc_rendered_view');
 var zincTarget = { x: 645, y: 200, width: 620, height: 620 };
@@ -25,6 +27,12 @@ var actionButtonDivTarget = { x: 1574.576, y: 774.276, width: 243.489, height: 2
 var resetViewDiv = $('#reset_button');
 var resetViewDivTarget = { x: 1155.5, y: 210.2, width: 42, height: 42 };
 
+var ageInputDiv = $('#age_input');
+var ageInputDivTarget = { x: 1318, y: 802, width: 317, height: 212 };
+
+var heightInputDiv = $('#height_input');
+var heightInputDivTarget = { x: 1500, y: 602, width: 317, height: 212 };
+
 // $(document).ready(updateDiv);
 $(window).resize(updateDiv);
 
@@ -37,8 +45,18 @@ function setElementLocation(targetElement, targetValues, scale, xOffset, yOffset
 
 function setViewButtonSizes(targetElement, scale) {
 	var h1 = targetElement[0].getElementsByTagName('h1');
+	var i = targetElement[0].getElementsByTagName('i');
 	h1[0].style.fontSize = '' + 50 * scale + 'px';
+	i[0].style.fontSize = '' + 27 * scale + 'px';
 	h1[0].style.marginTop = '' + 25 * scale + 'px';
+}
+
+function setActionButtonSizes(targetElement, scale) {
+	var h1 = targetElement[0].getElementsByTagName('h1');
+	var i = targetElement[0].getElementsByTagName('i');
+	h1[0].style.fontSize = '' + 86 * scale + 'px';
+	i[0].style.fontSize = '' + 22 * scale + 'px';
+	h1[0].style.marginTop = '' + 38 * scale + 'px';
 }
 
 function updateDiv() {
@@ -47,8 +65,8 @@ function updateDiv() {
 	var windowHeight = $('#main_section').height() + 10;
 
 	// Get largest dimension increase
-	var xScale = (windowWidth) / image.width;
-	var yScale = (windowHeight) / image.height;
+	var xScale = (windowWidth) / imageSize.width;
+	var yScale = (windowHeight) / imageSize.height;
 	var scale;
 	var yOffset = 0;
 	var xOffset = 0;
@@ -58,8 +76,10 @@ function updateDiv() {
 	} else {
 		scale = xScale;
 	}
-	yOffset = (windowHeight - image.height * scale) / 2;
-	xOffset = (windowWidth - image.width * scale) / 2;
+	yOffset = (windowHeight - imageSize.height * scale) / 2;
+	xOffset = (windowWidth - imageSize.width * scale) / 2;
+
+	body.style.fontSize = '' + 25 * scale + 'px';
 
 	setElementLocation(zincScene, zincTarget, scale, xOffset, yOffset);
 	setElementLocation(navDiv, navDivTarget, scale, xOffset, yOffset);
@@ -69,8 +89,12 @@ function updateDiv() {
 	setElementLocation(airwaysButtonDiv, airwaysButtonDivTarget, scale, xOffset, yOffset);
 	setElementLocation(actionButtonDiv, actionButtonDivTarget, scale, xOffset, yOffset);
 	setElementLocation(resetViewDiv, resetViewDivTarget, scale, xOffset, yOffset);
+	setElementLocation(ageInputDiv, ageInputDivTarget, scale, xOffset, yOffset);
+	setElementLocation(heightInputDiv, heightInputDivTarget, scale, xOffset, yOffset);
 
 	setViewButtonSizes(surfaceButtonDiv, scale);
 	setViewButtonSizes(airwaysButtonDiv, scale);
+	setViewButtonSizes(startAgainDiv, scale);
+	setActionButtonSizes(actionButtonDiv, scale);
 }
 

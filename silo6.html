@@ -17,7 +17,7 @@
 		<section id="main_section" class="expand">
 			<div class="medtechbackground"></div>
 			<div id="zinc_rendered_view" class="view flexgrow pointerCursor">
-				<div id="loadingOverlay" class="loadingOverlay pageOverlay" style="top: 0;left: 0;position: absolute;">
+				<div id="loadingOverlay" class="loadingOverlay pageOverlay" style="text-align: center; top: 50%;left: 25%">
 				</div>
 				<div style="text-align: center; display: none;">
 					<h3 id="renderer_Age" >
@@ -41,8 +41,8 @@
 					<img src="images/turanga_banner_0_transparent.png" style="width:100%;"/>
 				</a>
 			</div>
-			<div id="startAgain" class="start_again_button button">
-				<img src="styles/images/start_again.png" onclick="startAgain();" style="width: 100%"/>
+			<div id="startAgain" class="start_again_button view_button button" onclick="startAgain();">
+				<h1>Start <i>Again</i></h1>
 			</div>
 			<div id="reset_button" class="button" onclick="resetViewButtonClicked();">
 				<img src="styles/images/reset_button.png" style="width: 100%"/>
@@ -53,8 +53,24 @@
 			<div id="airwaysButton" class="airways_button view_button button" onclick="modelButtonClicked('Airways');">
 				<h1>View <i>Airways</i></h1>
 			</div>
-			<div id="actionButton">
-				Action Button
+			<div id="actionButton" class="ActionButton button" onclick="setPage(1);">
+				<h1>Start <i>Interactive Lung</i></h1>
+			</div>
+			<div id="age_input" class="toggleByPageNumber page_1" style="color: #4A4A5B;">
+				<div style="display: inline-block; text-align: right;"><p>Enter<br />your age</p></div>
+				<div class="AdderButton">
+					<div class="PlusButton button" onclick="addClicked(this);"></div>
+					<div class="MinusButton button" onclick="subClicked(this);"></div>
+					<div class="NumberDisplay"></div>
+				</div>
+			</div>
+			<div id="height_input" class="toggleByPageNumber page_1" style="display: inline-block; color: #4A4A5B;">
+				<div class="AdderButton">
+					<div class="PlusButton button" onclick="addClicked(this);"></div>
+					<div class="MinusButton button" onclick="subClicked(this);"></div>
+					<div class="NumberDisplay"></div>
+				</div>
+				<div style="display: inline-block;"><p>Enter<br />your height</p></div>
 			</div>
 		</section>
 		<script src="js/three.min.js"></script>
