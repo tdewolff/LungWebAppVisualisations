@@ -36,6 +36,9 @@ var heightInputDivTarget = { x: 1500, y: 602, width: 317, height: 212 };
 var genderInputDiv = $('#gender_input');
 var genderInputDivTarget = { x: 1543, y: 438, width: 317, height: 212 };
 
+var fevInputDiv = $('#fev_input');
+var fevInputDivTarget = { x: 1318, y: 802, width: 317, height: 212 };
+
 // $(document).ready(updateDiv);
 $(window).resize(updateDiv);
 
@@ -101,6 +104,7 @@ function updateDiv() {
 	setElementLocation(ageInputDiv, ageInputDivTarget, scale, xOffset, yOffset);
 	setElementLocation(heightInputDiv, heightInputDivTarget, scale, xOffset, yOffset);
 	setElementLocation(genderInputDiv, genderInputDivTarget, scale, xOffset, yOffset);
+	setElementLocation(fevInputDiv, fevInputDivTarget, scale, xOffset, yOffset);
 
 	setViewButtonSizes(surfaceButtonDiv, scale);
 	setViewButtonSizes(airwaysButtonDiv, scale);

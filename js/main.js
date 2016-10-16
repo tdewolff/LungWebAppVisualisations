@@ -1,24 +1,3 @@
-var container = document.getElementById( "zinc_rendered_view" );
-var zincRenderer = undefined;
-
-var surfaceStatus = {
-	"scene": undefined,
-	"initialised": false,
-	"download": {
-		"progress": 0,
-		"total": 0,
-	},
-};
-var airwaysStatus = {
-	"scene": undefined,
-	"initialised": false,
-	"download": {
-		"progress": 0,
-		"total": 0,
-	},
-}
-
-var renderer_Age = 0;
 
 function updateUniformsWithDetails() {
 	var age = Math.floor(subjectDetails.age + 0.5);
@@ -31,38 +10,6 @@ function updateUniformsWithDetails() {
 	flowUniforms["severity"].value = subjectDetails.packsPerDay * 1.0;
 }
 
-var cellUniforms = THREE.UniformsUtils.merge( [
-	{
-		"ambient"  : { type: "c", value: new THREE.Color( 0xffffff ) },
-		"emissive" : { type: "c", value: new THREE.Color( 0x000000 ) },
-		"specular" : { type: "c", value: new THREE.Color( 0x111111 ) },
-		"shininess": { type: "f", value: 100 },
-		"diffuse": { type: "c", value: new THREE.Color( 0xeecaa2 ) },
-		"ambientLightColor": { type: "c", value: new THREE.Color( 0x444444 ) },
-		"directionalLightColor": { type: "c", value: new THREE.Color( 0x888888 ) },
-		"directionalLightDirection": { type: "v3", value: new THREE.Vector3()  },
-		"time": { type: "f", value: 0.0 },
-		"starting_time": { type: "f", value: 0.0 },
-		"severity": { type: "f", value: 0.0 },
-		"cellsDensity": { type: "f", value: 0.1 },
-		"tarDensity":  { type: "f", value: 0.0175}
-	}
-] );
-
-var flowUniforms = THREE.UniformsUtils.merge( [
-{
-	"ambient"  : { type: "c", value: new THREE.Color( 0xffffff ) },
-	"emissive" : { type: "c", value: new THREE.Color( 0x000000 ) },
-	"specular" : { type: "c", value: new THREE.Color( 0x111111 ) },
-	"shininess": { type: "f", value: 100 },
-	"ambientLightColor": { type: "c", value: new THREE.Color( 0x444444 ) },
-	"directionalLightColor": { type: "c", value: new THREE.Color( 0x888888 ) },
-	"directionalLightDirection": { type: "v3", value: new THREE.Vector3()  },
-	"time": { type: "f", value: 0.0 },
-	"starting_time": { type: "f", value: 0.0 },
-	"severity": { type: "f", value: 1.0 }
-} ] );
-
 function person(age, height, gender) {
 	this.age = age;
 	this.height = height // cm
@@ -70,9 +17,10 @@ function person(age, height, gender) {
 	this.asthmaSeverity = "none";
 	this.ageStartedSmoking = 18;
 	this.packsPerDay = 1.0;
+	this.FEV = 4500;
 }
-var subjectDetails = new person(11, 152, "Male");
 
+/*
 var userData = {
 	'Current Age': 25,
 	'Gender' : "Male",
@@ -81,8 +29,10 @@ var userData = {
 	'Packs Per Day': 1.0,
 	'Height (cm)' : 180,
 	'3D Models' : "Lungs (Tar)",
-	'Play Speed' : 500
+	'Play Speed' : 500,
+	'FEV': 4500,
 };
+*/
 
 function endLoading() {
 	loadingPage.endLoading();
@@ -260,6 +210,7 @@ function setInputsToSubjectDetailsValues() {
 	var age_input = document.getElementById("age_input");
 	var height_input = document.getElementById("height_input");
 	var gender_input = document.getElementById("gender_input");
+	var fev_input = document.getElementById("fev_input");
 		
 	var value_display = age_input.getElementsByClassName('ValueDisplay')[0];
 
@@ -268,6 +219,8 @@ function setInputsToSubjectDetailsValues() {
 	value_display.innerHTML = subjectDetails.height;
 	value_display = gender_input.getElementsByClassName('ValueDisplay')[0];
 	value_display.innerHTML = (subjectDetails.gender == "Male") ? 'M' : 'F';
+	value_display = fev_input.getElementsByClassName('ValueWideDisplay')[0];
+	value_display.innerHTML = subjectDetails.FEV;
 }
 
 function setPage(pageIndex) {
@@ -287,46 +240,18 @@ function interactiveLungButtonClicked() {
 	setPage(1);
 }
 
-function setUserDataValue(identifier, value) {
+function setSubjectDetailsValue(identifier, value) {
 	if (identifier == "height_input") {
-		userData["Height (cm)"] = value;
+		subjectDetails.height = value;
 	} else if (identifier == "age_input") {
-		userData["Current Age"] = value;
+		subjectDetails.age = value;
 	} else if (identifier == "gender_input") {
-		userData["Gender"] = value;
+		subjectDetails.gender = value;
+	} else if (identifier == "fev_input") {
+		subjectDetails.FEV = value;
 	} else {
 		console.log("Uh Oh unknown identifier " + identifier + " with value: " + value);
 	}
-}
-
-function addClicked(owner) {
-	var adder_button = owner.parentNode;
-	var number_display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];
-	number_display.innerHTML = +number_display.innerHTML + 1;
-	setUserDataValue(adder_button.parentNode.id, number_display.innerHTML);
-	updateUniformsWithDetails();
-}
-
-function subClicked(owner) {
-	var adder_button = owner.parentNode;
-	var number_display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];
-	if (number_display && number_display.innerHTML > 0) {
-		number_display.innerHTML = +number_display.innerHTML - 1;
-		setUserDataValue(adder_button.parentNode.id, number_display.innerHTML);
-		updateUniformsWithDetails();
-	}
-}
-
-function maleClicked(owner) {
-	var adder_button = owner.parentNode;
-	var gender_display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];
-	gender_display.innerHTML = 'M';
-}
-
-function femaleClicked(owner) {
-	var adder_button = owner.parentNode;
-	var gender_display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];
-	gender_display.innerHTML = 'F';
 }
 
 function startAgain() {
@@ -341,25 +266,18 @@ function resetViewButtonClicked() {
 	zincRenderer.viewAll();
 }
 
-var dojoConfig = {
-	async: true,
-	// This code registers the correct location of the "demo" package
-	// so we can load Dojo from the CDN whilst still being able to
-	// load local modules
-	packages: [{
-		name: "js",
-		location: location.pathname.replace(/\/[^/]+$/, '')  + '/js'
-	}]
-};
-
 function updateSlider(slideAmount) {
 	this.zincRenderer.setMorphsTime(slideAmount * 30);
 }
+
+$( "#navcontent_page_0" ).load("page_0.html");
+$( "#navcontent_page_1" ).load("page_1.html");
+$( "#navcontent_page_2" ).load("page_2.html");
+
 require(["dojo/domReady!"], function(){
 	updateDiv();
+	setRepeatOnButtons();
 	initZinc();
 	startAgain();
 });
 
-$( "#navcontent_page_0" ).load("page_0.html");
-$( "#navcontent_page_1" ).load("page_1.html");

@@ -111,6 +111,17 @@
 	height: 100%;
 }
 
+.AdderWideButton {
+	background-image: url("images/medtech_adder_increment_base_wide.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	vertical-align: middle;
+	display: inline-block;
+	position: relative;
+	width: 35%;
+	height: 100%;
+}
+
 .PlusButton {
 	background-image: url("images/medtech_adder_plus.svg");
 	background-size: 100% 100%;

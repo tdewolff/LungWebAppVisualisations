@@ -61,6 +61,9 @@
 				<div class="toggleByPageNumber page_1" onclick="setPage(2);">
 					<h1>Next <i>Interactive Lung</i></h1>
 				</div>
+				<div class="toggleByPageNumber page_2" onclick="setPage(3);">
+					<h1>Next <i>Interactive Lung</i></h1>
+				</div>
 			</div>
 			<div id="age_input" class="toggleByPageNumber page_1" style="color: #4A4A5B;">
 				<div style="display: inline-block; text-align: right;"><p>Enter<br />your age</p></div>
@@ -72,8 +75,8 @@
 			</div>
 			<div id="height_input" class="toggleByPageNumber page_1" style="display: inline-block; color: #4A4A5B;">
 				<div class="AdderButton">
-					<div class="PlusButton button" onclick="addClicked(this);"></div>
-					<div class="MinusButton button" onclick="subClicked(this);"></div>
+					<div class="PlusButton button"></div>
+					<div class="MinusButton button"></div>
 					<div class="ValueDisplay"></div>
 				</div>
 				<div style="display: inline-block;"><p>Enter<br />your height</p></div>
@@ -86,6 +89,14 @@
 					<div class="ValueDisplay"></div>
 				</div>
 			</div>
+			<div id="fev_input" class="toggleByPageNumber page_2" style="display: inline-block; color: #4A4A5B;">
+				<div style="display: inline-block; text-align: right;"><p>Enter<br />your FEV</p></div>
+				<div class="AdderWideButton">
+					<div class="PlusButton button" onclick="addClicked(this);"></div>
+					<div class="MinusButton button" onclick="subClicked(this);"></div>
+					<div class="ValueWideDisplay"></div>
+				</div>
+			</div>
 		</section>
 		<script src="js/three.min.js"></script>
 		<script src="js/zinc_threejs_control.js"></script>
@@ -95,8 +106,10 @@
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: 1, parseOnLoad: true" ></script>
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
+		<script src="js/globals.js"></script>
 		<script src="js/overlay.js"></script>
 		<script src="js/layout.js"></script>
+		<script src="js/buttons.js"></script>
 		<script src="js/main.js"></script>
 	</body>
 </html>
