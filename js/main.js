@@ -16,34 +16,16 @@ function person(age, height, gender) {
 	this.gender = gender;
 	this.asthmaSeverity = "none";
 	this.ageStartedSmoking = 18;
-	this.packsPerDay = 1.0;
+	this.packsPerDay = 0.0;
 	this.FEV = 4500;
 }
 
-/*
-var userData = {
-	'Current Age': 25,
-	'Gender' : "Male",
-	'Asthma Severity' : "None",
-	'Age started smoking': 18,
-	'Packs Per Day': 1.0,
-	'Height (cm)' : 180,
-	'3D Models' : "Lungs (Tar)",
-	'Play Speed' : 500,
-	'FEV': 4500,
-};
-*/
-
 function endLoading() {
 	loadingPage.endLoading();
-	//myLoadingPage.style.display = 'initial';
-	//myLoadingPage.style.opacity = 0;
 }
 
 function beginLoading() {
 	loadingPage.beginLoading();
-	//myLoadingPage.style.display = 'initial';
-	//myLoadingPage.style.opacity = 0.9;
 }
 
 function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
@@ -59,21 +41,9 @@ function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 		flowUniforms["time"].value = zincRenderer.getCurrentTime()/3000.0;
 		var zinc_rendered_age = parseInt(cellUniforms["time"].value *100.0);
 		if (zinc_rendered_age != rendered_age) {
-			console.log('Set rendered age ' + rendered_age);
 			setRenderedAge(lung_age_display, zinc_rendered_age);
 			rendered_age = zinc_rendered_age;
 		}
-		// if (age != renderer_Age) {
-		// 	renderer_Age = age;
-		// 	var element = document.getElementById("renderer_Age");
-		// 	if (element)
-		// 		element.innerHTML =  "Simulated Age: " + renderer_Age;
-		// }
-		// if (zincRenderer.playAnimation == true)
-		// {
-		// 	var sliderElement = document.getElementById("age_slider");
-		// 	sliderElement.value = renderer_Age;
-		// }
 	};
 }
 
