@@ -1,5 +1,10 @@
-var container = document.getElementById( "zinc_rendered_view" );
 var zincRenderer = undefined;
+var subjectDetails = undefined; /* new person(11, 152, "Male"); */
+
+var container = document.getElementById( "zinc_window" );
+var myLoadingPage = document.getElementById("loadingOverlay");
+var lung_age_display = document.getElementById("play_pause_button");
+var rendered_age = 0;
 
 var surfaceStatus = {
 	"scene": undefined,
@@ -17,8 +22,6 @@ var airwaysStatus = {
 		"total": 0,
 	},
 }
-
-var renderer_Age = 0;
 
 var cellUniforms = THREE.UniformsUtils.merge( [
 	{
@@ -51,8 +54,6 @@ var flowUniforms = THREE.UniformsUtils.merge( [
 	"starting_time": { type: "f", value: 0.0 },
 	"severity": { type: "f", value: 1.0 }
 } ] );
-
-var subjectDetails = undefined; /* new person(11, 152, "Male"); */
 
 var dojoConfig = {
 	async: true,

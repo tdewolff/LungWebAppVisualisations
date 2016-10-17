@@ -3,8 +3,11 @@ var imageSize = { width: 1920, height: 1080 };
 
 var body = document.getElementsByTagName('body')[0];
 
-var zincScene = $('#zinc_rendered_view');
-var zincTarget = { x: 645, y: 200, width: 620, height: 620 };
+var zincWindow = $('#zinc_window');
+var zincWindowTarget = { x: 641, y: 195, width: 634, height: 634 };
+
+var loadingOverlay = $('#loadingOverlay');
+var loadingOverlayTarget = { x: 760, y: 460, width: 400, height: 72 };
 
 var navDiv = $('#navcontent');
 var navDivTarget = { x: 79, y: 54, width: 553, height: 440 };
@@ -39,6 +42,9 @@ var genderInputDivTarget = { x: 1543, y: 438, width: 317, height: 212 };
 var fevInputDiv = $('#fev_input');
 var fevInputDivTarget = { x: 1318, y: 802, width: 317, height: 212 };
 
+var playPauseButtonDiv = $('#play_pause_button');
+var playPauseButtonDivTarget = { x: 1318, y: 802, width: 317, height: 212 };
+
 // $(document).ready(updateDiv);
 $(window).resize(updateDiv);
 
@@ -55,8 +61,19 @@ function setViewButtonSizes(targetElement, scale) {
 	var i;
 	for (i = 0; i < h1_tags.length; i++) {
 		h1_tags[i].style.fontSize = '' + 50 * scale + 'px';
-		i_tags[i].style.fontSize = '' + 27 * scale + 'px';
+		i_tags[i].style.fontSize = '' + 25 * scale + 'px';
 		h1_tags[i].style.marginTop = '' + 25 * scale + 'px';
+	}
+}
+
+function setStartAgainButtonSizes(targetElement, scale) {
+	var h1_tags = targetElement[0].getElementsByTagName('h1');
+	var i_tags = targetElement[0].getElementsByTagName('i');
+	var i;
+	for (i = 0; i < h1_tags.length; i++) {
+		h1_tags[i].style.fontSize = '' + 45 * scale + 'px';
+		i_tags[i].style.fontSize = '' + 18 * scale + 'px';
+		h1_tags[i].style.marginTop = '' + 18 * scale + 'px';
 	}
 }
 
@@ -72,7 +89,7 @@ function setActionButtonSizes(targetElement, scale) {
 }
 
 function updateDiv() {
-	// Where is this margin comming from?
+	// Where is this margin coming from?
 	var windowWidth = $('#main_section').width() + 10;
 	var windowHeight = $('#main_section').height() + 10;
 
@@ -93,7 +110,8 @@ function updateDiv() {
 
 	body.style.fontSize = '' + 25 * scale + 'px';
 
-	setElementLocation(zincScene, zincTarget, scale, xOffset, yOffset);
+	setElementLocation(zincWindow, zincWindowTarget, scale, xOffset, yOffset);
+	setElementLocation(loadingOverlay, loadingOverlayTarget, scale, xOffset, yOffset);
 	setElementLocation(navDiv, navDivTarget, scale, xOffset, yOffset);
 	setElementLocation(startAgainDiv, startAgainDivTarget, scale, xOffset, yOffset);
 	setElementLocation(fundingLogosDiv, fundingLogosDivTarget, scale, xOffset, yOffset);
@@ -105,10 +123,11 @@ function updateDiv() {
 	setElementLocation(heightInputDiv, heightInputDivTarget, scale, xOffset, yOffset);
 	setElementLocation(genderInputDiv, genderInputDivTarget, scale, xOffset, yOffset);
 	setElementLocation(fevInputDiv, fevInputDivTarget, scale, xOffset, yOffset);
+	setElementLocation(playPauseButtonDiv, playPauseButtonDivTarget, scale, xOffset, yOffset);
 
 	setViewButtonSizes(surfaceButtonDiv, scale);
 	setViewButtonSizes(airwaysButtonDiv, scale);
-	setViewButtonSizes(startAgainDiv, scale);
+	setStartAgainButtonSizes(startAgainDiv, scale);
 	setActionButtonSizes(actionButtonDiv, scale);
 }
 

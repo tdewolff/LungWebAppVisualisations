@@ -32,6 +32,44 @@ function setRepeatOnButtons() {
 	//holdit(btn, function () { }, 1000, 2); /* x..1000ms..x..500ms..x..250ms..x */
 }
 
+function playPauseClicked(sender) {
+	if (sender.classList.contains('PlayButton')) {
+		sender.classList.remove('PlayButton');
+		sender.classList.add('PauseButton');
+		zincRenderer.playAnimation = true;
+	} else {
+		sender.classList.remove('PauseButton');
+		sender.classList.add('PlayButton');
+		zincRenderer.playAnimation = false;
+	}
+}
+
+function resetPlayClicked(sender) {
+	var base_button = sender.parentNode;
+	var play_pause_button = base_button.getElementsByClassName('PlayButton')[0] || base_button.getElementsByClassName('PauseButton')[0];
+	if (play_pause_button.classList.contains('PauseButton')) {
+		play_pause_button.classList.remove('PauseButton');
+		play_pause_button.classList.add('PlayButton');
+		zincRenderer.playAnimation = false;
+	}
+	console.log('=========');
+	console.log(subjectDetails.age);
+	console.log('Set rendered age');
+	setRenderedAge(lung_age_display, subjectDetails.age);
+	console.log(subjectDetails.age);
+	//updateUniformsWithDetails();
+	console.log(subjectDetails.age);
+}
+
+function setRenderedAge(owner, value) {
+	var number_display = owner.getElementsByClassName('ValueDisplay')[0];
+	// console.log(number_display);
+	// console.log(value);
+	// console.log(number_display.innerHTML);
+	number_display.innerHTML = value;
+	// console.log(number_display.innerHTML);
+}
+
 function addClicked(owner) {
 	var adder_button = owner.parentNode;
 	var number_display = adder_button.getElementsByClassName('ValueDisplay')[0];

@@ -15,24 +15,15 @@
 	</head>
 	<body class="expand vbox viewport" style="position: relative;">
 		<section id="main_section" class="expand">
-			<div class="medtechbackground"></div>
-			<div id="zinc_rendered_view" class="view flexgrow pointerCursor">
-				<div id="loadingOverlay" class="loadingOverlay pageOverlay" style="text-align: center; top: 50%;left: 25%">
-				</div>
-				<div style="text-align: center; display: none;">
-					<h3 id="renderer_Age" >
-						Simulated Age: 0
-					</h3>
-				</div>
-			</div>
+			<div id="medtechbackground" class="FullSize medtechbackground"></div>
+			<div id="loadingOverlay" class="loadingOverlay pageOverlay CentreText" style="opacity: 0;"></div>
+			<div id="zinc_window" class="pointerCursor"></div>
 			<div id="navcontent">
 				<div id="navcontent_page_0" class="toggleByPageNumber page_0"></div>
 				<div id="navcontent_page_1" class="toggleByPageNumber page_1"></div>
 				<div id="navcontent_page_2" class="toggleByPageNumber page_2"></div>
-				<!-- 
-				<div w3-include-html="page_0.html" class="toggleByPageNumber page_0"></div>
-				<div w3-include-html="page_1.html" class="toggleByPageNumber page_1"></div>
-					-->
+				<div id="navcontent_page_3" class="toggleByPageNumber page_3"></div>
+				<div id="navcontent_page_4" class="toggleByPageNumber page_4"></div>
 			</div>
 			<div id="fundingLogos" class="logos">
 				<a href="http://www.abi.auckland.ac.nz/en.html">
@@ -43,26 +34,32 @@
 				</a>
 			</div>
 			<div id="startAgain" class="start_again_button view_button button" onclick="startAgain();">
-				<h1>Start <i>Again</i></h1>
+				<h1>Home <i>(Start again)</i></h1>
 			</div>
 			<div id="reset_button" class="button" onclick="resetViewButtonClicked();">
 				<img src="styles/images/reset_button.png" style="width: 100%"/>
 			</div>
 			<div id="surfaceButton" class="surface_button view_button button" onclick="modelButtonClicked('Surface');">
-				<h1>View <i>Lung</i></h1>
+				<h1>View <i>Lung Surface</i></h1>
 			</div>
 			<div id="airwaysButton" class="airways_button view_button button" onclick="modelButtonClicked('Airways');">
 				<h1>View <i>Airways</i></h1>
 			</div>
 			<div id="actionButton" class="ActionButton button">
 				<div class="toggleByPageNumber page_0" onclick="setPage(1);">
-					<h1>Start <i>Interactive Lung</i></h1>
+					<h1>Start <i> My interactive lung</i></h1>
 				</div>
 				<div class="toggleByPageNumber page_1" onclick="setPage(2);">
-					<h1>Next <i>Interactive Lung</i></h1>
+					<h1>Next <i>My interactive lung</i></h1>
 				</div>
 				<div class="toggleByPageNumber page_2" onclick="setPage(3);">
-					<h1>Next <i>Interactive Lung</i></h1>
+					<h1>Next <i>My interactive lung</i></h1>
+				</div>
+				<div class="toggleByPageNumber page_3" onclick="setPage(4);">
+					<h1>What <i>Happens when I smoke?</i></h1>
+				</div>
+				<div class="toggleByPageNumber page_4" onclick="setPage(0);">
+					<h1>Home <i>(Start again)</i></h1>
 				</div>
 			</div>
 			<div id="age_input" class="toggleByPageNumber page_1" style="color: #4A4A5B;">
@@ -95,6 +92,14 @@
 					<div class="PlusButton button" onclick="addClicked(this);"></div>
 					<div class="MinusButton button" onclick="subClicked(this);"></div>
 					<div class="ValueWideDisplay"></div>
+				</div>
+			</div>
+			<div id="play_pause_button" class="toggleByPageNumber page_3" style="display: inline-block; color: #4A4A5B;">
+				<div style="display: inline-block; text-align: right;"><p>Simulated<br />lung age</p></div>
+				<div class="AdderButton">
+					<div class="PlayButton button" onclick="playPauseClicked(this);"></div>
+					<div class="ResetPlayButton button" onclick="resetPlayClicked(this);"></div>
+					<div class="ValueDisplay"></div>
 				</div>
 			</div>
 		</section>

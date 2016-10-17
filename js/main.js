@@ -36,10 +36,14 @@ var userData = {
 
 function endLoading() {
 	loadingPage.endLoading();
+	//myLoadingPage.style.display = 'initial';
+	//myLoadingPage.style.opacity = 0;
 }
 
 function beginLoading() {
 	loadingPage.beginLoading();
+	//myLoadingPage.style.display = 'initial';
+	//myLoadingPage.style.opacity = 0.9;
 }
 
 function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
@@ -53,18 +57,23 @@ function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 			directionalLight.position.z);
 		cellUniforms["time"].value = zincRenderer.getCurrentTime()/3000.0;
 		flowUniforms["time"].value = zincRenderer.getCurrentTime()/3000.0;
-		var age = parseInt(cellUniforms["time"].value *100.0);
-		if (age != renderer_Age) {
-			renderer_Age = age;
-			var element = document.getElementById("renderer_Age");
-			if (element)
-				element.innerHTML =  "Simulated Age: " + renderer_Age;
+		var zinc_rendered_age = parseInt(cellUniforms["time"].value *100.0);
+		if (zinc_rendered_age != rendered_age) {
+			console.log('Set rendered age ' + rendered_age);
+			setRenderedAge(lung_age_display, zinc_rendered_age);
+			rendered_age = zinc_rendered_age;
 		}
-		if (zincRenderer.playAnimation == true)
-		{
-			var sliderElement = document.getElementById("age_slider");
-			sliderElement.value = renderer_Age;
-		}
+		// if (age != renderer_Age) {
+		// 	renderer_Age = age;
+		// 	var element = document.getElementById("renderer_Age");
+		// 	if (element)
+		// 		element.innerHTML =  "Simulated Age: " + renderer_Age;
+		// }
+		// if (zincRenderer.playAnimation == true)
+		// {
+		// 	var sliderElement = document.getElementById("age_slider");
+		// 	sliderElement.value = renderer_Age;
+		// }
 	};
 }
 
@@ -84,7 +93,7 @@ var updateModelDownloadProgress = function(model_name, scene, model_ready) {
 	if (scene) {
 		var element = document.getElementById("loadingOverlay");
 		if (model_ready) {
-			element.innerHTML =  "Loading " + model_name + " ... Completed."
+			element.innerHTML =  "<p>Loading " + model_name + " ... Completed.</p>"
 		} else {
 			var progress = scene.getDownloadProgress();
 			if (progress[2] == false) {
@@ -92,11 +101,11 @@ var updateModelDownloadProgress = function(model_name, scene, model_ready) {
 				if (progress.totalSize > 0)
 					totalString = parseInt(progress[0]/1024).toString() + " KB";
 				if (element)
-					element.innerHTML =  "Loading " + model_name + " ... (" + parseInt(progress[1]/1024).toString() + " KB" + (totalString ? "/" + totalString : "") + ").";
+					element.innerHTML =  "<p>Loading " + model_name + " ... (" + parseInt(progress[1]/1024).toString() + " KB" + (totalString ? "/" + totalString : "") + ").</p>";
 			} else {
 				error = true;
 				if (element)
-					element.innerHTML =  "Loading " + model_name + " ... Failed to load models. Please try again later.";
+					element.innerHTML =  "<p>Loading " + model_name + " ... Failed to load models. Please try again later.</p>";
 			}
 		}
 	}
@@ -118,9 +127,11 @@ function meshReady(sceneName, shaderText, uniforms) {
 		material.side = THREE.DoubleSide;
 		mygeometry.setMaterial(material)
 		if (sceneName == "Surface") {
-			surfaceStatus["initialised"] = true;
+			surfaceStatus.initialised = true;
+			surfaceStatus.scene.viewAll();
 		} else if (sceneName == "Airways") {
-			airwaysStatus["initialised"] = true;
+			airwaysStatus.initialised = true;
+			airwaysStatus.scene.viewAll();
 		}
 		updateUniformsWithDetails();
 	}
@@ -206,7 +217,6 @@ function resetSubjectDetails() {
 }
 
 function setInputsToSubjectDetailsValues() {
-	var age = document.getElementById("renderer_Age");
 	var age_input = document.getElementById("age_input");
 	var height_input = document.getElementById("height_input");
 	var gender_input = document.getElementById("gender_input");
@@ -221,6 +231,9 @@ function setInputsToSubjectDetailsValues() {
 	value_display.innerHTML = (subjectDetails.gender == "Male") ? 'M' : 'F';
 	value_display = fev_input.getElementsByClassName('ValueWideDisplay')[0];
 	value_display.innerHTML = subjectDetails.FEV;
+	
+	console.log('Set rendered age');
+	setRenderedAge(lung_age_display, subjectDetails.age);
 }
 
 function setPage(pageIndex) {
@@ -234,10 +247,6 @@ function setPage(pageIndex) {
 			e.style.display = "none";
 		}
 	}
-}
-
-function interactiveLungButtonClicked() {
-	setPage(1);
 }
 
 function setSubjectDetailsValue(identifier, value) {
@@ -259,7 +268,6 @@ function startAgain() {
 	setPage(0);
 	setInputsToSubjectDetailsValues();
 	modelButtonClicked("Surface");
-	//zincRenderer.viewAll();
 }
 
 function resetViewButtonClicked() {
@@ -273,6 +281,8 @@ function updateSlider(slideAmount) {
 $( "#navcontent_page_0" ).load("page_0.html");
 $( "#navcontent_page_1" ).load("page_1.html");
 $( "#navcontent_page_2" ).load("page_2.html");
+$( "#navcontent_page_3" ).load("page_3.html");
+$( "#navcontent_page_4" ).load("page_4.html");
 
 require(["dojo/domReady!"], function(){
 	updateDiv();
