@@ -1,15 +1,78 @@
+body {
+	z-index: 3;
+	pointer-events: auto;
+}
+
 html, body, section {
-/*			width: 100%; */
+/*	width: 100%; */
 	height: 100%;
-	margin: 0;
+	margin: 0px;
 }
 
 header, footer, section,
 nav, article, aside {
 	border: 1px solid black;
-	padding: 0.25em;
-	margin: 0.25em;
+	padding: 0.0em;
+	margin: 0.0em;
 	border-radius: 0.25em;
+}
+
+.pointerCursor {
+	cursor: pointer;
+}
+
+.medtechbackground {
+	background-image: url("images/medtech_background.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	pointer-events: none;
+	width: 100%;
+	z-index: 2;
+}
+
+.FullSize {
+	width: 100%;
+	height: 100%;
+}
+
+.CentreText {
+	text-align: center;
+}
+
+.ValueDisplay {
+	position: relative;
+	top: 45%;
+	left: 30.5%;
+	width: 39%;
+	height: 23%;
+	text-align: center;
+}
+
+.ValueWideDisplay {
+	position: relative;
+	top: 45%;
+	left: 24.5%;
+	width: 50%;
+	height: 23%;
+	text-align: center;
+}
+
+#zinc_window {
+	border: 1px solid black;
+/*	background-color: #F00; */
+	position: absolute;
+	z-index: 1;
+}
+
+#medtechbackground, #navcontent, #startAgain, #fundingLogos, 
+#airwaysButton, #surfaceButton, #actionButton, 
+#reset_button, #age_input, #height_input, #gender_input,
+#fev_input, #loadingOverlay, #play_pause_button {
+	position: absolute;
+}
+
+#navcontent h1 {
+	color: #973F55;
 }
 
 .expand {
@@ -91,12 +154,12 @@ aside, nav {
 
 header {background: coral;}
 footer {background: lightgreen;}
-nav {background: pink;}
+/* nav {background: pink;} */
 aside {background: moccasin;}
-section {background: green;}
-article {background: purple;}
-.buttons {background: teal;}
-.view {background: orange;}
+/* section {background: green;} */
+/* article {background: purple;} */
+/* .buttons {background: teal;} */
+/* .view {background: orange;} */
 
 input {
     text-align: center;

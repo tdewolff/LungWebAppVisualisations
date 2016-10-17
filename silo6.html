@@ -13,91 +13,108 @@
 		<link rel="stylesheet" type="text/css" href="styles/buttons.css">
 		<link rel="stylesheet" type="text/css" href="styles/overlay.css">
 	</head>
-	<body class="expand vbox viewport">
-		<section class="expand">
-			<nav class="expand vbox">
-				<div class="navcontent flexgrow">
-					<div id="navcontent_page_0" class="toggleByPageNumber page_0"></div>
-					<div id="navcontent_page_1" class="toggleByPageNumber page_1"></div>
-					<!-- 
-					<div w3-include-html="page_0.html" class="toggleByPageNumber page_0"></div>
-					<div w3-include-html="page_1.html" class="toggleByPageNumber page_1"></div>
-						-->
+	<body class="expand vbox viewport" style="position: relative;">
+		<section id="main_section" class="expand">
+			<div id="medtechbackground" class="FullSize medtechbackground"></div>
+			<div id="loadingOverlay" class="loadingOverlay pageOverlay CentreText" style="opacity: 0;"></div>
+			<div id="zinc_window" class="pointerCursor"></div>
+			<div id="navcontent">
+				<div id="navcontent_page_0" class="toggleByPageNumber page_0"></div>
+				<div id="navcontent_page_1" class="toggleByPageNumber page_1"></div>
+				<div id="navcontent_page_2" class="toggleByPageNumber page_2"></div>
+				<div id="navcontent_page_3" class="toggleByPageNumber page_3"></div>
+				<div id="navcontent_page_4" class="toggleByPageNumber page_4"></div>
+			</div>
+			<div id="fundingLogos" class="logos">
+				<a href="http://www.abi.auckland.ac.nz/en.html">
+					<img src="images/abi-hc-rgb.png" style="width:100%"/>
+				</a>
+				<a href="http://www.turanga.org.nz/">
+					<img src="images/turanga_banner_0_transparent.png" style="width:100%;"/>
+				</a>
+			</div>
+			<div id="startAgain" class="start_again_button view_button button" onclick="startAgain();">
+				<h1>Home <i>(Start again)</i></h1>
+			</div>
+			<div id="reset_button" class="button" onclick="resetViewButtonClicked();">
+				<img src="styles/images/reset_button.png" style="width: 100%"/>
+			</div>
+			<div id="surfaceButton" class="surface_button view_button button" onclick="modelButtonClicked('Surface');">
+				<h1>View <i>Lung Surface</i></h1>
+			</div>
+			<div id="airwaysButton" class="airways_button view_button button" onclick="modelButtonClicked('Airways');">
+				<h1>View <i>Airways</i></h1>
+			</div>
+			<div id="actionButton" class="ActionButton button">
+				<div class="toggleByPageNumber page_0" onclick="setPage(1);">
+					<h1>Start <i> My interactive lung</i></h1>
 				</div>
-				<div class="logos fixend">
-					<a href="http://www.abi.auckland.ac.nz/en.html">
-						<img src="images/abi-hc-rgb.png" style="width:50%">
-					</a>
-					<a href="http://www.turanga.org.nz/">
-						<img src="images/turanga_banner_0_transparent.png" style="width:25%;">
-					</a>
-					<div onclick="setPage(0);" style="display: inline;">
-						<img src="styles/images/start_again.png" style="width: 20%;">
-					</div>
+				<div class="toggleByPageNumber page_1" onclick="setPage(2);">
+					<h1>Next <i>My interactive lung</i></h1>
 				</div>
-			</nav>
-			<article class="expand vbox">
-
-				<div id="zinc_rendered_view" class="view flexgrow" style="position: relative;">
-					<div id="loadingOverlay" class="loadingOverlay pageOverlay" style="top: 0;left: 0;position: absolute;">
-						<!--
-						<div id="loadingMessage" class="loadingMessage">Please wait, while the 3D models are being loaded...</div>
-						<div id="progressMessage" class="downloadMessage">Initialising Lungs...</div>
-						<div id="continueMessage" class="downloadMessage button" style="display:None">Click here to continue.</div>
-						-->
-					</div>
-					<div id="reset_button" style="top: 0;left: 0;position: absolute;" onclick="resetViewButtonClicked();">
-						<img src="styles/images/reset_button.png" style="width: 5%;">
-					</div>
-					<div style="text-align: center; display: none;">
-						<h3 id="renderer_Age" >
-							Simulated Age: 0
-						</h3>
-					</div>
+				<div class="toggleByPageNumber page_2" onclick="setPage(3);">
+					<h1>Next <i>My interactive lung</i></h1>
 				</div>
-
-				<div class="buttons expand">
-					<div class="cool_btn1 cool_btn_rd green" onclick="modelButtonClicked('Surface');">
-						<h1 class='top'>View <i>Lung</i></h1>
-						<h2>&#xe001</h2>
-					</div>
-					<div class="cool_btn1 cool_btn_rd teal" onclick="modelButtonClicked('Airways');">
-						<h1 class='top'>View <i>Airways</i></h1>
-						<h2>&#xe000</h2>
-					</div>
-					<!--
-					<div class="cool_btn1 cool_btn_rd blue" onclick="modelButtonClicked('Vessels');">
-						<h1 class='top'>View <i>Blood Vessels</i></h1>
-						<h2>&#xe002</h2>
-					</div>
-						-->
-					<div class="flexgrow">
-						<!-- spacer div -->
-					</div>
-					<div class="cool_btn1 cool_btn_next orange fixend toggleByPageNumber page_0" onclick="interactiveLungButtonClicked();">
-						<h1 class='top'>Start <i>interactive lung</i></h1>
-						<h2>I</h2>
-					</div>
+				<div class="toggleByPageNumber page_3" onclick="setPage(4);">
+					<h1>What <i>Happens when I smoke?</i></h1>
 				</div>
-			</article>
+				<div class="toggleByPageNumber page_4" onclick="setPage(0);">
+					<h1>Home <i>(Start again)</i></h1>
+				</div>
+			</div>
+			<div id="age_input" class="toggleByPageNumber page_1" style="color: #4A4A5B;">
+				<div style="display: inline-block; text-align: right;"><p>Enter<br />your age</p></div>
+				<div class="AdderButton">
+					<div class="PlusButton button" onclick="addClicked(this);"></div>
+					<div class="MinusButton button" onclick="subClicked(this);"></div>
+					<div class="ValueDisplay"></div>
+				</div>
+			</div>
+			<div id="height_input" class="toggleByPageNumber page_1" style="display: inline-block; color: #4A4A5B;">
+				<div class="AdderButton">
+					<div class="PlusButton button"></div>
+					<div class="MinusButton button"></div>
+					<div class="ValueDisplay"></div>
+				</div>
+				<div style="display: inline-block;"><p>Enter<br />your height</p></div>
+			</div>
+			<div id="gender_input" class="toggleByPageNumber page_1" style="display: inline-block; color: #4A4A5B; text-align: right;">
+				<div style="display: inline-block;"><p>Enter<br />your gender</p></div>
+				<div class="AdderButton">
+					<div class="MaleButton button" onclick="maleClicked(this);"></div>
+					<div class="FemaleButton button" onclick="femaleClicked(this);"></div>
+					<div class="ValueDisplay"></div>
+				</div>
+			</div>
+			<div id="fev_input" class="toggleByPageNumber page_2" style="display: inline-block; color: #4A4A5B;">
+				<div style="display: inline-block; text-align: right;"><p>Enter<br />your FEV</p></div>
+				<div class="AdderWideButton">
+					<div class="PlusButton button" onclick="addClicked(this);"></div>
+					<div class="MinusButton button" onclick="subClicked(this);"></div>
+					<div class="ValueWideDisplay"></div>
+				</div>
+			</div>
+			<div id="play_pause_button" class="toggleByPageNumber page_3" style="display: inline-block; color: #4A4A5B;">
+				<div style="display: inline-block; text-align: right;"><p>Simulated<br />lung age</p></div>
+				<div class="AdderButton">
+					<div class="PlayButton button" onclick="playPauseClicked(this);"></div>
+					<div class="ResetPlayButton button" onclick="resetPlayClicked(this);"></div>
+					<div class="ValueDisplay"></div>
+				</div>
+			</div>
 		</section>
 		<script src="js/three.min.js"></script>
 		<script src="js/zinc_threejs_control.js"></script>
 		<script src="js/zinc_3js_renderer.js"></script>
 		<script src="js/Detector.js"></script>
-		<script src="http://www.w3schools.com/lib/w3data.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: 1, parseOnLoad: true" ></script>
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
+		<script src="js/globals.js"></script>
 		<script src="js/overlay.js"></script>
+		<script src="js/layout.js"></script>
+		<script src="js/buttons.js"></script>
 		<script src="js/main.js"></script>
-		<script>
-			w3IncludeHTML();
-			setPage(0);
-			initZinc();
-			// Call in a fake button click to initialise view.
-			modelButtonClicked("Surface");
-		</script>
 	</body>
 </html>

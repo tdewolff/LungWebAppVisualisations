@@ -58,6 +58,183 @@
   content: "\e002";
 }
 
+.button {
+	cursor: pointer;
+	z-index: 3;
+}
+
+.view_button h1 {
+  text-align: center;
+  /* font-size: 50px; */
+  /* margin: 20px 0 0 0; */
+  color: #333;
+  text-shadow: 0 1px 0 white, 0 -1px 0 rgba(0, 0, 0, 0.5);
+  font-family: 'Lobster', cursive;
+  font-weight: normal;
+  line-height: 1;
+}
+
+.view_button h1 i {
+  display: block;
+  font-style: normal;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: helvetica, arial, sans-serif;
+  text-shadow: none;
+}
+
+.ActionButton h1 {
+  text-align: center;
+  color: white;
+  text-shadow: 0 1px 0 black, 0 -1px 0 rgba(0, 0, 0, 0.5);
+  font-family: 'Lobster', cursive;
+  font-weight: normal;
+  line-height: 1;
+}
+
+.ActionButton h1 i {
+  display: block;
+  font-style: normal;
+  font-weight: bold;
+  font-family: helvetica, arial, sans-serif;
+  text-shadow: none;
+}
+
+.SingleArmDisplay {
+	background-image: url("images/medtech_play_pause_base.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	vertical-align: middle;
+	display: inline-block;
+	position: relative;
+	width: 35%;
+	height: 100%;
+}
+
+.AdderButton {
+	background-image: url("images/medtech_adder_increment_base.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	vertical-align: middle;
+	display: inline-block;
+	position: relative;
+	width: 35%;
+	height: 100%;
+}
+
+.AdderWideButton {
+	background-image: url("images/medtech_adder_increment_base_wide.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	vertical-align: middle;
+	display: inline-block;
+	position: relative;
+	width: 37%;
+	height: 100%;
+}
+
+.PlusButton {
+	background-image: url("images/medtech_adder_plus.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 1%;
+	left: 32%;
+	width: 36%;
+	height: 19%;
+}
+
+.MinusButton {
+	background-image: url("images/medtech_adder_minus.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 80%;
+	left: 32%;
+	width: 36%;
+	height: 19%;
+}
+
+.PlayButton {
+	background-image: url("images/medtech_play.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 1%;
+	left: 32%;
+	width: 36%;
+	height: 19%;
+}
+
+.PauseButton {
+	background-image: url("images/medtech_pause.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 1%;
+	left: 32%;
+	width: 36%;
+	height: 19%;
+}
+
+.ResetPlayButton {
+	background-image: url("images/medtech_reset_play.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 80%;
+	left: 32%;
+	width: 36%;
+	height: 19%;
+}
+
+.MaleButton {
+	background-image: url("images/medtech_gender_male.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 1%;
+	left: 32%;
+	width: 36%;
+	height: 19%;
+}
+
+.FemaleButton {
+	background-image: url("images/medtech_gender_female.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 80%;
+	left: 32%;
+	width: 36%;
+	height: 19%;
+}
+
+.airways_button {
+	background-image:url(./images/view_airways_btn.svg);
+	background-repeat:no-repeat;
+}
+
+.ActionButton {
+	background-image:url(./images/action_btn.svg);
+	background-repeat:no-repeat;
+}
+
+.resetButton {
+	background-image:url(./images/reset_button.png);
+	background-repeat:no-repeat;
+}
+
+.surface_button {
+	background-image:url(./images/view_lung_btn.svg);
+	background-repeat:no-repeat;
+}
+
+.start_again_button {
+	background-image:url(./images/start_again_btn.svg);
+	background-repeat:no-repeat;
+}
+
 /* line 13, ../sass/screen.scss */
 body {
   font-family: helvetica, arial, sans-serif;

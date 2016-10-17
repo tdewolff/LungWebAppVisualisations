@@ -1,78 +1,24 @@
-var container = document.getElementById( "zinc_rendered_view" );
-var zincRenderer = undefined;
-
-var surfaceStatus = {
-	"scene": undefined,
-	"initialised": false,
-	"download": {
-		"progress": 0,
-		"total": 0,
-	},
-};
-var airwaysStatus = {
-	"scene": undefined,
-	"initialised": false,
-	"download": {
-		"progress": 0,
-		"total": 0,
-	},
-}
-
-var renderer_Age = 0;
 
 function updateUniformsWithDetails() {
-	var age = Math.floor(userData["Current Age"] + 0.5);
-	start_age = userData["Age started smoking"] * 0.01;
+	var age = Math.floor(subjectDetails.age + 0.5);
+	start_age = subjectDetails.ageStartedSmoking * 0.01;
 	if (start_age < 0.0)
 		start_age = 0.0;
 	cellUniforms["starting_time"].value = start_age;
-	cellUniforms["severity"].value = userData["Packs Per Day"] * 1.0;
+	cellUniforms["severity"].value = subjectDetails.packsPerDay * 1.0;
 	flowUniforms["starting_time"].value = start_age;
-	flowUniforms["severity"].value = userData["Packs Per Day"] * 1.0;
+	flowUniforms["severity"].value = subjectDetails.packsPerDay * 1.0;
 }
 
-var cellUniforms = THREE.UniformsUtils.merge( [
-	{
-		"ambient"  : { type: "c", value: new THREE.Color( 0xffffff ) },
-		"emissive" : { type: "c", value: new THREE.Color( 0x000000 ) },
-		"specular" : { type: "c", value: new THREE.Color( 0x111111 ) },
-		"shininess": { type: "f", value: 100 },
-		"diffuse": { type: "c", value: new THREE.Color( 0xeecaa2 ) },
-		"ambientLightColor": { type: "c", value: new THREE.Color( 0x444444 ) },
-		"directionalLightColor": { type: "c", value: new THREE.Color( 0x888888 ) },
-		"directionalLightDirection": { type: "v3", value: new THREE.Vector3()  },
-		"time": { type: "f", value: 0.0 },
-		"starting_time": { type: "f", value: 0.0 },
-		"severity": { type: "f", value: 0.0 },
-		"cellsDensity": { type: "f", value: 0.1 },
-		"tarDensity":  { type: "f", value: 0.0175}
-	}
-] );
-
-var flowUniforms = THREE.UniformsUtils.merge( [
-{
-	"ambient"  : { type: "c", value: new THREE.Color( 0xffffff ) },
-	"emissive" : { type: "c", value: new THREE.Color( 0x000000 ) },
-	"specular" : { type: "c", value: new THREE.Color( 0x111111 ) },
-	"shininess": { type: "f", value: 100 },
-	"ambientLightColor": { type: "c", value: new THREE.Color( 0x444444 ) },
-	"directionalLightColor": { type: "c", value: new THREE.Color( 0x888888 ) },
-	"directionalLightDirection": { type: "v3", value: new THREE.Vector3()  },
-	"time": { type: "f", value: 0.0 },
-	"starting_time": { type: "f", value: 0.0 },
-	"severity": { type: "f", value: 1.0 }
-} ] );
-
-var userData = {
-	'Current Age': 25,
-	'Gender' : "Male",
-	'Asthma Severity' : "None",
-	'Age started smoking': 18,
-	'Packs Per Day': 1.0,
-	'Height (cm)' : 180,
-	'3D Models' : "Lungs (Tar)",
-	'Play Speed' : 500
-};
+function person(age, height, gender) {
+	this.age = age;
+	this.height = height // cm
+	this.gender = gender;
+	this.asthmaSeverity = "none";
+	this.ageStartedSmoking = 18;
+	this.packsPerDay = 0.0;
+	this.FEV = 4500;
+}
 
 function endLoading() {
 	loadingPage.endLoading();
@@ -93,17 +39,10 @@ function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 			directionalLight.position.z);
 		cellUniforms["time"].value = zincRenderer.getCurrentTime()/3000.0;
 		flowUniforms["time"].value = zincRenderer.getCurrentTime()/3000.0;
-		var age = parseInt(cellUniforms["time"].value *100.0);
-		if (age != renderer_Age) {
-			renderer_Age = age;
-			var element = document.getElementById("renderer_Age");
-			if (element)
-				element.innerHTML =  "Simulated Age: " + renderer_Age;
-		}
-		if (zincRenderer.playAnimation == true)
-		{
-			var sliderElement = document.getElementById("age_slider");
-			sliderElement.value = renderer_Age;
+		var zinc_rendered_age = parseInt(cellUniforms["time"].value *100.0);
+		if (zinc_rendered_age != rendered_age) {
+			setRenderedAge(lung_age_display, zinc_rendered_age);
+			rendered_age = zinc_rendered_age;
 		}
 	};
 }
@@ -124,19 +63,19 @@ var updateModelDownloadProgress = function(model_name, scene, model_ready) {
 	if (scene) {
 		var element = document.getElementById("loadingOverlay");
 		if (model_ready) {
-			element.innerHTML =  "Loading " + model_name + "... Completed."
+			element.innerHTML =  "<p>Loading " + model_name + " ... Completed.</p>"
 		} else {
 			var progress = scene.getDownloadProgress();
 			if (progress[2] == false) {
-				var totalString = "unknown";
+				var totalString = "";
 				if (progress.totalSize > 0)
 					totalString = parseInt(progress[0]/1024).toString() + " KB";
 				if (element)
-					element.innerHTML =  "Loading " + model_name + "... (" + parseInt(progress[1]/1024).toString() + " KB/" + totalString + ").";
+					element.innerHTML =  "<p>Loading " + model_name + " ... (" + parseInt(progress[1]/1024).toString() + " KB" + (totalString ? "/" + totalString : "") + ").</p>";
 			} else {
 				error = true;
 				if (element)
-					element.innerHTML =  "Loading " + model_name + "... Failed to load models. Please try again later.";
+					element.innerHTML =  "<p>Loading " + model_name + " ... Failed to load models. Please try again later.</p>";
 			}
 		}
 	}
@@ -158,9 +97,11 @@ function meshReady(sceneName, shaderText, uniforms) {
 		material.side = THREE.DoubleSide;
 		mygeometry.setMaterial(material)
 		if (sceneName == "Surface") {
-			surfaceStatus["initialised"] = true;
+			surfaceStatus.initialised = true;
+			surfaceStatus.scene.viewAll();
 		} else if (sceneName == "Airways") {
-			airwaysStatus["initialised"] = true;
+			airwaysStatus.initialised = true;
+			airwaysStatus.scene.viewAll();
 		}
 		updateUniformsWithDetails();
 	}
@@ -241,19 +182,28 @@ function initZinc() {
 	}
 }
 
-function setInputsToUserDataValues() {
-	var age = document.getElementById("renderer_Age");
+function resetSubjectDetails() {
+	subjectDetails = new person(11, 152, "Male");
+}
+
+function setInputsToSubjectDetailsValues() {
 	var age_input = document.getElementById("age_input");
 	var height_input = document.getElementById("height_input");
-	var gender_input = undefined;
-	if (userData["Gender"] == "Male") {
-		gender_input = document.getElementById("male_radiobutton");
-	} else {
-		gender_input = document.getElementById("female_radiobutton");
-	}
-	gender_input.checked = true;
-	age_input.value = userData["Current Age"];
-	height_input.value = userData["Height (cm)"];
+	var gender_input = document.getElementById("gender_input");
+	var fev_input = document.getElementById("fev_input");
+		
+	var value_display = age_input.getElementsByClassName('ValueDisplay')[0];
+
+	value_display.innerHTML = subjectDetails.age;
+	value_display = height_input.getElementsByClassName('ValueDisplay')[0];
+	value_display.innerHTML = subjectDetails.height;
+	value_display = gender_input.getElementsByClassName('ValueDisplay')[0];
+	value_display.innerHTML = (subjectDetails.gender == "Male") ? 'M' : 'F';
+	value_display = fev_input.getElementsByClassName('ValueWideDisplay')[0];
+	value_display.innerHTML = subjectDetails.FEV;
+	
+	console.log('Set rendered age');
+	setRenderedAge(lung_age_display, subjectDetails.age);
 }
 
 function setPage(pageIndex) {
@@ -269,56 +219,45 @@ function setPage(pageIndex) {
 	}
 }
 
-function interactiveLungButtonClicked() {
-	setPage(1);
-}
-
-function setUserDataValue(identifier, value) {
+function setSubjectDetailsValue(identifier, value) {
 	if (identifier == "height_input") {
-		userData["Height (cm)"] = value;
+		subjectDetails.height = value;
 	} else if (identifier == "age_input") {
-		userData["Current Age"] = value;
+		subjectDetails.age = value;
+	} else if (identifier == "gender_input") {
+		subjectDetails.gender = value;
+	} else if (identifier == "fev_input") {
+		subjectDetails.FEV = value;
 	} else {
 		console.log("Uh Oh unknown identifier " + identifier + " with value: " + value);
 	}
 }
 
-function addClicked(owner) {
-	owner.previousElementSibling.value = +owner.previousElementSibling.value + 1;
-	setUserDataValue(owner.previousElementSibling.id, owner.previousElementSibling.value);
-	updateUniformsWithDetails();
-}
-
-function subClicked(owner) {
-	if (owner.nextElementSibling.value > 0) {
-		owner.nextElementSibling.value = +owner.nextElementSibling.value - 1;
-		setUserDataValue(owner.nextElementSibling.id, owner.nextElementSibling.value);
-		updateUniformsWithDetails();
-	}
+function startAgain() {
+	resetSubjectDetails();
+	setPage(0);
+	setInputsToSubjectDetailsValues();
+	modelButtonClicked("Surface");
 }
 
 function resetViewButtonClicked() {
 	zincRenderer.viewAll();
 }
 
-var dojoConfig = {
-	async: true,
-	// This code registers the correct location of the "demo" package
-	// so we can load Dojo from the CDN whilst still being able to
-	// load local modules
-	packages: [{
-		name: "js",
-		location: location.pathname.replace(/\/[^/]+$/, '')  + '/js'
-	}]
-};
-
 function updateSlider(slideAmount) {
 	this.zincRenderer.setMorphsTime(slideAmount * 30);
 }
 
-require(["dojo/domReady!"], function(){
-	setInputsToUserDataValues();
-});
-
 $( "#navcontent_page_0" ).load("page_0.html");
 $( "#navcontent_page_1" ).load("page_1.html");
+$( "#navcontent_page_2" ).load("page_2.html");
+$( "#navcontent_page_3" ).load("page_3.html");
+$( "#navcontent_page_4" ).load("page_4.html");
+
+require(["dojo/domReady!"], function(){
+	updateDiv();
+	setRepeatOnButtons();
+	initZinc();
+	startAgain();
+});
+
