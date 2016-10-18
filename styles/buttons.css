@@ -21,6 +21,17 @@
 
 }
 
+@font-face {
+	font-family: "Moon";
+	src: url("fonts/MoonTypeface/MoonBold.ttf") format("truetype");
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: "Moon";
+	src: url("fonts/MoonTypeface/MoonLight.ttf") format("truetype");
+}
+
 [data-icon]:before {
   font-family: "lung-basic" !important;
   content: attr(data-icon);

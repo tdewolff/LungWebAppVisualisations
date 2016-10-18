@@ -4,31 +4,31 @@ var imageSize = { width: 1920, height: 1080 };
 var body = document.getElementsByTagName('body')[0];
 
 var zincWindow = $('#zinc_window');
-var zincWindowTarget = { x: 641, y: 195, width: 634, height: 634 };
+var zincWindowTarget = { x: 583, y: 25, width: 1010, height: 1010 };
 
 var loadingOverlay = $('#loadingOverlay');
-var loadingOverlayTarget = { x: 760, y: 460, width: 400, height: 72 };
+var loadingOverlayTarget = { x: 862, y: 484, width: 400, height: 140 };
 
 var navDiv = $('#navcontent');
-var navDivTarget = { x: 79, y: 54, width: 553, height: 440 };
+var navDivTarget = { x: 34, y: 5, width: 553, height: 440 };
 
 var startAgainDiv = $('#startAgain');
-var startAgainDivTarget = { x: 464, y: 552, width: 120, height: 120 };
+var startAgainDivTarget = { x: 564, y: 909, width: 120, height: 120 };
 
 var fundingLogosDiv = $('#fundingLogos');
-var fundingLogosDivTarget = { x: 74.1, y: 797, width: 191.6, height: 191.6 };
+var fundingLogosDivTarget = { x: 35, y: 911, width: 191.6, height: 191.6 };
 
 var surfaceButtonDiv = $('#surfaceButton');
-var surfaceButtonDivTarget = { x: 730.272, y: 850.992, width: 173.864, height: 173.864 };
+var surfaceButtonDivTarget = { x: 1652, y: 394, width: 173.864, height: 173.864 };
 
 var airwaysButtonDiv = $('#airwaysButton');
-var airwaysButtonDivTarget = { x: 1030.272, y: 850.992, width: 173.864, height: 173.864 };
+var airwaysButtonDivTarget = { x: 1632, y: 593, width: 173.864, height: 173.864 };
 
 var actionButtonDiv = $('#actionButton');
-var actionButtonDivTarget = { x: 1574.576, y: 774.276, width: 243.489, height: 243.489 };
+var actionButtonDivTarget = { x: 1549, y: 791.276, width: 243.489, height: 243.489 };
 
 var resetViewDiv = $('#reset_button');
-var resetViewDivTarget = { x: 1155.5, y: 210.2, width: 42, height: 42 };
+var resetViewDivTarget = { x: 1467.5, y: 74, width: 42, height: 42 };
 
 var ageInputDiv = $('#age_input');
 var ageInputDivTarget = { x: 1318, y: 802, width: 317, height: 212 };
