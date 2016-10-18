@@ -21,17 +21,6 @@
 
 }
 
-@font-face {
-	font-family: "Moon";
-	src: url("fonts/MoonTypeface/MoonBold.ttf") format("truetype");
-	font-weight: bold;
-}
-
-@font-face {
-	font-family: "Moon";
-	src: url("fonts/MoonTypeface/MoonLight.ttf") format("truetype");
-}
-
 [data-icon]:before {
   font-family: "lung-basic" !important;
   content: attr(data-icon);
@@ -80,8 +69,9 @@
   /* margin: 20px 0 0 0; */
   color: #333;
   text-shadow: 0 1px 0 white, 0 -1px 0 rgba(0, 0, 0, 0.5);
-  font-family: 'Lobster', cursive;
-  font-weight: normal;
+  font-family: moon;
+/*  font-family: 'Lobster', cursive;*/
+  font-weight: bold;
   line-height: 1;
 }
 
@@ -90,16 +80,26 @@
   font-style: normal;
   font-size: 14px;
   font-weight: bold;
-  font-family: helvetica, arial, sans-serif;
+  font-family: titillium;
+/*  font-family: helvetica, arial, sans-serif;*/
   text-shadow: none;
+}
+
+.HomeButton h1 {
+    text-align: center;
+    color: #333;
+    text-shadow: 0 1px 0 white, 0 -1px 0 rgba(0, 0, 0, 0.5);
+    font-family: ModernPictogramsNormal;
+    font-weight: normal;
+    line-height: 1;
 }
 
 .ActionButton h1 {
   text-align: center;
-  color: white;
-  text-shadow: 0 1px 0 black, 0 -1px 0 rgba(0, 0, 0, 0.5);
-  font-family: 'Lobster', cursive;
-  font-weight: normal;
+  color: black;
+  text-shadow: 0 1px 0 white, 0 -1px 0 rgba(0, 0, 0, 0.5);
+/*  font-family: 'Lobster', cursive;*/
+  font-weight: bold;
   line-height: 1;
 }
 
@@ -107,7 +107,8 @@
   display: block;
   font-style: normal;
   font-weight: bold;
-  font-family: helvetica, arial, sans-serif;
+  font-family: titillium;
+/*  font-family: helvetica, arial, sans-serif;*/
   text-shadow: none;
 }
 
@@ -222,12 +223,17 @@
 }
 
 .airways_button {
-	background-image:url(./images/view_airways_btn.svg);
+	background-image:url(./images/medtech_view_airways.svg);
+	background-repeat:no-repeat;
+}
+
+.surface_button {
+	background-image:url(./images/medtech_view_surface.svg);
 	background-repeat:no-repeat;
 }
 
 .ActionButton {
-	background-image:url(./images/action_btn.svg);
+	background-image:url(./images/medtech_action.svg);
 	background-repeat:no-repeat;
 }
 
@@ -236,19 +242,9 @@
 	background-repeat:no-repeat;
 }
 
-.surface_button {
-	background-image:url(./images/view_lung_btn.svg);
-	background-repeat:no-repeat;
-}
-
 .start_again_button {
-	background-image:url(./images/start_again_btn.svg);
+	background-image:url(./images/medtech_home.svg);
 	background-repeat:no-repeat;
-}
-
-/* line 13, ../sass/screen.scss */
-body {
-  font-family: helvetica, arial, sans-serif;
 }
 
 /* line 17, ../sass/screen.scss */

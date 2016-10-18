@@ -16,7 +16,7 @@ var startAgainDiv = $('#startAgain');
 var startAgainDivTarget = { x: 564, y: 909, width: 120, height: 120 };
 
 var fundingLogosDiv = $('#fundingLogos');
-var fundingLogosDivTarget = { x: 35, y: 911, width: 191.6, height: 191.6 };
+var fundingLogosDivTarget = { x: 35, y: 951, width: 191.6, height: 123 };
 
 var surfaceButtonDiv = $('#surfaceButton');
 var surfaceButtonDivTarget = { x: 1652, y: 394, width: 173.864, height: 173.864 };
@@ -28,7 +28,7 @@ var actionButtonDiv = $('#actionButton');
 var actionButtonDivTarget = { x: 1549, y: 791.276, width: 243.489, height: 243.489 };
 
 var resetViewDiv = $('#reset_button');
-var resetViewDivTarget = { x: 1467.5, y: 74, width: 42, height: 42 };
+var resetViewDivTarget = { x: 1567.5, y: 25, width: 42, height: 42 };
 
 var ageInputDiv = $('#age_input');
 var ageInputDivTarget = { x: 1318, y: 802, width: 317, height: 212 };
@@ -60,7 +60,7 @@ function setViewButtonSizes(targetElement, scale) {
 	var i_tags = targetElement[0].getElementsByTagName('i');
 	var i;
 	for (i = 0; i < h1_tags.length; i++) {
-		h1_tags[i].style.fontSize = '' + 50 * scale + 'px';
+		h1_tags[i].style.fontSize = '' + 40 * scale + 'px';
 		i_tags[i].style.fontSize = '' + 25 * scale + 'px';
 		h1_tags[i].style.marginTop = '' + 25 * scale + 'px';
 	}
@@ -68,11 +68,9 @@ function setViewButtonSizes(targetElement, scale) {
 
 function setStartAgainButtonSizes(targetElement, scale) {
 	var h1_tags = targetElement[0].getElementsByTagName('h1');
-	var i_tags = targetElement[0].getElementsByTagName('i');
 	var i;
 	for (i = 0; i < h1_tags.length; i++) {
-		h1_tags[i].style.fontSize = '' + 45 * scale + 'px';
-		i_tags[i].style.fontSize = '' + 18 * scale + 'px';
+		h1_tags[i].style.fontSize = '' + 85 * scale + 'px';
 		h1_tags[i].style.marginTop = '' + 18 * scale + 'px';
 	}
 }
@@ -82,7 +80,7 @@ function setActionButtonSizes(targetElement, scale) {
 	var i_tags = targetElement[0].getElementsByTagName('i');
 	var i;
 	for (i = 0; i < h1_tags.length; i++) {
-		h1_tags[i].style.fontSize = '' + 86 * scale + 'px';
+		h1_tags[i].style.fontSize = '' + 55 * scale + 'px';
 		i_tags[i].style.fontSize = '' + 22 * scale + 'px';
 		h1_tags[i].style.marginTop = '' + 38 * scale + 'px';
 	}

@@ -12,11 +12,14 @@
 		<link rel="stylesheet" type="text/css" href="styles/common.css">
 		<link rel="stylesheet" type="text/css" href="styles/buttons.css">
 		<link rel="stylesheet" type="text/css" href="styles/overlay.css">
+		<link rel="stylesheet" type="text/css" href="styles/fonts.css">
 	</head>
 	<body class="expand vbox viewport" style="position: relative;">
 		<section id="main_section" class="expand">
-			<div id="medtechbackground" class="FullSize medtechbackground"></div>
-			<div id="loadingOverlay" class="loadingOverlay pageOverlay CentreText" style="opacity: 0;"></div>
+			<!--
+				<div id="medtechbackground" class="FullSize medtechbackground"></div>
+			-->
+			<div id="loadingOverlay" class="loadingOverlay pageOverlay CentreText" style="opacity: 0; color: black;"></div>
 			<div id="zinc_window" class="pointerCursor"></div>
 			<div id="navcontent">
 				<div id="navcontent_page_0" class="toggleByPageNumber page_0"></div>
@@ -25,7 +28,7 @@
 				<div id="navcontent_page_3" class="toggleByPageNumber page_3"></div>
 				<div id="navcontent_page_4" class="toggleByPageNumber page_4"></div>
 			</div>
-			<div id="fundingLogos" class="logos">
+			<div id="fundingLogos" class="logos" style="background-color: white;">
 				<a href="http://www.abi.auckland.ac.nz/en.html">
 					<img src="images/abi-hc-rgb.png" style="width:100%"/>
 				</a>
@@ -33,8 +36,8 @@
 					<img src="images/turanga_banner_0_transparent.png" style="width:100%;"/>
 				</a>
 			</div>
-			<div id="startAgain" class="start_again_button view_button button" onclick="startAgain();">
-				<h1>Home <i>(Start again)</i></h1>
+			<div id="startAgain" class="start_again_button HomeButton button" onclick="startAgain();">
+				<h1>p</h1>
 			</div>
 			<div id="reset_button" class="button" onclick="resetViewButtonClicked();">
 				<img src="styles/images/reset_button.png" style="width: 100%"/>
