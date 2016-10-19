@@ -31,7 +31,7 @@ var airwaysButtonDiv = $('#airwaysButton');
 var airwaysButtonDivTarget = { left: 1656, top: 584, width: 173.864, height: 173.864 };
 
 var actionButtonDiv = $('#actionButton');
-var actionButtonDivTarget = { left: 1516, top: 772, width: 243.489, height: 243.489 };
+var actionButtonDivTarget = { left: 1516, top: 772, width: 244, height: 244 };
 
 var resetViewDiv = $('#reset_button');
 var resetViewDivTarget = { left: 1850, top: 25, width: 42, height: 42 };
