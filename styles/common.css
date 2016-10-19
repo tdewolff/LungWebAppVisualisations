@@ -1,9 +1,8 @@
 body {
-	z-index: 3;
 	pointer-events: auto;
 	background-color: black;
 	color: white;
-    font-family: moon, titillium;
+	font-family: moon, titillium;
 }
 
 html, body, section {
@@ -28,20 +27,11 @@ nav, article, aside {
 /*	border-radius: 0.25em;*/
 }
 
-.pointerCursor {
+.PointerCursor {
 	cursor: pointer;
 }
 
-.medtechbackground {
-	background-image: url("images/medtech_background_v3.svg");
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
-	pointer-events: none;
-	width: 100%;
-	z-index: 2;
-}
-
-.FullSize {
+.AlmostFullSize {
 	width: 99%;
 	height: 99%;
 }
@@ -66,25 +56,10 @@ nav, article, aside {
 }
 
 #zinc_window {
-/*	border: 1px solid black;*/
-/*	background-color: #F00; */
-	position: absolute;
 	z-index: 1;
 }
 
-#medtechbackground, #navcontent, #startAgain, #fundingLogos, 
-#airwaysButton, #surfaceButton, #actionButton, 
-#reset_button, #age_input, #height_input, #gender_input,
-#fev_input, #loadingOverlay, #play_pause_button,
-#clickButton, #spinIcon {
-	position: absolute;
-}
-
-#navcontent h1 {
-	color: #973F55;
-}
-
-.expand {
+.Expand {
 	display: -webkit-flex;
 	display: -moz-flex;
 	display: -ms-flex;
@@ -92,7 +67,7 @@ nav, article, aside {
 }
 
 /* items flex/expand vertically */
-.vbox {
+.VBox {
 	-webkit-flex-direction: column;
 	-moz-flex-direction: column;
 	-ms-flex-direction: column;
@@ -100,7 +75,7 @@ nav, article, aside {
 }
 
 /* items flex/expand horizontally */
-.hbox {
+.HBox {
 	-webkit-flex-direction: row;
 	-moz-flex-direction: row;
 	-ms-flex-direction: row;
@@ -133,22 +108,17 @@ nav, article, aside {
 	flex-grow: 1;
 }
 */
-.fixend {
+.FixEnd {
 	align-self: flex-end;
 }
 
-.main {
-	-webkit-flex: 1;
-	-moz-flex: 1;
-	-ms-flex: 1;
-	flex: 1;
-}
 article {
 	-webkit-flex: 3;
 	-moz-flex: 3;
 	-ms-flex: 3;
 	flex: 3;
 }
+
 aside, nav {
 	-webkit-flex: 1;
 	-moz-flex: 1;
@@ -156,33 +126,10 @@ aside, nav {
 	flex: 1;
 }
 
-.flexgrow {
+.FlexGrow {
 	flex-grow: 1;
 }
 
-
-header {background: coral;}
-footer {background: lightgreen;}
-/* nav {background: pink;} */
-aside {background: moccasin;}
-/* section {background: green;} */
-/* article {background: purple;} */
-/* .buttons {background: teal;} */
-/* .view {background: orange;} */
-
-input {
-    text-align: center;
-    width: 40px;
-    margin: 4px;
-    color: salmon;
-}
-
-/*		
-@media all and (min-width: 600px) {
-	aside { flex: 1 1 auto; }
-	nav { flex: 1 1 auto; }
-}
-*/
 @media all and (max-width: 800px) {
 	section {
 		-webkit-flex-direction: column;

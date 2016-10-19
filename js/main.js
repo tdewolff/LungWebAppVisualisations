@@ -266,17 +266,16 @@ function requestFullScreen(element) {
 
 // var elem = document.body; // Make the body go full screen.
 
-$( "#navcontent_page_1" ).load("page_1.html");
-$( "#navcontent_page_2" ).load("page_2.html");
-$( "#navcontent_page_3" ).load("page_3.html");
-$( "#navcontent_page_4" ).load("page_4html");
-$( "#navcontent_page_5" ).load("page_5.html");
+// $( "#navcontent_page_1" ).load("page_1.html");
+// $( "#navcontent_page_2" ).load("page_2.html");
+// $( "#navcontent_page_3" ).load("page_3.html");
+// $( "#navcontent_page_4" ).load("page_4.html");
+// $( "#navcontent_page_5" ).load("page_5.html");
 
 require(["dojo/domReady!"], function(){
-	updateDiv();
-	setRepeatOnButtons();
 	initZinc();
 	startAgain();
-	requestFullScreen(document.body);
+	var body = document.body;
+	requestFullScreen(body);
 });
 
