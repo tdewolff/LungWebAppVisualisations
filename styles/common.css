@@ -22,10 +22,10 @@ p {
 
 header, footer, section,
 nav, article, aside {
-	border: 1px solid black;
+/*	border: 1px solid black;*/
 	padding: 0.0em;
 	margin: 0.0em;
-	border-radius: 0.25em;
+/*	border-radius: 0.25em;*/
 }
 
 .pointerCursor {
@@ -42,34 +42,31 @@ nav, article, aside {
 }
 
 .FullSize {
-	width: 100%;
-	height: 100%;
+	width: 99%;
+	height: 99%;
 }
 
+.Level3 {
+	z-index: 3;
+}
 .CentreText {
 	text-align: center;
 }
 
-.ValueDisplay {
-	position: relative;
-	top: 45%;
-	left: 30.5%;
-	width: 39%;
-	height: 23%;
-	text-align: center;
+.TextAlignRight {
+	text-align: right;
 }
 
-.ValueWideDisplay {
-	position: relative;
-	top: 45%;
-	left: 24.5%;
-	width: 50%;
-	height: 23%;
-	text-align: center;
+.InlineBlock {
+	display: inline-block;
+}
+
+.VerticalAlignMiddle {
+	vertical-align: middle;
 }
 
 #zinc_window {
-	border: 1px solid black;
+/*	border: 1px solid black;*/
 /*	background-color: #F00; */
 	position: absolute;
 	z-index: 1;
@@ -78,7 +75,8 @@ nav, article, aside {
 #medtechbackground, #navcontent, #startAgain, #fundingLogos, 
 #airwaysButton, #surfaceButton, #actionButton, 
 #reset_button, #age_input, #height_input, #gender_input,
-#fev_input, #loadingOverlay, #play_pause_button {
+#fev_input, #loadingOverlay, #play_pause_button,
+#clickButton, #spinIcon {
 	position: absolute;
 }
 

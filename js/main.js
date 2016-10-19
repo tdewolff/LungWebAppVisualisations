@@ -213,6 +213,8 @@ function setPage(pageIndex) {
 		var e = pages[i];
 		if (e.classList.contains("page_" + pageIndex)) {
 			e.style.display = "block";
+		} else if (pageIndex > 0 && e.classList.contains("page_natural")) {
+			e.style.display = "block";
 		} else {
 			e.style.display = "none";
 		}
@@ -248,16 +250,33 @@ function updateSlider(slideAmount) {
 	this.zincRenderer.setMorphsTime(slideAmount * 30);
 }
 
-$( "#navcontent_page_0" ).load("page_0.html");
+function requestFullScreen(element) {
+    // Supports most browsers and their versions.
+    var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+
+    if (requestMethod) { // Native full screen.
+        requestMethod.call(element);
+    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+        var wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+            wscript.SendKeys("{F11}");
+        }
+    }
+}
+
+// var elem = document.body; // Make the body go full screen.
+
 $( "#navcontent_page_1" ).load("page_1.html");
 $( "#navcontent_page_2" ).load("page_2.html");
 $( "#navcontent_page_3" ).load("page_3.html");
-$( "#navcontent_page_4" ).load("page_4.html");
+$( "#navcontent_page_4" ).load("page_4html");
+$( "#navcontent_page_5" ).load("page_5.html");
 
 require(["dojo/domReady!"], function(){
 	updateDiv();
 	setRepeatOnButtons();
 	initZinc();
 	startAgain();
+	requestFullScreen(document.body);
 });
 

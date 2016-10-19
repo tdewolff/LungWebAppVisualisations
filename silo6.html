@@ -19,87 +19,91 @@
 			<!--
 				<div id="medtechbackground" class="FullSize medtechbackground"></div>
 			-->
+			<div id="clickButton" class="button toggleByPageNumber page_0 GreyTitle Level3" onclick="setPage(1);">
+				<img src="styles/images/medtech_click.svg" style="height: 100%;">
+				<h1 class="InlineBlock">Click here <i>For more info</i></h1>
+			</div>
+			<div id="spinIcon" class="toggleByPageNumber page_0 GreyTitle Level3">
+				<img src="styles/images/medtech_spin.svg" style="height: 100%;">
+				<h1 class="InlineBlock">Spin & zoom <i>To take a closer look</i></h1>
+			</div>
 			<div id="loadingOverlay" class="loadingOverlay pageOverlay CentreText" style="opacity: 0; color: black;"></div>
-			<div id="zinc_window" class="pointerCursor"></div>
-			<div id="navcontent">
-				<div id="navcontent_page_0" class="toggleByPageNumber page_0"></div>
+			<div id="zinc_window" class="FullSize"></div>
+			<div id="navcontent" class=" Level3">
 				<div id="navcontent_page_1" class="toggleByPageNumber page_1"></div>
 				<div id="navcontent_page_2" class="toggleByPageNumber page_2"></div>
 				<div id="navcontent_page_3" class="toggleByPageNumber page_3"></div>
 				<div id="navcontent_page_4" class="toggleByPageNumber page_4"></div>
+				<div id="navcontent_page_5" class="toggleByPageNumber page_5"></div>
 			</div>
-			<div id="fundingLogos" class="logos" style="background-color: white;">
-				<a href="http://www.abi.auckland.ac.nz/en.html">
-					<img src="images/abi-hc-rgb.png" style="width:100%"/>
-				</a>
-				<a href="http://www.turanga.org.nz/">
-					<img src="images/turanga_banner_0_transparent.png" style="width:100%;"/>
-				</a>
+			<div id="fundingLogos" class="logos toggleByPageNumber page_natural  Level3" style="background-color: white;">
+					<img class="button" src="images/abi-hc-rgb.png" style="height:100%" onclick="window.open('http://www.abi.auckland.ac.nz/en.html')"/>
+					<img class="button" src="images/turanga_banner_0_transparent.png" style="height:100%;" onclick="window.open('http://www.turanga.org.nz/')"/>
 			</div>
-			<div id="startAgain" class="start_again_button HomeButton button" onclick="startAgain();">
-				<h1>p</h1>
+			<div id="startAgain" class="start_again_button HomeButton button toggleByPageNumber page_2 page_3 page_4  Level3" onclick="startAgain();">
+				<h1></h1>
 			</div>
-			<div id="reset_button" class="button" onclick="resetViewButtonClicked();">
+			<div id="reset_button" class="button  Level3" onclick="resetViewButtonClicked();">
 				<img src="styles/images/reset_button.png" style="width: 100%"/>
 			</div>
-			<div id="surfaceButton" class="surface_button view_button button" onclick="modelButtonClicked('Surface');">
+			<div id="surfaceButton" class="surface_button view_button button toggleByPageNumber page_natural  Level3" onclick="modelButtonClicked('Surface');">
 				<h1>View <i>Lung Surface</i></h1>
 			</div>
-			<div id="airwaysButton" class="airways_button view_button button" onclick="modelButtonClicked('Airways');">
+			<div id="airwaysButton" class="airways_button view_button button toggleByPageNumber page_natural  Level3" onclick="modelButtonClicked('Airways');">
 				<h1>View <i>Airways</i></h1>
 			</div>
-			<div id="actionButton" class="ActionButton button">
-				<div class="toggleByPageNumber page_0" onclick="setPage(1);">
-					<h1>Start <i> My interactive lung</i></h1>
-				</div>
+			<div id="actionButton" class="ActionButton button toggleByPageNumber page_natural  Level3">
 				<div class="toggleByPageNumber page_1" onclick="setPage(2);">
-					<h1>Next <i>My interactive lung</i></h1>
+					<h1>Start <i> My interactive lung</i></h1>
 				</div>
 				<div class="toggleByPageNumber page_2" onclick="setPage(3);">
 					<h1>Next <i>My interactive lung</i></h1>
 				</div>
 				<div class="toggleByPageNumber page_3" onclick="setPage(4);">
+					<h1>Next <i>My interactive lung</i></h1>
+				</div>
+				<div class="toggleByPageNumber page_4" onclick="setPage(5);">
 					<h1>What <i>Happens when I smoke?</i></h1>
 				</div>
-				<div class="toggleByPageNumber page_4" onclick="setPage(0);">
+				<div class="toggleByPageNumber page_5" onclick="setPage(0);">
 					<h1>Home <i>(Start again)</i></h1>
 				</div>
 			</div>
-			<div id="age_input" class="toggleByPageNumber page_1" style="color: #4A4A5B;">
-				<div style="display: inline-block; text-align: right;"><p>Enter<br />your age</p></div>
-				<div class="AdderButton">
-					<div class="PlusButton button" onclick="addClicked(this);"></div>
-					<div class="MinusButton button" onclick="subClicked(this);"></div>
+			<div id="age_input" class="toggleByPageNumber page_2  Level3" style="color: #4A4A5B; vertical-align: middle;">
+				<div class="VerticalAlignMiddle InlineBlock TextAlignRight"><p>Enter<br />your age</p></div>
+				<div class="DoubleArmLocation DoubleArmYellow VerticalAlignMiddle InlineBlock">
+					<div class="PlusYellow TopArm button" onclick="addClicked(this);"></div>
+					<div class="MinusYellow BottomArm button" onclick="subClicked(this);"></div>
 					<div class="ValueDisplay"></div>
 				</div>
 			</div>
-			<div id="height_input" class="toggleByPageNumber page_1" style="display: inline-block; color: #4A4A5B;">
-				<div class="AdderButton">
-					<div class="PlusButton button"></div>
-					<div class="MinusButton button"></div>
-					<div class="ValueDisplay"></div>
-				</div>
-				<div style="display: inline-block;"><p>Enter<br />your height</p></div>
-			</div>
-			<div id="gender_input" class="toggleByPageNumber page_1" style="display: inline-block; color: #4A4A5B; text-align: right;">
-				<div style="display: inline-block;"><p>Enter<br />your gender</p></div>
-				<div class="AdderButton">
-					<div class="MaleButton button" onclick="maleClicked(this);"></div>
-					<div class="FemaleButton button" onclick="femaleClicked(this);"></div>
+			<div id="height_input" class="toggleByPageNumber page_2  Level3" style="color: #4A4A5B;">
+				<div class="InlineBlock VerticalAlignMiddle TextAlignRight"><p>Enter<br />your height</p></div>
+				<div class="DoubleArmLocation DoubleArmGreen VerticalAlignMiddle InlineBlock">
+					<div class="PlusGreen TopArm button"></div>
+					<div class="MinusGreen BottomArm button"></div>
 					<div class="ValueDisplay"></div>
 				</div>
 			</div>
-			<div id="fev_input" class="toggleByPageNumber page_2" style="display: inline-block; color: #4A4A5B;">
-				<div style="display: inline-block; text-align: right;"><p>Enter<br />your FEV</p></div>
-				<div class="AdderWideButton">
-					<div class="PlusButton button" onclick="addClicked(this);"></div>
-					<div class="MinusButton button" onclick="subClicked(this);"></div>
+			<div id="gender_input" class="toggleByPageNumber page_2  Level3" style="display: inline-block; color: #4A4A5B; text-align: right;">
+				<div class="VerticalAlignMiddle InlineBlock TextAlignRight"><p>Set<br />your gender</p></div>
+				<div class="DoubleArmLocation DoubleArmBlue VerticalAlignMiddle InlineBlock">
+					<div class="MaleIcon BottomArm button" onclick="maleClicked(this);"></div>
+					<div class="FemaleIcon TopArm button" onclick="femaleClicked(this);"></div>
+					<div class="ValueDisplay"></div>
+				</div>
+			</div>
+			<div id="fev_input" class="toggleByPageNumber page_3  Level3" style="display: inline-block; color: #4A4A5B;">
+				<div class="VerticalAlignMiddle InlineBlock TextAlignRight"><p>Enter<br />your FEV</p></div>
+				<div class="AdderWideButton InlineBlock VerticalAlignMiddle">
+					<div class="PlusBlue TopArm button" onclick="addClicked(this);"></div>
+					<div class="MinusBlue BottomArm button" onclick="subClicked(this);"></div>
 					<div class="ValueWideDisplay"></div>
 				</div>
 			</div>
-			<div id="play_pause_button" class="toggleByPageNumber page_3" style="display: inline-block; color: #4A4A5B;">
-				<div style="display: inline-block; text-align: right;"><p>Simulated<br />lung age</p></div>
-				<div class="AdderButton">
+			<div id="play_pause_button" class="toggleByPageNumber page_4  Level3" style="display: inline-block; color: #4A4A5B;">
+				<div class="VerticalAlignMiddle InlineBlock TextAlignRight"><p>Simulated<br />lung age</p></div>
+				<div class="AdderButton InlineBlock VerticalAlignMiddle">
 					<div class="PlayButton button" onclick="playPauseClicked(this);"></div>
 					<div class="ResetPlayButton button" onclick="resetPlayClicked(this);"></div>
 					<div class="ValueDisplay"></div>

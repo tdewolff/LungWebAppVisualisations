@@ -4,53 +4,59 @@ var imageSize = { width: 1920, height: 1080 };
 var body = document.getElementsByTagName('body')[0];
 
 var zincWindow = $('#zinc_window');
-var zincWindowTarget = { x: 583, y: 25, width: 1010, height: 1010 };
+var zincWindowTarget = { left: 583, top: 25, width: 1010, height: 1010 };
 
 var loadingOverlay = $('#loadingOverlay');
-var loadingOverlayTarget = { x: 862, y: 484, width: 400, height: 140 };
+var loadingOverlayTarget = { left: 862, top: 484, width: 400, height: 140 };
+
+var clickButton = $('#clickButton');
+var clickButtonTarget = { left: 100, top: 890, width: 500, height: 150 };
+
+var spinIcon = $('#spinIcon');
+var spinIconTarget = { left: 1400, top: 890, width: 500, height: 150 };
 
 var navDiv = $('#navcontent');
-var navDivTarget = { x: 34, y: 5, width: 553, height: 440 };
+var navDivTarget = { left: 34, top: 5, width: 553, height: 440 };
 
 var startAgainDiv = $('#startAgain');
-var startAgainDivTarget = { x: 564, y: 909, width: 120, height: 120 };
+var startAgainDivTarget = { left: 1768, top: 944, width: 120, height: 120 };
 
 var fundingLogosDiv = $('#fundingLogos');
-var fundingLogosDivTarget = { x: 35, y: 951, width: 191.6, height: 123 };
+var fundingLogosDivTarget = { left: 36, top: 1000, width: 590, height: 70 };
 
 var surfaceButtonDiv = $('#surfaceButton');
-var surfaceButtonDivTarget = { x: 1652, y: 394, width: 173.864, height: 173.864 };
+var surfaceButtonDivTarget = { left: 1708, top: 378, width: 173.864, height: 173.864 };
 
 var airwaysButtonDiv = $('#airwaysButton');
-var airwaysButtonDivTarget = { x: 1632, y: 593, width: 173.864, height: 173.864 };
+var airwaysButtonDivTarget = { left: 1656, top: 584, width: 173.864, height: 173.864 };
 
 var actionButtonDiv = $('#actionButton');
-var actionButtonDivTarget = { x: 1549, y: 791.276, width: 243.489, height: 243.489 };
+var actionButtonDivTarget = { left: 1516, top: 772, width: 243.489, height: 243.489 };
 
 var resetViewDiv = $('#reset_button');
-var resetViewDivTarget = { x: 1567.5, y: 25, width: 42, height: 42 };
+var resetViewDivTarget = { left: 1850, top: 25, width: 42, height: 42 };
 
 var ageInputDiv = $('#age_input');
-var ageInputDivTarget = { x: 1318, y: 802, width: 317, height: 212 };
+var ageInputDivTarget = { left: 198, top: 200, width: 317, height: 212 };
 
 var heightInputDiv = $('#height_input');
-var heightInputDivTarget = { x: 1500, y: 602, width: 317, height: 212 };
+var heightInputDivTarget = { left: 100, top: 384, width: 317, height: 212 };
 
 var genderInputDiv = $('#gender_input');
-var genderInputDivTarget = { x: 1543, y: 438, width: 317, height: 212 };
+var genderInputDivTarget = { left: -42, top: 576, width: 317, height: 212 };
 
 var fevInputDiv = $('#fev_input');
-var fevInputDivTarget = { x: 1318, y: 802, width: 317, height: 212 };
+var fevInputDivTarget = { left: 1318, top: 802, width: 317, height: 212 };
 
 var playPauseButtonDiv = $('#play_pause_button');
-var playPauseButtonDivTarget = { x: 1318, y: 802, width: 317, height: 212 };
+var playPauseButtonDivTarget = { left: 1318, top: 802, width: 317, height: 212 };
 
 // $(document).ready(updateDiv);
 $(window).resize(updateDiv);
 
 function setElementLocation(targetElement, targetValues, scale, xOffset, yOffset) {
-	targetElement.css('top', (targetValues.y) * scale + yOffset);
-	targetElement.css('left', (targetValues.x) * scale + xOffset);
+	targetElement.css('top', (targetValues.top) * scale + yOffset);
+	targetElement.css('left', (targetValues.left) * scale + xOffset);
 	targetElement.css('width', (targetValues.width) * scale);
 	targetElement.css('height', (targetValues.height) * scale);
 }
@@ -88,8 +94,8 @@ function setActionButtonSizes(targetElement, scale) {
 
 function updateDiv() {
 	// Where is this margin coming from?
-	var windowWidth = $('#main_section').width() + 10;
-	var windowHeight = $('#main_section').height() + 10;
+	var windowWidth = $('#main_section').width();
+	var windowHeight = $('#main_section').height();
 
 	// Get largest dimension increase
 	var xScale = (windowWidth) / imageSize.width;
@@ -108,8 +114,10 @@ function updateDiv() {
 
 	body.style.fontSize = '' + 25 * scale + 'px';
 
-	setElementLocation(zincWindow, zincWindowTarget, scale, xOffset, yOffset);
+	// setElementLocation(zincWindow, zincWindowTarget, scale, xOffset, yOffset);
 	setElementLocation(loadingOverlay, loadingOverlayTarget, scale, xOffset, yOffset);
+	setElementLocation(clickButton, clickButtonTarget, scale, xOffset, yOffset);
+	setElementLocation(spinIcon, spinIconTarget, scale, xOffset, yOffset);
 	setElementLocation(navDiv, navDivTarget, scale, xOffset, yOffset);
 	setElementLocation(startAgainDiv, startAgainDivTarget, scale, xOffset, yOffset);
 	setElementLocation(fundingLogosDiv, fundingLogosDivTarget, scale, xOffset, yOffset);
