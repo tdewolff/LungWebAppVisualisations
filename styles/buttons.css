@@ -17,14 +17,20 @@
 	font-family: titillium;
 }
 
+.QuestionIcon {
+	background-image: url("images/lung_question.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
 .SpinIcon {
-	background-image: url("images/lung_spin.svg");
+	background-image: url("images/medtech_spin.svg");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 }
 
 .ClickButton {
-	background-image: url("images/lung_click.svg");
+	background-image: url("images/medtech_click.svg");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 }

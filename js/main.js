@@ -61,23 +61,23 @@ function isSceneInitialised(scene_name) {
 var updateModelDownloadProgress = function(model_name, scene, model_ready) {
 	var error = false;
 	if (scene) {
-		var element = document.getElementById("loadingOverlay");
+		var message = "";
+		var element = document.getElementById("loadingMessage");
 		if (model_ready) {
-			element.innerHTML =  "<p>Loading " + model_name + " ... Completed.</p>"
+			message = "<p>Loading " + model_name + " ... Completed.</p>";
 		} else {
 			var progress = scene.getDownloadProgress();
 			if (progress[2] == false) {
 				var totalString = "";
 				if (progress.totalSize > 0)
 					totalString = parseInt(progress[0]/1024).toString() + " KB";
-				if (element)
-					element.innerHTML =  "<p>Loading " + model_name + " ... (" + parseInt(progress[1]/1024).toString() + " KB" + (totalString ? "/" + totalString : "") + ").</p>";
+				message = "<p>Loading " + model_name + " ... (" + parseInt(progress[1]/1024).toString() + " KB" + (totalString ? "/" + totalString : "") + ").</p>";
 			} else {
 				error = true;
-				if (element)
-					element.innerHTML =  "<p>Loading " + model_name + " ... Failed to load models. Please try again later.</p>";
+				message = "<p>Loading " + model_name + " ... Failed to load models. Please try again later.</p>";
 			}
 		}
+		loadingPage.setLoadingText(message);
 	}
 	if (model_ready) {
 		setTimeout(endLoading, 1000);
@@ -186,22 +186,27 @@ function resetSubjectDetails() {
 	subjectDetails = new person(11, 152, "Male");
 }
 
+function setValueDisplay(element, value) {
+	var value_display = undefined;
+	if (element) {
+		value_display = element.getElementsByClassName('ValueDisplay')[0];
+		if (!value_display) {
+			value_display = element.getElementsByClassName('ValueWideDisplay')[0];
+		}
+		value_display.innerHTML = value;
+	}
+}
+
 function setInputsToSubjectDetailsValues() {
 	var age_input = document.getElementById("age_input");
 	var height_input = document.getElementById("height_input");
 	var gender_input = document.getElementById("gender_input");
 	var fev_input = document.getElementById("fev_input");
-		
-	var value_display = age_input.getElementsByClassName('ValueDisplay')[0];
 
-	value_display.innerHTML = subjectDetails.age;
-	value_display = height_input.getElementsByClassName('ValueDisplay')[0];
-	value_display.innerHTML = subjectDetails.height;
-	value_display = gender_input.getElementsByClassName('ValueDisplay')[0];
-	value_display.innerHTML = (subjectDetails.gender == "Male") ? 'M' : 'F';
-	value_display = fev_input.getElementsByClassName('ValueWideDisplay')[0];
-	value_display.innerHTML = subjectDetails.FEV;
-	
+	setValueDisplay(age_input, subjectDetails.age);
+	setValueDisplay(height_input, subjectDetails.height);
+	setValueDisplay(gender_input, subjectDetails.gender);
+	setValueDisplay(fev_input, subjectDetails.FEV);	
 	console.log('Set rendered age');
 	setRenderedAge(lung_age_display, subjectDetails.age);
 }
@@ -237,7 +242,7 @@ function setSubjectDetailsValue(identifier, value) {
 
 function startAgain() {
 	resetSubjectDetails();
-	setPage(0);
+	setPage(1);
 	setInputsToSubjectDetailsValues();
 	modelButtonClicked("Surface");
 }
@@ -266,13 +271,13 @@ function requestFullScreen(element) {
 
 // var elem = document.body; // Make the body go full screen.
 
-// $( "#navcontent_page_1" ).load("page_1.html");
 // $( "#navcontent_page_2" ).load("page_2.html");
 // $( "#navcontent_page_3" ).load("page_3.html");
 // $( "#navcontent_page_4" ).load("page_4.html");
 // $( "#navcontent_page_5" ).load("page_5.html");
 
 require(["dojo/domReady!"], function(){
+	$("#left_page_1").load("pages/left_page_1.html");
 	initZinc();
 	startAgain();
 	var body = document.body;

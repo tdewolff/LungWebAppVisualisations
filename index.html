@@ -14,9 +14,27 @@
 		<link rel="stylesheet" type="text/css" href="styles/overlay.css">
 		<link rel="stylesheet" type="text/css" href="styles/fonts.css">
 	</head>
-	<body class="expand vbox viewport" style="position: relative;">
-		<section id="main_section" class="expand">
-		</section>
+	<body style="position: relative;">
+		<div id="loadingOverlay" class="loadingOverlay pageOverlay Expand JustifyContentCenter" style="opacity: 0;">
+			<div id="loadingMessage" class="AlignSelfCenter"></div>
+		</div>
+		<div id="zinc_window" class="FullSize Level1 PositionAbsolute">
+		</div>
+		<div class="Expand HBox">
+			<section id="left_section" class="Width30 Level3">
+				<div id="left_page_1" class="toggleByPageNumber page_1"></div>
+				<div id="left_page_2" class="toggleByPageNumber page_2"></div>
+				<div id="left_page_3" class="toggleByPageNumber page_3"></div>
+				<div id="left_page_4" class="toggleByPageNumber page_4"></div>
+				<div id="left_page_5" class="toggleByPageNumber page_5"></div>
+				<footer class="PositionAbsolute FixBottom">Logos
+				</footer>
+			</section>
+			<section id="main_section" class="Width40 Level3">
+			</section>
+			<section id="right_section" class="Width30 Level3">
+			</section>
+		</div>
 		<script src="js/three.min.js"></script>
 		<script src="js/zinc_threejs_control.js"></script>
 		<script src="js/zinc_3js_renderer.js"></script>

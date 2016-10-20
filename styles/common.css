@@ -5,26 +5,69 @@ body {
 	font-family: moon, titillium;
 }
 
-html, body, section {
+html, body {
 /*	width: 100%; */
 	height: 100%;
 	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
 }
 
 h1 {
-    font-family: moon;
+	font-family: moon;
+	font-size: 8vmin;
+	color: #00FBE8;
+}
+
+h2 {
+	font-size: 5vmin;
+	color: #00FBE8;
 }
 
 p {
-    font-family: titillium;
+	font-family: titillium;
+	font-size: 3vmin;
 }
 
+/* Temporary colouring */
+/*footer {
+	background-color: red;
+}
+
+aside {
+	background-color: blue;
+}
+
+nav {
+	background-color: green;
+}
+
+section {
+	background-color: yellow;
+}
+*/
 header, footer, section,
 nav, article, aside {
 /*	border: 1px solid black;*/
 	padding: 0.0em;
 	margin: 0.0em;
 /*	border-radius: 0.25em;*/
+}
+
+.Width30 {
+	width: 30%;
+}
+
+.Width40 {
+	width: 40%;
+}
+
+.FixBottom {
+	bottom: 0px;
+}
+
+.PositionAbsolute {
+	position: absolute;
 }
 
 .PointerCursor {
@@ -36,15 +79,29 @@ nav, article, aside {
 	height: 99%;
 }
 
+.FullSize {
+	width: 100%;
+	height: 100%;
+}
+
 .Level3 {
 	z-index: 3;
 }
+
+.Level1 {
+	z-index: 1;
+}
+
 .CentreText {
 	text-align: center;
 }
 
 .TextAlignRight {
 	text-align: right;
+}
+
+.JustifyContentCenter {
+	justify-content: center;
 }
 
 .InlineBlock {
@@ -55,8 +112,8 @@ nav, article, aside {
 	vertical-align: middle;
 }
 
-#zinc_window {
-	z-index: 1;
+.AlignSelfCenter {
+	align-self: center;
 }
 
 .Expand {
@@ -82,44 +139,18 @@ nav, article, aside {
 	flex-direction: row;
 }
 
-/*
-.flex-container {
-	display: -webkit-flex;
-	display: flex;
-	-webkit-flex-flow: row wrap;
-	flex-flow: row wrap;
-	font-weight: bold;
-	text-align: center;
-}
-
-.flex-container > * {
-	padding: 10px;
-	flex: 1 100%;
-}
-*/
-/*
-.main {
-	text-align: left;
-	background: cornflowerblue;
-}
-*/
-/*
-.aside-content {
-	flex-grow: 1;
-}
-*/
 .FixEnd {
 	align-self: flex-end;
 }
 
-article {
+.Flex3 {
 	-webkit-flex: 3;
 	-moz-flex: 3;
 	-ms-flex: 3;
 	flex: 3;
 }
 
-aside, nav {
+.Flex1 {
 	-webkit-flex: 1;
 	-moz-flex: 1;
 	-ms-flex: 1;
