@@ -242,7 +242,7 @@ function setSubjectDetailsValue(identifier, value) {
 
 function startAgain() {
 	resetSubjectDetails();
-	setPage(1);
+	setPage(2);
 	setInputsToSubjectDetailsValues();
 	modelButtonClicked("Surface");
 }
@@ -284,6 +284,10 @@ require(["dojo/domReady!"], function(){
 	$("#left_page_7").load("pages/left_page_7.html");
 	$("#left_page_8").load("pages/left_page_8.html");
 	$("#right_page_1").load("pages/right_page_1.html");
+	$("#right_page_2").load("pages/right_page_2.html");
+	$("#right_page_3").load("pages/right_page_3.html");
+	$("#right_page_6").load("pages/right_page_6.html");
+	$("#right_page_8").load("pages/right_page_8.html");
 	initZinc();
 	startAgain();
 	var body = document.body;
