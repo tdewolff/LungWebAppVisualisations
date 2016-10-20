@@ -20,20 +20,31 @@
 		</div>
 		<div id="zinc_window" class="FullSize Level1 PositionAbsolute">
 		</div>
-		<div class="Expand HBox">
-			<section id="left_section" class="Width30 Level3">
+		<div class="Expand HBox IgnoreMouse">
+			<section id="left_section" class="Expand VBox WidthLeftColumn Level3">
 				<div id="left_page_1" class="toggleByPageNumber page_1"></div>
 				<div id="left_page_2" class="toggleByPageNumber page_2"></div>
 				<div id="left_page_3" class="toggleByPageNumber page_3"></div>
 				<div id="left_page_4" class="toggleByPageNumber page_4"></div>
 				<div id="left_page_5" class="toggleByPageNumber page_5"></div>
-				<footer class="PositionAbsolute FixBottom">Logos
-				</footer>
+				<div id="left_page_6" class="toggleByPageNumber page_6"></div>
+				<div id="left_page_7" class="toggleByPageNumber page_7"></div>
+				<div id="left_page_8" class="toggleByPageNumber page_8"></div>
 			</section>
-			<section id="main_section" class="Width40 Level3">
+			<section id="main_section" class="WidthCentreColumn Level3 IgnoreMouse">
 			</section>
-			<section id="right_section" class="Width30 Level3">
+			<section id="right_section" class="WidthRightColumn Level3">
+				<div id="right_page_1" class="toggleByPageNumber page_1"></div>
 			</section>
+			<div class="PositionAbsolute WidthLeftColumn FixBottom WhiteBackground Level3">
+				<img src="images/turanga_banner_0_transparent.png" onclick="window.open('http://www.turanga.org.nz/')" class="Link Width50"><!--
+				--><img src="images/MedTech CoRE Logo.png" onclick="window.open('http://www.abi.auckland.ac.nz/en.html')" class="Link Width50">
+			</div>
+		<div class="Expand HBox WidthLungCondition Level3 FixBottom FixRight JustifySpaceBetween PositionAbsolute">
+			<div class="BreathingIcon Button VMin16" onclick="setPage(1);"></div>
+			<div class="AsthmaIcon Button VMin16" onclick="setPage(3);"></div>
+			<div class="SmokingIcon Button VMin16" onclick="setPage(7);"></div>
+		</div>
 		</div>
 		<script src="js/three.min.js"></script>
 		<script src="js/zinc_threejs_control.js"></script>

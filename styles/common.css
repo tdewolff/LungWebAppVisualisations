@@ -17,11 +17,14 @@ h1 {
 	font-family: moon;
 	font-size: 8vmin;
 	color: #00FBE8;
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
 h2 {
-	font-size: 5vmin;
+	font-size: 4vmin;
 	color: #00FBE8;
+	margin-top: 0;
 }
 
 p {
@@ -29,23 +32,6 @@ p {
 	font-size: 3vmin;
 }
 
-/* Temporary colouring */
-/*footer {
-	background-color: red;
-}
-
-aside {
-	background-color: blue;
-}
-
-nav {
-	background-color: green;
-}
-
-section {
-	background-color: yellow;
-}
-*/
 header, footer, section,
 nav, article, aside {
 /*	border: 1px solid black;*/
@@ -54,16 +40,54 @@ nav, article, aside {
 /*	border-radius: 0.25em;*/
 }
 
-.Width30 {
+.IgnoreMouse {
+	pointer-events: none;
+}
+
+.Link {
+	pointer-events: all;
+}
+
+.WidthLungCondition {
+	width: 32%;
+}
+
+.WidthLeftColumn {
 	width: 30%;
 }
 
-.Width40 {
+.WidthRightColumn {
+	width: 30%;
+}
+
+.WidthCentreColumn {
 	width: 40%;
+}
+
+.Width50 {
+	width: 50%;
+}
+
+.VMin13 {
+	width: 13vmin;
+	height: 13vmin;
+}
+
+.VMin16 {
+	width: 16vmin;
+	height: 16vmin;
+}
+
+.WhiteBackground {
+	background-color: white;
 }
 
 .FixBottom {
 	bottom: 0px;
+}
+
+.FixRight {
+	right: 0px;
 }
 
 .PositionAbsolute {
@@ -102,6 +126,10 @@ nav, article, aside {
 
 .JustifyContentCenter {
 	justify-content: center;
+}
+
+.JustifySpaceBetween {
+	justify-content: space-between;
 }
 
 .InlineBlock {

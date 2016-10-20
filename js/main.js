@@ -212,14 +212,14 @@ function setInputsToSubjectDetailsValues() {
 }
 
 function setPage(pageIndex) {
-	var pages = document.getElementsByClassName("toggleByPageNumber");
-	var pages_length = pages.length;
-	for (var i = 0; i < pages_length; i++) {
-		var e = pages[i];
+	var elements = document.getElementsByClassName("toggleByPageNumber");
+	var elements_length = elements.length;
+	for (var i = 0; i < elements_length; i++) {
+		var e = elements[i];
 		if (e.classList.contains("page_" + pageIndex)) {
-			e.style.display = "block";
+			e.style.display = "";
 		} else if (pageIndex > 0 && e.classList.contains("page_natural")) {
-			e.style.display = "block";
+			e.style.display = "";
 		} else {
 			e.style.display = "none";
 		}
@@ -278,6 +278,12 @@ function requestFullScreen(element) {
 
 require(["dojo/domReady!"], function(){
 	$("#left_page_1").load("pages/left_page_1.html");
+	$("#left_page_2").load("pages/left_page_2.html");
+	$("#left_page_3").load("pages/left_page_3.html");
+	$("#left_page_6").load("pages/left_page_6.html");
+	$("#left_page_7").load("pages/left_page_7.html");
+	$("#left_page_8").load("pages/left_page_8.html");
+	$("#right_page_1").load("pages/right_page_1.html");
 	initZinc();
 	startAgain();
 	var body = document.body;

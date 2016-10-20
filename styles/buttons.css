@@ -1,6 +1,7 @@
 
 .Button {
 	cursor: pointer;
+	pointer-events: all;
 /*	z-index: 3;*/
 }
 
@@ -15,6 +16,24 @@
 	font-style: normal;
 	font-weight: normal;
 	font-family: titillium;
+}
+
+.AsthmaIcon {
+	background-image: url("images/lung_asthma.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.BreathingIcon {
+	background-image: url("images/lung_breathing.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.SmokingIcon {
+	background-image: url("images/lung_smoking.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
 }
 
 .QuestionIcon {

@@ -99,3 +99,6 @@ function femaleClicked(owner) {
 	gender_display.innerHTML = 'F';
 }
 
+function questionClicked(sender) {
+	console.log(sender);
+}
