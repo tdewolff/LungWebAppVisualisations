@@ -57,8 +57,10 @@ function resetPlayClicked(sender) {
 }
 
 function setRenderedAge(owner, value) {
-	var number_display = owner.getElementsByClassName('ValueDisplay')[0];
-	number_display.innerHTML = value;
+	if (owner) {
+		var number_display = owner.getElementsByClassName('ValueDisplay')[0];
+		number_display.innerHTML = value;
+	}
 }
 
 function addClicked(owner) {
@@ -97,3 +99,6 @@ function femaleClicked(owner) {
 	gender_display.innerHTML = 'F';
 }
 
+function questionClicked(sender) {
+	console.log(sender);
+}
