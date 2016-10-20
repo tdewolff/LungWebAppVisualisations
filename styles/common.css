@@ -27,7 +27,7 @@ h2 {
 	margin-top: 0;
 }
 
-p,ul {
+p, ul, span {
 	font-family: titillium;
 	font-size: 2.7vmin;
 }
@@ -64,6 +64,10 @@ nav, article, aside {
 	width: 40%;
 }
 
+.WidthLogos {
+	width: 20%;
+}
+
 .Width50 {
 	width: 50%;
 }
@@ -80,6 +84,20 @@ nav, article, aside {
 
 .WhiteBackground {
 	background-color: white;
+}
+
+.NearBottom {
+	bottom: 3%;
+}
+
+.FlexAlignCenter {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.TextAlignCenter {
+	text-align: center;
 }
 
 .FixBottom {

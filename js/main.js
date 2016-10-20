@@ -242,7 +242,7 @@ function setSubjectDetailsValue(identifier, value) {
 
 function startAgain() {
 	resetSubjectDetails();
-	setPage(2);
+	setPage(8);
 	setInputsToSubjectDetailsValues();
 	modelButtonClicked("Surface");
 }

@@ -40,7 +40,29 @@
 				<div id="right_page_6" class="toggleByPageNumber page_6"></div>
 				<div id="right_page_8" class="toggleByPageNumber page_8"></div>
 			</section>
-			<div class="PositionAbsolute WidthLeftColumn FixBottom WhiteBackground Level3">
+			<div id="asthma_condition" class="Expand HBox JustifySpaceBetween PositionAbsolute ConditionButtonsPosition Level3 toggleByPageNumber page_3" >
+				<div class="GreenIcon Button VMin13 FlexAlignCenter" onclick="asthmaConditionClicked(this);">
+					<span>Mild</span>
+				</div>
+				<div class="InactiveIcon YellowIcon Button VMin13 FlexAlignCenter" onclick="asthmaConditionClicked(this);">
+					<span>Moderate</span>
+				</div>
+				<div class="InactiveIcon PinkIcon Button VMin13 FlexAlignCenter" onclick="asthmaConditionClicked(this);">
+					<span>Severe</span>
+				</div>
+			</div>
+			<div id="smoking_packs" class="Expand HBox JustifySpaceBetween PositionAbsolute ConditionButtonsPosition Level3 toggleByPageNumber page_8" >
+				<div class="GreenIcon Button VMin13 FlexAlignCenter TextAlignCenter" onclick="smokingPacksClicked(this);">
+					<span>0<br />packs</span>
+				</div>
+				<div class="InactiveIcon YellowIcon Button VMin13 FlexAlignCenter TextAlignCenter" onclick="smokingPacksClicked(this);">
+					<span>½<br />pack</span>
+				</div>
+				<div class="InactiveIcon PinkIcon Button VMin13 FlexAlignCenter TextAlignCenter" onclick="smokingPacksClicked(this);">
+					<span>1<br />pack</span>
+				</div>
+			</div>
+			<div class="PositionAbsolute WidthLogos FixBottom WhiteBackground Level3">
 				<img src="images/turanga_banner_0_transparent.png" onclick="window.open('http://www.turanga.org.nz/')" class="Link Width50"><!--
 				--><img src="images/MedTech CoRE Logo.png" onclick="window.open('http://www.abi.auckland.ac.nz/en.html')" class="Link Width50">
 			</div>

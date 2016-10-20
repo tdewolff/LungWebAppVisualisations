@@ -1,8 +1,13 @@
 
 .Button {
 	cursor: pointer;
-	pointer-events: all;
-/*	z-index: 3;*/
+	pointer-events: auto;
+}
+
+.ConditionButtonsPosition {
+	bottom: 12%;
+	width: 24%;
+	left: 40%;
 }
 
 .GreyTitle h1 {
@@ -16,6 +21,30 @@
 	font-style: normal;
 	font-weight: normal;
 	font-family: titillium;
+}
+
+.PinkIcon {
+	background-image: url("images/lung_pink.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.YellowIcon {
+	background-image: url("images/lung_yellow.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.GreenIcon {
+	background-image: url("images/lung_green.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.InactiveIcon {
+	background-image: url("images/lung_inactive.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
 }
 
 .AsthmaIcon {
