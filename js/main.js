@@ -271,9 +271,9 @@ $("#right_page_3").load("pages/right_page_3.html");
 $("#right_page_6").load("pages/right_page_6.html");
 $("#right_page_8").load("pages/right_page_8.html");
 
-require(["js/fev1_controller", "dojo/domReady!"], function(FEV1Controller){
+require(["js/controller/fev1", "dojo/domReady!"], function(FEV1){
 	
-	fev1_plot = new FEV1Controller();
+	fev1_plot = new FEV1();
 	initZinc();
 	startAgain();
 	initPlots();
