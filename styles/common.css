@@ -15,21 +15,21 @@ html, body {
 
 h1 {
 	font-family: moon;
-	font-size: 8vmin;
+	font-size: 7vmin;
 	color: #00FBE8;
 	margin-top: 0;
 	margin-bottom: 0;
 }
 
 h2 {
-	font-size: 4vmin;
+	font-size: 3.5vmin;
 	color: #00FBE8;
 	margin-top: 0;
 }
 
-p {
+p, ul, span {
 	font-family: titillium;
-	font-size: 3vmin;
+	font-size: 2.7vmin;
 }
 
 header, footer, section,
@@ -48,6 +48,10 @@ nav, article, aside {
 	pointer-events: all;
 }
 
+.HeightBreathingPlot {
+	height: 20%;
+}
+
 .WidthLungCondition {
 	width: 32%;
 }
@@ -62,6 +66,10 @@ nav, article, aside {
 
 .WidthCentreColumn {
 	width: 40%;
+}
+
+.WidthLogos {
+	width: 20%;
 }
 
 .Width50 {
@@ -80,6 +88,20 @@ nav, article, aside {
 
 .WhiteBackground {
 	background-color: white;
+}
+
+.NearBottom {
+	bottom: 3%;
+}
+
+.FlexAlignCenter {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.TextAlignCenter {
+	text-align: center;
 }
 
 .FixBottom {

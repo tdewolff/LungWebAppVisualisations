@@ -1,10 +1,52 @@
 var zincRenderer = undefined;
 var subjectDetails = undefined; /* new person(11, 152, "Male"); */
+var dataController = undefined;
 
 var container = document.getElementById( "zinc_window" );
 var myLoadingPage = document.getElementById("loadingOverlay");
 var lung_age_display = document.getElementById("play_pause_button");
 var rendered_age = 0;
+
+var fev1_plot = undefined;
+var breathing_plot = undefined;
+var breathing_blood_air_plot = undefined;
+var asthma_flow_plot = undefined;
+var asthma_volume_plot = undefined;
+
+var plot_data = new dataSet();
+
+function person(age, height, gender) {
+	this.age = age;
+	this.height = height // cm
+	this.gender = gender;
+	this.asthmaSeverity = "none";
+	this.ageStartedSmoking = 25;
+	this.packsPerDay = 0.0;
+	this.FEV = 3.1;
+};
+
+function dataSet() {
+	this.test = undefined;
+	this.breathing = undefined;
+	this.breathing_blood = undefined;
+	this.breathing_air = undefined;
+	this.asthma_volume_normal = undefined;
+	this.asthma_volume_mild = undefined;
+	this.asthma_volume_moderate = undefined;
+	this.asthma_volume_severe = undefined;
+	this.asthma_flow_normal = undefined;
+	this.asthma_flow_mild = undefined;
+	this.asthma_flow_moderate = undefined;
+	this.asthma_flow_severe = undefined;
+}
+
+/* According to studies, asthma severity affects percentage FEV1 */
+var asthmaLevel = {
+	"none" : 1.0,
+	"Mild" : 0.8,
+	"Moderate" : 0.7,
+	"Severe": 0.6	
+};
 
 var surfaceStatus = {
 	"scene": undefined,
@@ -14,6 +56,7 @@ var surfaceStatus = {
 		"total": 0,
 	},
 };
+
 var airwaysStatus = {
 	"scene": undefined,
 	"initialised": false,
@@ -21,7 +64,7 @@ var airwaysStatus = {
 		"progress": 0,
 		"total": 0,
 	},
-}
+};
 
 var cellUniforms = THREE.UniformsUtils.merge( [
 	{
@@ -54,16 +97,5 @@ var flowUniforms = THREE.UniformsUtils.merge( [
 	"starting_time": { type: "f", value: 0.0 },
 	"severity": { type: "f", value: 1.0 }
 } ] );
-
-var dojoConfig = {
-	async: true,
-	// This code registers the correct location of the "demo" package
-	// so we can load Dojo from the CDN whilst still being able to
-	// load local modules
-	packages: [{
-		name: "js",
-		location: location.pathname.replace(/\/[^/]+$/, '')  + '/js'
-	}]
-};
 
 

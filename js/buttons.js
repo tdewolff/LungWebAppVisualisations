@@ -99,6 +99,33 @@ function femaleClicked(owner) {
 	gender_display.innerHTML = 'F';
 }
 
-function questionClicked(sender) {
-	console.log(sender);
+function activateCondition(sender) {
+	var parent_node = sender.parentNode;
+	var children_count = parent_node.children.length;
+	var i;
+	for (i = 0; i < children_count; i++) {
+		if (!parent_node.children[i].classList.contains('InactiveIcon')) {
+			parent_node.children[i].classList.add('InactiveIcon');
+		}
+	}
+	if (sender.classList.contains('InactiveIcon')) {
+		sender.classList.remove('InactiveIcon');
+	}
 }
+
+function asthmaConditionClicked(sender) {
+	activateCondition(sender);
+}
+
+function smokingPacksClicked(sender) {
+	activateCondition(sender);
+	if (sender.classList.contains('GreenIcon')) {
+		subjectDetails.packsPerDay = 0.0;
+	} else if (sender.classList.contains('YellowIcon')) {
+		subjectDetails.packsPerDay = 0.5;
+	} else if (sender.classList.contains('PinkIcon')) {
+		subjectDetails.packsPerDay = 1.0;
+	}
+	updateFEVPlot();
+}
+

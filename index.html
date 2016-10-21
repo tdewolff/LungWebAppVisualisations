@@ -4,7 +4,7 @@
 		<title>MedTech CORE - Lung Simulation</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<meta property="og:url"			  content="http://sites.bioeng.auckland.ac.nz/silo6_lung/" />
+		<meta property="og:url"			  content="http://sites.bioeng.auckland.ac.nz/medtech/lung/" />
 		<meta property="og:type"		  content="website" />
 		<meta property="og:title"		  content="Personalised Lung Estimation and Visualisation." />
 		<meta property="og:description"	  content="Using parameters from an individual estimate the state of the lung and provide a 3D visualisation representative of the individual." />
@@ -13,6 +13,18 @@
 		<link rel="stylesheet" type="text/css" href="styles/buttons.css">
 		<link rel="stylesheet" type="text/css" href="styles/overlay.css">
 		<link rel="stylesheet" type="text/css" href="styles/fonts.css">
+		<script>
+			var dojoConfig = {
+				async: true,
+				// This code registers the correct location of the "demo" package
+				// so we can load Dojo from the CDN whilst still being able to
+				// load local modules
+				packages: [{
+					name: "js",
+					location: location.pathname.replace(/\/[^/]+$/, '')  + '/js'
+				}]
+			};
+		</script>
 	</head>
 	<body style="position: relative;">
 		<div id="loadingOverlay" class="loadingOverlay pageOverlay Expand JustifyContentCenter" style="opacity: 0;">
@@ -35,8 +47,34 @@
 			</section>
 			<section id="right_section" class="WidthRightColumn Level3">
 				<div id="right_page_1" class="toggleByPageNumber page_1"></div>
+				<div id="right_page_2" class="toggleByPageNumber page_2"></div>
+				<div id="right_page_3" class="toggleByPageNumber page_3"></div>
+				<div id="right_page_6" class="toggleByPageNumber page_6"></div>
+				<div id="right_page_8" class="toggleByPageNumber page_8"></div>
 			</section>
-			<div class="PositionAbsolute WidthLeftColumn FixBottom WhiteBackground Level3">
+			<div id="asthma_condition" class="Expand HBox JustifySpaceBetween PositionAbsolute ConditionButtonsPosition Level3 toggleByPageNumber page_3 page_6" >
+				<div class="GreenIcon Button VMin13 FlexAlignCenter" onclick="asthmaConditionClicked(this);">
+					<span>Mild</span>
+				</div>
+				<div class="InactiveIcon YellowIcon Button VMin13 FlexAlignCenter" onclick="asthmaConditionClicked(this);">
+					<span>Moderate</span>
+				</div>
+				<div class="InactiveIcon PinkIcon Button VMin13 FlexAlignCenter" onclick="asthmaConditionClicked(this);">
+					<span>Severe</span>
+				</div>
+			</div>
+			<div id="smoking_packs" class="Expand HBox JustifySpaceBetween PositionAbsolute ConditionButtonsPosition Level3 toggleByPageNumber page_8" >
+				<div class="GreenIcon Button VMin13 FlexAlignCenter TextAlignCenter" onclick="smokingPacksClicked(this);">
+					<span>0<br />packs</span>
+				</div>
+				<div class="InactiveIcon YellowIcon Button VMin13 FlexAlignCenter TextAlignCenter" onclick="smokingPacksClicked(this);">
+					<span>½<br />pack</span>
+				</div>
+				<div class="InactiveIcon PinkIcon Button VMin13 FlexAlignCenter TextAlignCenter" onclick="smokingPacksClicked(this);">
+					<span>1<br />pack</span>
+				</div>
+			</div>
+			<div class="PositionAbsolute WidthLogos FixBottom WhiteBackground Level3">
 				<img src="images/turanga_banner_0_transparent.png" onclick="window.open('http://www.turanga.org.nz/')" class="Link Width50"><!--
 				--><img src="images/MedTech CoRE Logo.png" onclick="window.open('http://www.abi.auckland.ac.nz/en.html')" class="Link Width50">
 			</div>
@@ -49,14 +87,15 @@
 		<script src="js/three.min.js"></script>
 		<script src="js/zinc_threejs_control.js"></script>
 		<script src="js/zinc_3js_renderer.js"></script>
+		<script src="js/data_generator.js"></script>
 		<script src="js/Detector.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		// <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: 1, parseOnLoad: true" ></script>
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<script src="js/globals.js"></script>
 		<script src="js/overlay.js"></script>
-		<script src="js/layout.js"></script>
+		<script src="js/charts.js"></script>
 		<script src="js/buttons.js"></script>
 		<script src="js/main.js"></script>
 	</body>
