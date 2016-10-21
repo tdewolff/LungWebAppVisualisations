@@ -7,7 +7,7 @@ var myLoadingPage = document.getElementById("loadingOverlay");
 var lung_age_display = document.getElementById("play_pause_button");
 var rendered_age = 0;
 var plot_data = new dataSet();
-var ECGChart = undefined;
+var fev1_plot = undefined;
 
 function person(age, height, gender) {
 	this.age = age;

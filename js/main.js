@@ -271,32 +271,12 @@ $("#right_page_3").load("pages/right_page_3.html");
 $("#right_page_6").load("pages/right_page_6.html");
 $("#right_page_8").load("pages/right_page_8.html");
 
-var onDataLoaded = function(xmlhttp, dataName) {
-	return function() {
-		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-			var viewData = JSON.parse(xmlhttp.responseText);
-			plot_data[dataName] = viewData;
-			console.log(plot_data.dataName);
-			showData(dataName);
-		}
-	};
-}
-
-function loadPlotData() {
-	var xmlhttp = new XMLHttpRequest();	
-	xmlhttp.onreadystatechange = onDataLoaded(xmlhttp, 'test');
-	requestURL = "data/test_data.json";
-	xmlhttp.open("GET", requestURL, true);
-	xmlhttp.send();
-}
+require(["js/fev1_controller", "dojo/domReady!"], function(FEV1Controller){
 	
-require(["dojo/domReady!", "js/DataController"], function(){
-	
-	dataController = new DataController();
+	fev1_plot = new FEV1Controller();
 	initZinc();
 	startAgain();
-	loadPlotData();
-	updateFEVChart();
+	initPlots();
 	
 	var body = document.body;
 	requestFullScreen(body);
