@@ -10,16 +10,6 @@ function updateUniformsWithDetails() {
 	flowUniforms["severity"].value = subjectDetails.packsPerDay * 1.0;
 }
 
-function person(age, height, gender) {
-	this.age = age;
-	this.height = height // cm
-	this.gender = gender;
-	this.asthmaSeverity = "none";
-	this.ageStartedSmoking = 18;
-	this.packsPerDay = 0.0;
-	this.FEV = 4500;
-}
-
 function endLoading() {
 	loadingPage.endLoading();
 }
@@ -269,27 +259,45 @@ function requestFullScreen(element) {
     }
 }
 
-// var elem = document.body; // Make the body go full screen.
+$("#left_page_1").load("pages/left_page_1.html");
+$("#left_page_2").load("pages/left_page_2.html");
+$("#left_page_3").load("pages/left_page_3.html");
+$("#left_page_6").load("pages/left_page_6.html");
+$("#left_page_7").load("pages/left_page_7.html");
+$("#left_page_8").load("pages/left_page_8.html");
+$("#right_page_1").load("pages/right_page_1.html");
+$("#right_page_2").load("pages/right_page_2.html");
+$("#right_page_3").load("pages/right_page_3.html");
+$("#right_page_6").load("pages/right_page_6.html");
+$("#right_page_8").load("pages/right_page_8.html");
 
-// $( "#navcontent_page_2" ).load("page_2.html");
-// $( "#navcontent_page_3" ).load("page_3.html");
-// $( "#navcontent_page_4" ).load("page_4.html");
-// $( "#navcontent_page_5" ).load("page_5.html");
+var onDataLoaded = function(xmlhttp, dataName) {
+	return function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var viewData = JSON.parse(xmlhttp.responseText);
+			plot_data[dataName] = viewData;
+			console.log(plot_data.dataName);
+			showData(dataName);
+		}
+	};
+}
 
-require(["dojo/domReady!"], function(){
-	$("#left_page_1").load("pages/left_page_1.html");
-	$("#left_page_2").load("pages/left_page_2.html");
-	$("#left_page_3").load("pages/left_page_3.html");
-	$("#left_page_6").load("pages/left_page_6.html");
-	$("#left_page_7").load("pages/left_page_7.html");
-	$("#left_page_8").load("pages/left_page_8.html");
-	$("#right_page_1").load("pages/right_page_1.html");
-	$("#right_page_2").load("pages/right_page_2.html");
-	$("#right_page_3").load("pages/right_page_3.html");
-	$("#right_page_6").load("pages/right_page_6.html");
-	$("#right_page_8").load("pages/right_page_8.html");
+function loadPlotData() {
+	var xmlhttp = new XMLHttpRequest();	
+	xmlhttp.onreadystatechange = onDataLoaded(xmlhttp, 'test');
+	requestURL = "data/test_data.json";
+	xmlhttp.open("GET", requestURL, true);
+	xmlhttp.send();
+}
+	
+require(["dojo/domReady!", "js/DataController"], function(){
+	
+	dataController = new DataController();
 	initZinc();
 	startAgain();
+	loadPlotData();
+	updateFEVChart();
+	
 	var body = document.body;
 	requestFullScreen(body);
 });

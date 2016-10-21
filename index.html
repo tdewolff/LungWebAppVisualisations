@@ -4,7 +4,7 @@
 		<title>MedTech CORE - Lung Simulation</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<meta property="og:url"			  content="http://sites.bioeng.auckland.ac.nz/silo6_lung/" />
+		<meta property="og:url"			  content="http://sites.bioeng.auckland.ac.nz/medtech/lung/" />
 		<meta property="og:type"		  content="website" />
 		<meta property="og:title"		  content="Personalised Lung Estimation and Visualisation." />
 		<meta property="og:description"	  content="Using parameters from an individual estimate the state of the lung and provide a 3D visualisation representative of the individual." />
@@ -13,6 +13,18 @@
 		<link rel="stylesheet" type="text/css" href="styles/buttons.css">
 		<link rel="stylesheet" type="text/css" href="styles/overlay.css">
 		<link rel="stylesheet" type="text/css" href="styles/fonts.css">
+		<script>
+			var dojoConfig = {
+				async: true,
+				// This code registers the correct location of the "demo" package
+				// so we can load Dojo from the CDN whilst still being able to
+				// load local modules
+				packages: [{
+					name: "js",
+					location: location.pathname.replace(/\/[^/]+$/, '')  + '/js'
+				}]
+			};
+		</script>
 	</head>
 	<body style="position: relative;">
 		<div id="loadingOverlay" class="loadingOverlay pageOverlay Expand JustifyContentCenter" style="opacity: 0;">
@@ -75,6 +87,7 @@
 		<script src="js/three.min.js"></script>
 		<script src="js/zinc_threejs_control.js"></script>
 		<script src="js/zinc_3js_renderer.js"></script>
+		<script src="js/data_generator.js"></script>
 		<script src="js/Detector.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
