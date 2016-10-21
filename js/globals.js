@@ -6,8 +6,14 @@ var container = document.getElementById( "zinc_window" );
 var myLoadingPage = document.getElementById("loadingOverlay");
 var lung_age_display = document.getElementById("play_pause_button");
 var rendered_age = 0;
-var plot_data = new dataSet();
+
 var fev1_plot = undefined;
+var breathing_plot = undefined;
+var breathing_blood_air_plot = undefined;
+var asthma_flow_plot = undefined;
+var asthma_volume_plot = undefined;
+
+var plot_data = new dataSet();
 
 function person(age, height, gender) {
 	this.age = age;
@@ -21,6 +27,17 @@ function person(age, height, gender) {
 
 function dataSet() {
 	this.test = undefined;
+	this.breathing = undefined;
+	this.breathing_blood = undefined;
+	this.breathing_air = undefined;
+	this.asthma_volume_normal = undefined;
+	this.asthma_volume_mild = undefined;
+	this.asthma_volume_moderate = undefined;
+	this.asthma_volume_severe = undefined;
+	this.asthma_flow_normal = undefined;
+	this.asthma_flow_mild = undefined;
+	this.asthma_flow_moderate = undefined;
+	this.asthma_flow_severe = undefined;
 }
 
 /* According to studies, asthma severity affects percentage FEV1 */

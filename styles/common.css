@@ -48,6 +48,10 @@ nav, article, aside {
 	pointer-events: all;
 }
 
+.HeightBreathingPlot {
+	height: 20%;
+}
+
 .WidthLungCondition {
 	width: 32%;
 }

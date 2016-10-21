@@ -214,6 +214,8 @@ function setPage(pageIndex) {
 			e.style.display = "none";
 		}
 	}
+	fev1_plot.renderPlot();
+	breathing_plot.renderPlot();
 }
 
 function setSubjectDetailsValue(identifier, value) {
@@ -232,7 +234,7 @@ function setSubjectDetailsValue(identifier, value) {
 
 function startAgain() {
 	resetSubjectDetails();
-	setPage(8);
+	setPage(2);
 	setInputsToSubjectDetailsValues();
 	modelButtonClicked("Surface");
 }
@@ -271,11 +273,22 @@ $("#right_page_3").load("pages/right_page_3.html");
 $("#right_page_6").load("pages/right_page_6.html");
 $("#right_page_8").load("pages/right_page_8.html");
 
-require(["js/controller/fev1", "dojo/domReady!"], function(FEV1){
+require(["js/controller/fev1", 
+	"js/controller/breathing",
+	"js/controller/breathing_blood_air",
+	"js/controller/asthma_volume",
+	"js/controller/asthma_flow",
+	"dojo/domReady!"], function(FEV1, Breathing, BloodAir, AsthmaVolume, AsthmaFlow){
 	
 	fev1_plot = new FEV1();
+	breathing_plot = new Breathing();
+	breathing_blood_air_plot = new BloodAir();
+	asthma_volume_plot = new AsthmaVolume();
+	asthma_flow_plot = new AsthmaFlow();
+	
 	initZinc();
 	startAgain();
+
 	initPlots();
 	
 	var body = document.body;
