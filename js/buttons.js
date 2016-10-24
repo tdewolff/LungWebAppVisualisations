@@ -115,6 +115,16 @@ function activateCondition(sender) {
 
 function asthmaConditionClicked(sender) {
 	activateCondition(sender);
+	if (sender.classList.contains('GreenIcon')) {
+		asthma_flow_plot.setActiveSeries('mild');
+		asthma_volume_plot.setActiveSeries('mild');
+	} else if (sender.classList.contains('YellowIcon')) {
+		asthma_flow_plot.setActiveSeries('moderate');
+		asthma_volume_plot.setActiveSeries('moderate');
+	} else if (sender.classList.contains('PinkIcon')) {
+		asthma_flow_plot.setActiveSeries('severe');
+		asthma_volume_plot.setActiveSeries('severe');
+	}
 }
 
 function smokingPacksClicked(sender) {

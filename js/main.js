@@ -234,9 +234,17 @@ function setSubjectDetailsValue(identifier, value) {
 
 function startAgain() {
 	resetSubjectDetails();
+	
 	setPage(2);
 	setInputsToSubjectDetailsValues();
+	
 	modelButtonClicked("Surface");
+	
+	var asthma_button_div = document.getElementById('asthma_condition');
+	asthmaConditionClicked(asthma_button_div.children[0]);
+	
+	var smoking_packs_div = document.getElementById('smoking_packs');
+	smokingPacksClicked(smoking_packs_div.children[0]);
 }
 
 function resetViewButtonClicked() {
@@ -261,18 +269,6 @@ function requestFullScreen(element) {
     }
 }
 
-$("#left_page_1").load("pages/left_page_1.html");
-$("#left_page_2").load("pages/left_page_2.html");
-$("#left_page_3").load("pages/left_page_3.html");
-$("#left_page_6").load("pages/left_page_6.html");
-$("#left_page_7").load("pages/left_page_7.html");
-$("#left_page_8").load("pages/left_page_8.html");
-$("#right_page_1").load("pages/right_page_1.html");
-$("#right_page_2").load("pages/right_page_2.html");
-$("#right_page_3").load("pages/right_page_3.html");
-$("#right_page_6").load("pages/right_page_6.html");
-$("#right_page_8").load("pages/right_page_8.html");
-
 require(["js/controller/fev1", 
 	"js/controller/breathing",
 	"js/controller/breathing_blood_air",
@@ -286,10 +282,11 @@ require(["js/controller/fev1",
 	asthma_volume_plot = new AsthmaVolume();
 	asthma_flow_plot = new AsthmaFlow();
 	
+	resetSubjectDetails();
 	initZinc();
-	startAgain();
-
 	initPlots();
+
+	startAgain();
 	
 	var body = document.body;
 	requestFullScreen(body);

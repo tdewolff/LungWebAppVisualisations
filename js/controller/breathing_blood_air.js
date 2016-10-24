@@ -41,8 +41,8 @@ define([
 				TomTheme.chart.stroke = "transparent";
 				var chart = new Chart(dom);
 				chart.setTheme(TomTheme);
-				chart.addAxis("x", {title:'Time', titleGap: 2, titleOrientation: 'away', titleFontColor: 'white', majorTicks: false, majorLabels: false, minorTicks: false, minorLabels: false, microTicks: false,  majorTick: {color: "red", length: 0},});
-				chart.addAxis("y", {vertical: true, title:'Lung Volume', titleGap: 5, titleFontColor: 'white', majorTicks: false, majorLabels: false, minorTicks: false, minorLabels: false, microTicks: false, majorTick: {color: "red", length: 0},});
+				chart.addAxis("x", {title:'Amount of <font color="red">blood</font> or <font color="aqua">air</font>', titleGap: 2, titleOrientation: 'away', titleFontColor: 'white', majorTicks: false, majorLabels: false, minorTicks: false, minorLabels: false, microTicks: false,  majorTick: {color: "red", length: 0},});
+				chart.addAxis("y", {vertical: true, title:'Lung Height', titleGap: 5, titleFontColor: 'white', majorTicks: false, majorLabels: false, minorTicks: false, minorLabels: false, microTicks: false, majorTick: {color: "red", length: 0},});
 	
 				this._plot = chart;
 			}
