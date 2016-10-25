@@ -86,6 +86,9 @@ nav, article, aside {
 	height: 16vmin;
 }
 
+.Margin1VMin {
+	margin: 1vmin;
+}
 .WhiteBackground {
 	background-color: white;
 }
@@ -152,6 +155,10 @@ nav, article, aside {
 
 .JustifySpaceBetween {
 	justify-content: space-between;
+}
+
+.JustifyContentEnd {
+	justify-content: end;
 }
 
 .InlineBlock {

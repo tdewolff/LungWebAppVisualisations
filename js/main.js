@@ -195,9 +195,8 @@ function setInputsToSubjectDetailsValues() {
 
 	setValueDisplay(age_input, subjectDetails.age);
 	setValueDisplay(height_input, subjectDetails.height);
-	setValueDisplay(gender_input, subjectDetails.gender);
+	setValueDisplay(gender_input, subjectDetails.gender == 'Male' ? 'M' : 'F');
 	setValueDisplay(fev_input, subjectDetails.FEV);	
-	console.log('Set rendered age');
 	setRenderedAge(lung_age_display, subjectDetails.age);
 }
 
@@ -235,7 +234,7 @@ function setSubjectDetailsValue(identifier, value) {
 function startAgain() {
 	resetSubjectDetails();
 	
-	setPage(2);
+	setPage(8);
 	setInputsToSubjectDetailsValues();
 	
 	modelButtonClicked("Surface");
