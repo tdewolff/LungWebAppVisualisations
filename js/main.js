@@ -1,13 +1,18 @@
 
 function updateUniformsWithDetails() {
 	var age = Math.floor(subjectDetails.age + 0.5);
-	start_age = subjectDetails.ageStartedSmoking * 0.01;
+	var start_age = subjectDetails.ageStartedSmoking * 0.01;
 	if (start_age < 0.0)
 		start_age = 0.0;
+	var height = subjectDetails.height;
+	var asthmaScaling = asthmaLevel[subjectDetails.asthmaSeverity];
 	cellUniforms["starting_time"].value = start_age;
 	cellUniforms["severity"].value = subjectDetails.packsPerDay * 1.0;
 	flowUniforms["starting_time"].value = start_age;
 	flowUniforms["severity"].value = subjectDetails.packsPerDay * 1.0;
+	flowUniforms["height"].value = height * 1.0;
+	flowUniforms["weight"].value = 70.0;
+	flowUniforms["asthmaSeverity"].value = asthmaScaling * 1.0;
 }
 
 function endLoading() {
@@ -33,11 +38,37 @@ function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 			directionalLight.position.z);
 		cellUniforms["time"].value = zincRenderer.getCurrentTime()/3000.0;
 		flowUniforms["time"].value = zincRenderer.getCurrentTime()/3000.0;
-		var zinc_rendered_age = parseInt(cellUniforms["time"].value *100.0);
-		if (zinc_rendered_age != rendered_age) {
-			setRenderedAge(lung_age_display, zinc_rendered_age);
-			rendered_age = zinc_rendered_age;
+		
+		var age = parseInt(cellUniforms["time"].value *100.0);
+		if (age != rendered_age) {
+			setRenderedAge(lung_age_display, age);
+			rendered_age = age;
 		}
+		// if (zincRenderer.playAnimation == true)
+		// {
+		// 	var sliderElement = document.getElementById("age_slider");
+		// 	sliderElement.value = renderer_Age;
+		// }
+		var timeIncrement = 0.0;
+		if (!currentDate) { 
+			currentDate = new Date();
+		} else {
+			var oldDate = currentDate;
+			currentDate = new Date();
+			timeIncrement = currentDate.getTime() - oldDate.getTime();
+		}
+		currentBreathingTime = currentBreathingTime + timeIncrement;
+		var breathing_cycle = 0.0;
+		if (currentBreathingTime > 4000.0) {
+			currentBreathingTime = currentBreathingTime - 4000.0;
+			breathing_cycle = currentBreathingTime / 2000.0;
+		} else if (currentBreathingTime > 2000.0) {
+			breathing_cycle = (4000.0 - currentBreathingTime) / 2000.0;
+		} else {
+			breathing_cycle = currentBreathingTime / 2000.0;
+		}
+		flowUniforms["breathing_cycle"].value = breathing_cycle;
+		cellUniforms["breathing_cycle"].value = breathing_cycle;
 	};
 }
 
