@@ -34,6 +34,7 @@ function dataSet() {
 	this.asthma_volume_mild = undefined;
 	this.asthma_volume_moderate = undefined;
 	this.asthma_volume_severe = undefined;
+	this.asthma_volume_one_second = undefined;
 	this.asthma_flow_normal = undefined;
 	this.asthma_flow_mild = undefined;
 	this.asthma_flow_moderate = undefined;

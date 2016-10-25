@@ -69,7 +69,12 @@ function addClicked(owner) {
 	if (number_display == undefined) {
 		number_display = adder_button.getElementsByClassName('ValueWideDisplay')[0];
 	}
-	number_display.innerHTML = +number_display.innerHTML + 1;
+	
+	var increment = owner.hasAttribute('incrementsize') ? parseFloat(owner.getAttribute('incrementSize')) : 1;
+	var precision = owner.hasAttribute('precision') ? precision = owner.getAttribute('precision') : 0;
+	var num = +number_display.innerHTML + increment;
+
+	number_display.innerHTML = num.toFixed(precision);
 	setSubjectDetailsValue(adder_button.parentNode.id, number_display.innerHTML);
 	updateUniformsWithDetails();
 }
@@ -81,7 +86,11 @@ function subClicked(owner) {
 		number_display = adder_button.getElementsByClassName('ValueWideDisplay')[0];
 	}
 	if (number_display.innerHTML > 0) {
-		number_display.innerHTML = +number_display.innerHTML - 1;
+		var increment = owner.hasAttribute('incrementsize') ? parseFloat(owner.getAttribute('incrementSize')) : 1;
+		var precision = owner.hasAttribute('precision') ? precision = owner.getAttribute('precision') : 0;
+		var num = +number_display.innerHTML - increment;
+		
+		number_display.innerHTML = num.toFixed(precision);
 		setSubjectDetailsValue(adder_button.parentNode.id, number_display.innerHTML);
 		updateUniformsWithDetails();
 	}
@@ -115,6 +124,16 @@ function activateCondition(sender) {
 
 function asthmaConditionClicked(sender) {
 	activateCondition(sender);
+	if (sender.classList.contains('GreenIcon')) {
+		asthma_flow_plot.setActiveSeries('mild');
+		asthma_volume_plot.setActiveSeries('mild');
+	} else if (sender.classList.contains('YellowIcon')) {
+		asthma_flow_plot.setActiveSeries('moderate');
+		asthma_volume_plot.setActiveSeries('moderate');
+	} else if (sender.classList.contains('PinkIcon')) {
+		asthma_flow_plot.setActiveSeries('severe');
+		asthma_volume_plot.setActiveSeries('severe');
+	}
 }
 
 function smokingPacksClicked(sender) {

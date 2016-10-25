@@ -20,6 +20,7 @@ function initPlots() {
 	loadPlotData('asthma_volume_mild', 'data/asthma_volume_mild.json');
 	loadPlotData('asthma_volume_moderate', 'data/asthma_volume_moderate.json');
 	loadPlotData('asthma_volume_severe', 'data/asthma_volume_severe.json');
+	loadPlotData('asthma_volume_one_second', 'data/asthma_volume_one_second.json');
 	loadPlotData('asthma_flow_normal', 'data/asthma_flow_normal.json');
 	loadPlotData('asthma_flow_mild', 'data/asthma_flow_mild.json');
 	loadPlotData('asthma_flow_moderate', 'data/asthma_flow_moderate.json');
@@ -78,7 +79,7 @@ function plotBreathingAirData(data) {
 }
 
 function getColourForSeverity(severity) {
-	colour = '';
+	colour = 'white';
 	if (severity == 'normal') {
 		colour = 'blue';
 	} else if (severity == 'mild') {
@@ -105,7 +106,6 @@ function plotAsthmaFlowData(data, severity) {
 }
 
 function showData(dataName) {
-	console.log(dataName);
 	var currentData = plot_data[dataName];
 	if (dataName == 'breathing') {
 		plotBreathingData(currentData);
@@ -121,6 +121,8 @@ function showData(dataName) {
 		plotAsthmaVolumeData(currentData, 'moderate');
 	} else if (dataName == 'asthma_volume_severe') {
 		plotAsthmaVolumeData(currentData, 'severe');
+	} else if (dataName == 'asthma_volume_one_second') {
+		plotAsthmaVolumeData(currentData, 'one_second');
 	} else if (dataName == 'asthma_flow_normal') {
 		plotAsthmaFlowData(currentData, 'normal');
 	} else if (dataName == 'asthma_flow_mild') {

@@ -11,9 +11,15 @@ define([
 	return declare("AsthmaVolumeController", null,{
 
 		_plot: undefined,
+		_toggle_series: undefined,
+		_colour_series: undefined,
+		_waiting_for_data: undefined,
 		
 		constructor: function(params){
 			dojo.mixin(this, params);
+			this._toggle_series = ['mild', 'moderate', 'severe'];
+			this._colour_series = {};
+			this._waiting_for_data = '';
 		},
 		
 		renderPlot: function(){
@@ -24,13 +30,49 @@ define([
 		
 		addSeries: function(seriesName, data, colorString) {
 			if (this._plot != undefined) {
-				this._plot.addSeries(seriesName, data, {stroke: {color: colorString}});
+				properties = {stroke: {color: colorString}};
+				if (seriesName == 'one_second') {
+					properties.stroke.style = 'shortDot';
+				}
+				if (this._toggle_series.includes(seriesName)) {
+					this._colour_series[seriesName] = colorString;
+					if (this._waiting_for_data == seriesName) {
+						this._plot.addSeries(seriesName, data, properties);
+						this._waiting_for_data = '';
+					}
+				} else {
+					this._plot.addSeries(seriesName, data, properties);
+				}
 			}
 		},
 		
 		removeSeries: function(seriesName) {
 			if (this._plot != undefined) {
 				this._plot.removeSeries(seriesName);
+			}
+		},
+		
+		setActiveSeries: function(seriesName) {
+			if (this._plot != undefined) {
+				var i;
+				var toggle_series_length = this._toggle_series.length;
+				for (i = 0; i < toggle_series_length; i++) {
+					this._plot.removeSeries(this._toggle_series[i]);
+				}
+				var data = undefined;
+				if (seriesName == 'mild') {
+					data = plot_data.asthma_volume_mild;
+				} else if (seriesName == 'moderate') {
+					data = plot_data.asthma_volume_moderate;
+				} else if (seriesName == 'severe') {
+					data = plot_data.asthma_volume_severe;
+				}
+				if (data == undefined) {
+					this._waiting_for_data = seriesName;
+				} else {
+					this._plot.addSeries(seriesName, data, {stroke: {color: this._colour_series[seriesName]}});
+					this._plot.render();
+				}
 			}
 		},
 		
@@ -41,8 +83,13 @@ define([
 				TomTheme.chart.stroke = "transparent";
 				var chart = new Chart(dom);
 				chart.setTheme(TomTheme);
-				chart.addAxis("x", {title:'Time', titleGap: 2, titleOrientation: 'away', titleFontColor: 'white', majorTicks: false, majorLabels: false, minorTicks: false, minorLabels: false, microTicks: false,  majorTick: {color: "red", length: 0},});
-				chart.addAxis("y", {vertical: true, title:'Lung Volume', titleGap: 5, titleFontColor: 'white', majorTicks: false, majorLabels: false, minorTicks: false, minorLabels: false, microTicks: false, majorTick: {color: "red", length: 0},});
+				var labels = [
+				  {value: 5,text: "one second"},
+				  {value: 10,text: ""},
+				  {value: 15,text: ""},
+				];
+				chart.addAxis("x", {title:'Time', titleGap: 2, titleOrientation: 'away', titleFontColor: 'white', majorTickStep: 5, labels: labels, majorLabels: true, minorTicks: false, minorLabels: false, microTicks: false,  majorTick: {color: "red", length: 0},});
+				chart.addAxis("y", {vertical: true, title:'Volume exhaled', titleGap: 5, titleFontColor: 'white', majorTicks: false, majorLabels: false, minorTicks: false, minorLabels: false, microTicks: false, majorTick: {color: "red", length: 0},});
 	
 				this._plot = chart;
 			}

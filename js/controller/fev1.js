@@ -22,7 +22,6 @@ define([
 		renderPlot: function(){
 			if (this._plot != undefined) {
 				this._plot.render();
-				console.log(this);
 			}
 		},
 		
