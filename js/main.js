@@ -18,6 +18,10 @@ function beginLoading() {
 	loadingPage.beginLoading();
 }
 
+function updateUi() {
+	updateFEV1Plot();
+}
+
 function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 	return function () {
 		var directionalLight = zincRenderer.getCurrentScene().directionalLight;
@@ -173,7 +177,7 @@ function initZinc() {
 }
 
 function resetSubjectDetails() {
-	subjectDetails = new person(11, 152, "Male");
+	subjectDetails = new person(43, 167, "Female");
 }
 
 function setValueDisplay(element, value) {
@@ -196,7 +200,7 @@ function setInputsToSubjectDetailsValues() {
 	setValueDisplay(age_input, subjectDetails.age);
 	setValueDisplay(height_input, subjectDetails.height);
 	setValueDisplay(gender_input, subjectDetails.gender == 'Male' ? 'M' : 'F');
-	setValueDisplay(fev_input, subjectDetails.FEV);	
+	setValueDisplay(fev_input, subjectDetails.FEV1);	
 	setRenderedAge(lung_age_display, subjectDetails.age);
 }
 
@@ -225,7 +229,7 @@ function setSubjectDetailsValue(identifier, value) {
 	} else if (identifier == "gender_input") {
 		subjectDetails.gender = value;
 	} else if (identifier == "fev_input") {
-		subjectDetails.FEV = value;
+		subjectDetails.FEV1 = value;
 	} else {
 		console.log("Uh Oh unknown identifier " + identifier + " with value: " + value);
 	}
@@ -234,7 +238,7 @@ function setSubjectDetailsValue(identifier, value) {
 function startAgain() {
 	resetSubjectDetails();
 	
-	setPage(8);
+	setPage(1);
 	setInputsToSubjectDetailsValues();
 	
 	modelButtonClicked("Surface");

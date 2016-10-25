@@ -77,6 +77,7 @@ function addClicked(owner) {
 	number_display.innerHTML = num.toFixed(precision);
 	setSubjectDetailsValue(adder_button.parentNode.id, number_display.innerHTML);
 	updateUniformsWithDetails();
+	updateUi();
 }
 
 function subClicked(owner) {
@@ -94,18 +95,25 @@ function subClicked(owner) {
 		setSubjectDetailsValue(adder_button.parentNode.id, number_display.innerHTML);
 		updateUniformsWithDetails();
 	}
+	updateUi();
 }
 
 function maleClicked(owner) {
-	var adder_button = owner.parentNode;
+	var gender_button = owner.parentNode;
 	var gender_display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];
 	gender_display.innerHTML = 'M';
+	setSubjectDetailsValue(gender_button.parentNode.id, 'Male');
+	updateUniformsWithDetails();
+	updateUi();
 }
 
 function femaleClicked(owner) {
-	var adder_button = owner.parentNode;
+	var gender_button = owner.parentNode;
 	var gender_display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];
 	gender_display.innerHTML = 'F';
+	setSubjectDetailsValue(gender_button.parentNode.id, 'Female');
+	updateUniformsWithDetails();
+	updateUi();
 }
 
 function activateCondition(sender) {
@@ -145,6 +153,6 @@ function smokingPacksClicked(sender) {
 	} else if (sender.classList.contains('PinkIcon')) {
 		subjectDetails.packsPerDay = 1.0;
 	}
-	updateFEVPlot();
+	updateUi();
 }
 

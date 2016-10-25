@@ -22,7 +22,7 @@ function person(age, height, gender) {
 	this.asthmaSeverity = "none";
 	this.ageStartedSmoking = 25;
 	this.packsPerDay = 0.0;
-	this.FEV = 3.1;
+	this.FEV1 = 3.1;
 };
 
 function dataSet() {
