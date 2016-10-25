@@ -158,7 +158,7 @@ nav, article, aside {
 }
 
 .JustifyContentEnd {
-	justify-content: end;
+	justify-content: flex-end;
 }
 
 .InlineBlock {
