@@ -1,79 +1,77 @@
 
-function calculateFEVData(age, gender, years, packs, height, scaling) {
-	var fev1 = [];
-	var fev1_s = [];
-	var fev1_stop = [];
-	var fev1_cmp25 = [];
-	var fev1_s_cmp25 = [];
-	var fev1_stop_cmp25 = [];
+function computedFEV1(gender, age, height) {
+	var current_fev1 = 0;
+	if (gender == "male") {
+		if (age < 19) {
+			current_fev1 = -0.2584-0.20415*age+0.010133*age*age+0.00018642*height*height;
+		} else {
+			current_fev1 = -0.1933+0.00064*age-0.000269*age*age+0.00018642*height*height;
+		}
+	} else {
+		if (age < 17) {
+			current_fev1 = -1.2082+0.05916*age+0.00014815*height*height;
+		} else {
+			current_fev1 = -0.3560+0.01870*age-0.000382*age*age+0.00014815*height*height;
+		}
+	} 
+	
+	return current_fev1;
+}
+
+function calculateFEVData(age, gender, years, packs, height, fev1_measured, scaling) {
+	var fev1_normal_non_smoker = [];
+	var fev1_you = [];
+	var fev1_you_smoking = [];
+	
+	
 	var current_age = 7;
 	var smoking_decline_male = 7.4, smoking_decline_female = 4.4;
+
 	var smoking_start = age - years;
-	var previous_fev = 0;
+
 	var smoking_decline = smoking_decline_male;
-	if  (gender == "female")
+	if  (gender == "female") {
 		smoking_decline = smoking_decline_female;
+	}
+
+	var previous_fev1_you = 0;
 	var last_smoking_reading = 0;
-	var fev1_at_25 = 0.0;
+
+	var fev1_measured_scaling = fev1_measured / computedFEV1(gender, age, height);
+	var fev1_measured_offset = fev1_measured - computedFEV1(gender, age, height);
+	// if (fev1_measured_offset < 0) {
+	// 	console.log('lower');
+	// } else {
+	// 	console.log('above');
+	// }
+	var fev1_at_25 = computedFEV1(gender, 25.0, height);
+	var fev1_at_25_you = fev1_at_25 + fev1_measured_offset;
 	while (current_age < 100) {
-		var current_fev = 0;
-		if (gender == "male") {
-			if (current_age < 19) {
-				current_fev = -0.2584-0.20415*current_age+0.010133*current_age*current_age+0.00018642*height*height;
-			} else {
-				current_fev = -0.1933+0.00064*current_age-0.000269*current_age*current_age+0.00018642*height*height;
-			}
-			fev1.push({x : current_age, y :current_fev })
-		} else {
-			if (current_age < 17) {
-				current_fev = -1.2082+0.05916*current_age+0.00014815*height*height;
-			} else {
-				current_fev = -0.3560+0.01870*current_age-0.000382*current_age*current_age+0.00014815*height*height;
-			}
-			fev1.push({x : current_age, y :current_fev })
-		} 
-		if (current_age == 25)
-			fev1_at_25 = current_fev;
-		var current_fev_smoke = current_fev;
+		var current_fev1 = computedFEV1(gender, current_age, height);
+		var current_fev1_you = current_fev1 + fev1_measured_offset;
+		fev1_normal_non_smoker.push({x: current_age, y: current_fev1 / fev1_at_25 * 100.0})
+		fev1_you.push({x: current_age, y: current_fev1_you / fev1_at_25_you * 100.0});
+
+		var current_fev1_smoke = current_fev1_you;
 		if (current_age > 7) {
-			current_fev_smoke = 0;
+			current_fev1_smoke = 0;
 			var years_of_smoking = (current_age > smoking_start) ? (current_age-smoking_start) : 0;
 			if (years_of_smoking > 0 && packs > 0.0) {
-				var decline = (current_fev - previous_fev) * 1000;
+				var decline = (current_fev1_you - previous_fev1_you) * 1000;
 				var decline_for_smoke = decline - (smoking_decline * packs * years_of_smoking);
-				current_fev_smoke = previous_fev + decline_for_smoke / 1000;
+				current_fev1_smoke = previous_fev1_you + decline_for_smoke / 1000;
 			}
 			else {
-				current_fev_smoke = current_fev;
+				current_fev1_smoke = current_fev1_you;
 			}
-			current_fev_smoke = current_fev_smoke * scaling;
-			fev1_s.push({x : current_age, y : current_fev_smoke})
+			current_fev1_smoke = current_fev1_smoke * scaling;
+			fev1_you_smoking.push({x: current_age, y: current_fev1_smoke / fev1_at_25_you * 100.0})
 		}
-		if (current_age > age) {
-			last_smoking_reading = last_smoking_reading + (current_fev - previous_fev) * scaling;
-			fev1_stop.push({x : current_age, y :last_smoking_reading })
-		} else {
-			last_smoking_reading = current_fev_smoke;
-			if (current_age > (age - 2))
-				fev1_stop.push({x : current_age, y :last_smoking_reading })
-		}
-
 		
-		previous_fev = current_fev;
+		previous_fev1_you = current_fev1_you;
 		current_age = current_age + 2;
 	}
 	
-	for (var i = 0; i < fev1.length; i++) {
-		fev1_cmp25.push( {x : fev1[i].x, y : (fev1[i].y / fev1_at_25 * 100.0)});
-	}
-		
-	for (var i = 0; i < fev1_s.length; i++) {
-		fev1_s_cmp25.push( {x : fev1_s[i].x, y : (fev1_s[i].y / fev1_at_25 * 100.0)});
-	}
-	
-	for (var i = 0; i < fev1_stop.length; i++) {
-		fev1_stop_cmp25.push( {x : fev1_stop[i].x, y : (fev1_stop[i].y / fev1_at_25 * 100.0)});
-	}
-		
-	return [fev1, fev1_s, fev1_stop, fev1_cmp25, fev1_s_cmp25, fev1_stop_cmp25];
+	return [fev1_normal_non_smoker, fev1_you, fev1_you_smoking];
 };
+

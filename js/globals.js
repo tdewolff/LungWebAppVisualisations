@@ -6,6 +6,9 @@ var container = document.getElementById( "zinc_window" );
 var myLoadingPage = document.getElementById("loadingOverlay");
 var lung_age_display = document.getElementById("play_pause_button");
 var rendered_age = 0;
+var currentBreathingTime = 0.0;
+var currentDate = undefined;
+var breath = 1;
 
 var fev1_plot = undefined;
 var breathing_plot = undefined;
@@ -22,7 +25,7 @@ function person(age, height, gender) {
 	this.asthmaSeverity = "none";
 	this.ageStartedSmoking = 25;
 	this.packsPerDay = 0.0;
-	this.FEV = 3.1;
+	this.FEV1 = 3.1;
 };
 
 function dataSet() {
@@ -67,7 +70,16 @@ var airwaysStatus = {
 	},
 };
 
-var cellUniforms = THREE.UniformsUtils.merge( [
+var lungsStatus = {
+	"scene": undefined,
+	"initialised": false,
+	"download": {
+		"progress": 0,
+		"total": 0,
+	},
+};
+
+var cellUniforms= THREE.UniformsUtils.merge( [
 	{
 		"ambient"  : { type: "c", value: new THREE.Color( 0xffffff ) },
 		"emissive" : { type: "c", value: new THREE.Color( 0x000000 ) },
@@ -81,11 +93,13 @@ var cellUniforms = THREE.UniformsUtils.merge( [
 		"starting_time": { type: "f", value: 0.0 },
 		"severity": { type: "f", value: 0.0 },
 		"cellsDensity": { type: "f", value: 0.1 },
-		"tarDensity":  { type: "f", value: 0.0175}
+		"tarDensity":  { type: "f", value: 0.0175},
+		"breathing_cycle": { type: "f", value: 0.0 },
+		"surfaceAlpha": { type: "f", value: 0.5 }
 	}
 ] );
 
-var flowUniforms = THREE.UniformsUtils.merge( [
+var flowUniforms= THREE.UniformsUtils.merge( [
 {
 	"ambient"  : { type: "c", value: new THREE.Color( 0xffffff ) },
 	"emissive" : { type: "c", value: new THREE.Color( 0x000000 ) },
@@ -96,7 +110,11 @@ var flowUniforms = THREE.UniformsUtils.merge( [
 	"directionalLightDirection": { type: "v3", value: new THREE.Vector3()  },
 	"time": { type: "f", value: 0.0 },
 	"starting_time": { type: "f", value: 0.0 },
-	"severity": { type: "f", value: 1.0 }
+	"severity": { type: "f", value: 1.0 },
+	"height": { type: "f", value: 160.0 },
+	"weight": { type: "f", value: 70.0 },
+	"breathing_cycle": { type: "f", value: 0.0 },
+	"asthmaSeverity": { type: "f", value: 1.0 }
 } ] );
 
 

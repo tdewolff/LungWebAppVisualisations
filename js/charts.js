@@ -11,8 +11,7 @@ function initPlots() {
 	asthma_flow_plot.createPlot(asthma_flow_plot_element);
 	var asthma_volume_plot_element = document.getElementById("asthma_volume_plot");
 	asthma_volume_plot.createPlot(asthma_volume_plot_element);
-	// createChart('test_plot', tom_theme);
-	loadPlotData('test', 'data/test_data.json');
+
 	loadPlotData('breathing', 'data/breathing.json');
 	loadPlotData('breathing_blood', 'data/breathing_blood.json');
 	loadPlotData('breathing_air', 'data/breathing_air.json');
@@ -25,8 +24,8 @@ function initPlots() {
 	loadPlotData('asthma_flow_mild', 'data/asthma_flow_mild.json');
 	loadPlotData('asthma_flow_moderate', 'data/asthma_flow_moderate.json');
 	loadPlotData('asthma_flow_severe', 'data/asthma_flow_severe.json');
-	// calculatePlotData('fev1')
-	updateFEVPlot();
+
+	updateFEV1Plot();
 };
 
 var onDataLoaded = function(xmlhttp, dataName) {
@@ -46,17 +45,17 @@ function loadPlotData(data_name, data_location) {
 	xmlhttp.send();
 }
 	
-function updateFEVPlot() {
+function updateFEV1Plot() {
 	var asthmaScaling = asthmaLevel[subjectDetails.asthmaSeverity];
 	var age = Math.floor(subjectDetails.age + 0.5);
 	var fevData = calculateFEVData(age, subjectDetails.gender.toLowerCase(),
-		age - subjectDetails.ageStartedSmoking, subjectDetails.packsPerDay, subjectDetails.height, asthmaScaling);
-		fev1_plot.removeSeries("non smoker");
-	fev1_plot.removeSeries("smoker");
-	fev1_plot.removeSeries("after cessation");
-	fev1_plot.addSeries("smoker", fevData[4], "red");
-	fev1_plot.addSeries("non smoker", fevData[3], "blue");
-	fev1_plot.addSeries("after cessation", fevData[5], "green");
+		age - subjectDetails.ageStartedSmoking, subjectDetails.packsPerDay, subjectDetails.height, subjectDetails.FEV1, asthmaScaling);
+		fev1_plot.removeSeries("normal");
+	fev1_plot.removeSeries("you");
+	fev1_plot.removeSeries("you smoking");
+	fev1_plot.addSeries("normal", fevData[0], "blue");
+	fev1_plot.addSeries("you", fevData[1], "green");
+	fev1_plot.addSeries("you smoking", fevData[2], "red");
 	fev1_plot.renderPlot();
 }
 

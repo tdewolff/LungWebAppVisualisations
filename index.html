@@ -79,15 +79,16 @@
 				--><img src="images/MedTech CoRE Logo.png" onclick="window.open('http://www.abi.auckland.ac.nz/en.html')" class="Link Width50">
 			</div>
 		<div class="Expand HBox WidthLungCondition Level3 FixBottom FixRight JustifySpaceBetween PositionAbsolute">
-			<div class="BreathingIcon Button VMin16" onclick="setPage(1);"></div>
-			<div class="AsthmaIcon Button VMin16" onclick="setPage(3);"></div>
-			<div class="SmokingIcon Button VMin16" onclick="setPage(7);"></div>
+			<div class="BreathingIcon Button VMin16" onclick="breathingClicked();"></div>
+			<div class="AsthmaIcon Button VMin16" onclick="asthmaClicked();"></div>
+			<div class="SmokingIcon Button VMin16" onclick="smokingClicked();"></div>
 		</div>
 		</div>
 		<script src="js/three.min.js"></script>
 		<script src="js/zinc_threejs_control.js"></script>
 		<script src="js/zinc_3js_renderer.js"></script>
 		<script src="js/data_generator.js"></script>
+		<script src="js/display_airways_flow.js"></script>
 		<script src="js/Detector.js"></script>
 		<!-- <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: 1, parseOnLoad: true" ></script> -->
 		<script src="js/dojo/1.10.6/dojo/dojo.js"></script>
