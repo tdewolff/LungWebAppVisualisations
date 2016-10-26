@@ -47,7 +47,7 @@ function loadPlotData(data_name, data_location) {
 	
 function updateFEV1Plot() {
 	var asthmaScaling = asthmaLevel[subjectDetails.asthmaSeverity];
-	var age = Math.floor(subjectDetails.age + 0.5);
+	var age = Math.floor(+subjectDetails.age + 0.5);
 	var fevData = calculateFEVData(age, subjectDetails.gender.toLowerCase(),
 		age - subjectDetails.ageStartedSmoking, subjectDetails.packsPerDay, subjectDetails.height, subjectDetails.FEV1, asthmaScaling);
 		fev1_plot.removeSeries("normal");

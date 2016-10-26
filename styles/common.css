@@ -86,6 +86,10 @@ nav, article, aside {
 	height: 16vmin;
 }
 
+.VMin16Height {
+	height: 16vmin;
+}
+
 .Margin1VMin {
 	margin: 1vmin;
 }

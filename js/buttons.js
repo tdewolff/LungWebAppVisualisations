@@ -1,4 +1,13 @@
 
+function gasExchangeClicked() {
+	setPage(2);
+	modelButtonClicked('Airways');
+	rendered_age = 0;
+	subjectDetails.asthmaSeverity = 'none';
+	subjectDetails.packsPerDay = 0.0;
+	updateUniformsWithDetails();
+}
+
 function breathingClicked() {
 	setPage(1);
 	modelButtonClicked('Surface');
@@ -44,10 +53,9 @@ function holdit(btn, action, start, speedup) {
     }
 }
 
-function setRepeatOnButtons() {
+function setRepeatOnButtons(element) {
 	/* to use */
-	var height_input = document.getElementById('height_input')
-	var buttons = height_input.getElementsByClassName('button');
+	var buttons = element.getElementsByClassName('Button');
 	var i;
 	for (i = 0; i < buttons.length; i++) {
 		var button = buttons[i];

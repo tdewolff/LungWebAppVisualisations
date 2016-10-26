@@ -146,7 +146,7 @@ function meshReady(sceneName, shaderText, uniforms) {
 		material.side = THREE.DoubleSide;
 		if (sceneName == "Surface") {
 			surfaceStatus.initialised = true;
-			material.transparent = true;
+			material.transparent = false;
 			mygeometry.setMaterial(material);
 			surfaceStatus.scene.viewAll();
 		} else if (sceneName == "Airways") {
@@ -355,11 +355,15 @@ require(["js/controller/fev1",
 	asthma_volume_plot = new AsthmaVolume();
 	asthma_flow_plot = new AsthmaFlow();
 	
+	var height_input = document.getElementById('height_input')
+	setRepeatOnButtons(height_input);
+
 	resetSubjectDetails();
 	initZinc();
 	initPlots();
 
 	startAgain();
+	setPage(0);
 	
 	var body = document.body;
 	requestFullScreen(body);

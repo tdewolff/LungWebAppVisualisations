@@ -32,7 +32,20 @@
 		</div>
 		<div id="zinc_window" class="FullSize Level1 PositionAbsolute">
 		</div>
-		<div class="Expand HBox IgnoreMouse">
+			<div id="screen_saver">
+				<div id="clickButton" class="toggleByPageNumber page_0 Level3 GreyTitle NearBottom PositionAbsolute VMin16Height" onclick="startAgain();">
+					<img src="styles/images/medtech_click.svg" style="height: 100%;">
+					<h1 class="InlineBlock">Click here <i>For more info</i></h1>
+				</div>
+				<div id="spinIcon" class="toggleByPageNumber page_0 Level3 GreyTitle NearBottom PositionAbsolute FixRight VMin16Height">
+					<img src="styles/images/medtech_spin.svg" style="height: 100%;">
+					<h1 class="InlineBlock">Spin & zoom <i>To take a closer look</i></h1>
+				</div>
+				<div id="qr_code" class="toggleByPageNumber page_0 Level3 VMin16Height PositionAbsolute">
+					<img src="styles/images/qr_code.jpg" style="height: 100%;">
+				</div>
+			</div>
+			<div class="Expand HBox IgnoreMouse">
 			<section id="left_section" class="Expand VBox WidthLeftColumn Level3 Margin1VMin">
 				<div id="left_page_1" class="toggleByPageNumber page_1"></div>
 				<div id="left_page_2" class="toggleByPageNumber page_2"></div>
@@ -74,11 +87,11 @@
 					<span>1<br />pack</span>
 				</div>
 			</div>
-			<div class="PositionAbsolute WidthLogos FixBottom WhiteBackground Level3">
+			<div class="PositionAbsolute WidthLogos FixBottom WhiteBackground Level3 toggleByPageNumber page_natural">
 				<img src="images/turanga_banner_0_transparent.png" onclick="window.open('http://www.turanga.org.nz/')" class="Link Width50"><!--
 				--><img src="images/MedTech CoRE Logo.png" onclick="window.open('http://www.abi.auckland.ac.nz/en.html')" class="Link Width50">
 			</div>
-		<div class="Expand HBox WidthLungCondition Level3 FixBottom FixRight JustifySpaceBetween PositionAbsolute">
+		<div class="Expand HBox WidthLungCondition Level3 FixBottom FixRight JustifySpaceBetween PositionAbsolute toggleByPageNumber page_natural">
 			<div class="BreathingIcon Button VMin16" onclick="breathingClicked();"></div>
 			<div class="AsthmaIcon Button VMin16" onclick="asthmaClicked();"></div>
 			<div class="SmokingIcon Button VMin16" onclick="smokingClicked();"></div>

@@ -25,7 +25,8 @@ function calculateFEVData(age, gender, years, packs, height, fev1_measured, scal
 	
 	
 	var current_age = 7;
-	var smoking_decline_male = 7.4, smoking_decline_female = 4.4;
+	// var smoking_decline_male = 7.4, smoking_decline_female = 4.4;
+	var smoking_decline_male = 12.4, smoking_decline_female = 7.4;
 
 	var smoking_start = age - years;
 
@@ -39,23 +40,19 @@ function calculateFEVData(age, gender, years, packs, height, fev1_measured, scal
 
 	var fev1_measured_scaling = fev1_measured / computedFEV1(gender, age, height);
 	var fev1_measured_offset = fev1_measured - computedFEV1(gender, age, height);
-	// if (fev1_measured_offset < 0) {
-	// 	console.log('lower');
-	// } else {
-	// 	console.log('above');
-	// }
+	
 	var fev1_at_25 = computedFEV1(gender, 25.0, height);
-	var fev1_at_25_you = fev1_at_25 + fev1_measured_offset;
+	var fev1_at_25_you = fev1_at_25;  //+ fev1_measured_offset;
 	while (current_age < 100) {
 		var current_fev1 = computedFEV1(gender, current_age, height);
-		var current_fev1_you = current_fev1 + fev1_measured_offset;
+		var current_fev1_you = current_fev1 * fev1_measured_scaling;
 		fev1_normal_non_smoker.push({x: current_age, y: current_fev1 / fev1_at_25 * 100.0})
 		fev1_you.push({x: current_age, y: current_fev1_you / fev1_at_25_you * 100.0});
 
 		var current_fev1_smoke = current_fev1_you;
 		if (current_age > 7) {
 			current_fev1_smoke = 0;
-			var years_of_smoking = (current_age > smoking_start) ? (current_age-smoking_start) : 0;
+			var years_of_smoking = (current_age > smoking_start) ? (current_age - smoking_start) : 0;
 			if (years_of_smoking > 0 && packs > 0.0) {
 				var decline = (current_fev1_you - previous_fev1_you) * 1000;
 				var decline_for_smoke = decline - (smoking_decline * packs * years_of_smoking);
