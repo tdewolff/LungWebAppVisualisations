@@ -62,7 +62,6 @@ function updateFEV1Plot() {
 function plotBreathingData(data) {
 	breathing_plot.removeSeries('a');
 	breathing_plot.addSeries('a', data, "purple");
-	breathing_plot.updateTrace(0.6);
 	breathing_plot.renderPlot();
 }
 

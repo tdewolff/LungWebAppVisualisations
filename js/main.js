@@ -1,4 +1,9 @@
 
+function setCurrentAge(age) {
+	// Age is in years.
+	zincRenderer.setMorphsTime(age * 30);
+}
+
 function updateUniformsWithDetails() {
 	var age = Math.floor(subjectDetails.age + 0.5);
 	var start_age = subjectDetails.ageStartedSmoking * 0.01;
@@ -27,6 +32,8 @@ function updateUi() {
 	updateFEV1Plot();
 }
 
+var skip = 0;
+
 function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 	return function () {
 		var directionalLight = zincRenderer.getCurrentScene().directionalLight;
@@ -36,19 +43,23 @@ function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 		flowUniforms["directionalLightDirection"].value.set(directionalLight.position.x,
 			directionalLight.position.y,
 			directionalLight.position.z);
-		cellUniforms["time"].value = zincRenderer.getCurrentTime()/3000.0;
-		flowUniforms["time"].value = zincRenderer.getCurrentTime()/3000.0;
-		
-		var age = parseInt(cellUniforms["time"].value *100.0);
+		var time = zincRenderer.getCurrentTime()/3000.0;  // (0, 1])
+		skip++;
+		if (skip > 100) {
+			// console.log(flowUniforms['severity']);
+			// console.log(flowUniforms['asthmaSeverity']);
+			// console.log(time);
+			skip = 0;
+		}
+		cellUniforms["time"].value = time;
+		flowUniforms["time"].value = time;
+
+		var age = parseInt(time * 100.0);
 		if (age != rendered_age) {
 			setRenderedAge(lung_age_display, age);
 			rendered_age = age;
 		}
-		// if (zincRenderer.playAnimation == true)
-		// {
-		// 	var sliderElement = document.getElementById("age_slider");
-		// 	sliderElement.value = renderer_Age;
-		// }
+
 		var timeIncrement = 0.0;
 		if (!currentDate) { 
 			currentDate = new Date();
@@ -62,11 +73,20 @@ function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 		if (currentBreathingTime > 4000.0) {
 			currentBreathingTime = currentBreathingTime - 4000.0;
 			breathing_cycle = currentBreathingTime / 2000.0;
+			if (breath == 1) {
+				breath = 2;
+			} else {
+				breath = 1;
+			}
 		} else if (currentBreathingTime > 2000.0) {
 			breathing_cycle = (4000.0 - currentBreathingTime) / 2000.0;
 		} else {
 			breathing_cycle = currentBreathingTime / 2000.0;
 		}
+
+		var trace_time = breath == 2 ? currentBreathingTime / 8000.0 + 0.5 : currentBreathingTime / 8000.0;
+		breathing_plot.updateTrace(trace_time);
+
 		flowUniforms["breathing_cycle"].value = breathing_cycle;
 		cellUniforms["breathing_cycle"].value = breathing_cycle;
 	};
@@ -81,6 +101,10 @@ function isSceneInitialised(scene_name) {
 	}
 	
 	return result;
+}
+
+var modelDownloadError = function(model_name, scene) {
+	console.log('Error downloading model: ' + model_name);
 }
 
 var updateModelDownloadProgress = function(model_name, scene, model_ready) {
@@ -117,16 +141,22 @@ function meshReady(sceneName, shaderText, uniforms) {
 		var material = new THREE.ShaderMaterial( {
 			vertexShader: shaderText[0],
 			fragmentShader: shaderText[1],
-			uniforms: uniforms
+			uniforms: uniforms,
 		} );
 		material.side = THREE.DoubleSide;
-		mygeometry.setMaterial(material)
 		if (sceneName == "Surface") {
 			surfaceStatus.initialised = true;
+			material.transparent = true;
+			mygeometry.setMaterial(material);
 			surfaceStatus.scene.viewAll();
 		} else if (sceneName == "Airways") {
 			airwaysStatus.initialised = true;
+			airwaysStatus.scene.addZincGeometry(mygeometry, 10001, undefined, undefined, false, false, true, undefined, material);
+			setCurrentAge(100);
 			airwaysStatus.scene.viewAll();
+		} else if (sceneName == "Lungs") {
+			lungsStatus.initialised = true;
+			lungsStatus.scene.viewAll();
 		}
 		updateUniformsWithDetails();
 	}
@@ -140,9 +170,18 @@ function initSurface(scene) {
 	});
 }
 
+// function initAirways(scene) {
+// 	loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
+// 		scene.loadFromViewURL('airways/smoker_and_asthmatic_flow', meshReady(scene.sceneName, shaderText, cellUniforms), );
+// 	}, function (url) {
+// 	    alert('Failed to download "' + url + '"');
+// 	});
+// }
+
 function initAirways(scene) {
+	scene.loadViewURL('airways/smoker_and_asthmatic_flow_view.json')
 	loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
-		scene.loadFromViewURL('airways/smoker_flow', meshReady(scene.sceneName, shaderText, cellUniforms));
+		loadURLsIntoBufferGeometry('airways/smoker_and_asthmatic_flow_1.json', meshReady(scene.sceneName, shaderText, flowUniforms), updateModelDownloadProgress(scene.sceneName, scene, isSceneInitialised(scene.sceneName), modelDownloadError(scene.sceneName, scene)));
 	}, function (url) {
 	    alert('Failed to download "' + url + '"');
 	});
@@ -208,7 +247,7 @@ function initZinc() {
 }
 
 function resetSubjectDetails() {
-	subjectDetails = new person(43, 167, "Female");
+	subjectDetails = new person(11, 153, "Male");
 }
 
 function setValueDisplay(element, value) {
@@ -249,7 +288,7 @@ function setPage(pageIndex) {
 		}
 	}
 	fev1_plot.renderPlot();
-	breathing_plot.renderPlot();
+	breathing_plot.setActive(pageIndex == 1 ? true : false)
 }
 
 function setSubjectDetailsValue(identifier, value) {
@@ -274,11 +313,11 @@ function startAgain() {
 	
 	modelButtonClicked("Surface");
 	
-	var asthma_button_div = document.getElementById('asthma_condition');
-	asthmaConditionClicked(asthma_button_div.children[0]);
+	// var asthma_button_div = document.getElementById('asthma_condition');
+	// asthmaConditionClicked(asthma_button_div.children[0]);
 	
-	var smoking_packs_div = document.getElementById('smoking_packs');
-	smokingPacksClicked(smoking_packs_div.children[0]);
+	// var smoking_packs_div = document.getElementById('smoking_packs');
+	// smokingPacksClicked(smoking_packs_div.children[0]);
 }
 
 function resetViewButtonClicked() {

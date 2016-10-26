@@ -2,6 +2,7 @@ varying vec3 vViewPosition;
 varying vec3 vNormal;
 varying vec3 color_begin;
 varying vec3 color_end;
+varying vec3 color_asthmatic;
 uniform vec3 ambient;
 uniform vec3 emissive;
 uniform vec3 specular;
@@ -12,6 +13,7 @@ uniform	vec3 directionalLightDirection;
 uniform float time;
 uniform float severity;
 uniform float starting_time;
+uniform float asthmaSeverity;
 
 vec3 calculateSpectrumColor(float value)
 {
@@ -63,15 +65,22 @@ vec3 calculateSpectrumColor(float value)
 vec3 calculateColor() {
 	vec3 normal_old = color_begin;
 	vec3 smoker_old = color_end;
+	vec3 young_asthmatic = color_asthmatic;
 	float time_elapsed = time - starting_time;
 	if (time_elapsed < 0.0)
 	{
 		time_elapsed = 0.0;
 	}
 	float delta = 0.0;
-	delta = (normal_old[0] - 0.5) / (0.9 - 0.18) * time_elapsed;
+	delta = (normal_old[0] - 0.5) / (0.9 - 0.18) * time_elapsed * 0.5;
 	if (severity > 0.0)
-		delta = (smoker_old[0] - 0.5) / (0.65 - 0.18) * time_elapsed * severity + delta;
+	{
+		delta = (smoker_old[0] - 0.5) / (0.65 - 0.18) * time_elapsed * severity / 2.0 + delta;
+	}
+	else if (asthmaSeverity < 1.0)
+	{
+		delta = young_asthmatic[0] * 0.2 / asthmaSeverity * time_elapsed + delta;  
+	}
 		
 	float flowValue = delta + 0.5; 
 	vec3 my_color = calculateSpectrumColor(1.0 - flowValue);

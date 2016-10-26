@@ -12,9 +12,11 @@ define([
 	return declare("BreathingController", null,{
 
 		_plot: undefined,
+		_active: undefined,
 		
 		constructor: function(params){
 			dojo.mixin(this, params);
+			this._active = false;
 		},
 		
 		renderPlot: function(){
@@ -37,12 +39,17 @@ define([
 		
 		updateTrace: function(x) {
 			// x is expected to be between (0, 1]
-			if (plot_data.breathing) {
+			if (plot_data.breathing && this._active) {
 				this._plot.removeSeries('point');
 				
 				var pt = this._determineFunctionPoint(x);
 				this._plot.addSeries('point', [pt], {plot: "plot_markers", marker: "m-3,0 c0,-4 6,-4 6,0 m-6,0 c0,4 6,4 6,0", markerStroke: 'white', markerFill: 'white'})
+				this._plot.render();
 			}
+		},
+		
+		setActive: function(state) {
+			this._active = state;
 		},
 		
 		createPlot: function(dom, x_axis_name, y_axis_name){

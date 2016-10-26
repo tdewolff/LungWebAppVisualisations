@@ -8,6 +8,7 @@ var lung_age_display = document.getElementById("play_pause_button");
 var rendered_age = 0;
 var currentBreathingTime = 0.0;
 var currentDate = undefined;
+var breath = 1;
 
 var fev1_plot = undefined;
 var breathing_plot = undefined;
@@ -69,6 +70,15 @@ var airwaysStatus = {
 	},
 };
 
+var lungsStatus = {
+	"scene": undefined,
+	"initialised": false,
+	"download": {
+		"progress": 0,
+		"total": 0,
+	},
+};
+
 var cellUniforms= THREE.UniformsUtils.merge( [
 	{
 		"ambient"  : { type: "c", value: new THREE.Color( 0xffffff ) },
@@ -85,7 +95,7 @@ var cellUniforms= THREE.UniformsUtils.merge( [
 		"cellsDensity": { type: "f", value: 0.1 },
 		"tarDensity":  { type: "f", value: 0.0175},
 		"breathing_cycle": { type: "f", value: 0.0 },
-		"surfaceAlpha": { type: "f", value: 1.0 }
+		"surfaceAlpha": { type: "f", value: 0.5 }
 	}
 ] );
 
