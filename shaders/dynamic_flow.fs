@@ -79,7 +79,7 @@ vec3 calculateColor() {
 	}
 	else if (asthmaSeverity < 1.0)
 	{
-		delta = young_asthmatic[0] * 0.2 / asthmaSeverity * time_elapsed + delta;  
+		delta =  time * (1.0 - asthmaSeverity) * (young_asthmatic[0] - 0.5) / (0.65 - 0.18) + delta;
 	}
 		
 	float flowValue = delta + 0.5; 
