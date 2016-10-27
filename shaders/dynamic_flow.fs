@@ -75,7 +75,7 @@ vec3 calculateColor() {
 	{
 		delta = (asthma[0] - baseline[0]) * (1.0 - asthmaSeverity) / 0.4 + baseline[0];
 	}
-	vec3 my_color = calculateSpectrumColor(delta);
+	vec3 my_color = calculateSpectrumColor(1.0 - delta);
 	return my_color;
 
 }
