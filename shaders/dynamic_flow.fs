@@ -63,28 +63,21 @@ vec3 calculateSpectrumColor(float value)
 
 
 vec3 calculateColor() {
-	vec3 normal_old = color_begin;
-	vec3 smoker_old = color_end;
-	vec3 young_asthmatic = color_asthmatic;
-	float time_elapsed = time - starting_time;
-	if (time_elapsed < 0.0)
-	{
-		time_elapsed = 0.0;
-	}
-	float delta = 0.0;
-	delta = (normal_old[0] - 0.5) / (0.9 - 0.18) * time_elapsed * 0.5;
+	vec3 baseline = color_begin;
+	vec3 smoker = color_end;
+	vec3 asthma = color_asthmatic;
+	float delta = baseline[0];
 	if (severity > 0.0)
 	{
-		delta = (smoker_old[0] - 0.5) / (0.65 - 0.18) * time_elapsed * severity / 2.0 + delta;
+		delta = (smoker[0] - baseline[0]) * severity / 2.0 + baseline[0];
 	}
 	else if (asthmaSeverity < 1.0)
 	{
-		delta =  time * (1.0 - asthmaSeverity) * (young_asthmatic[0] - 0.5) / (0.65 - 0.18) + delta;
+		delta = (asthma[0] - baseline[0]) * (1.0 - asthmaSeverity) / 0.4 + baseline[0];
 	}
-		
-	float flowValue = delta + 0.5; 
-	vec3 my_color = calculateSpectrumColor(flowValue); // 1.0 - flowValue
+	vec3 my_color = calculateSpectrumColor(delta);
 	return my_color;
+
 }
 
 void main(void) {
