@@ -32,6 +32,10 @@ p, ul, span {
 	font-size: 2.7vmin;
 }
 
+#left_page2, p {
+	font-size: 2.5vmin;
+}
+
 header, footer, section,
 nav, article, aside {
 /*	border: 1px solid black;*/

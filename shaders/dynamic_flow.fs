@@ -83,7 +83,7 @@ vec3 calculateColor() {
 	}
 		
 	float flowValue = delta + 0.5; 
-	vec3 my_color = calculateSpectrumColor(1.0 - flowValue);
+	vec3 my_color = calculateSpectrumColor(flowValue); // 1.0 - flowValue
 	return my_color;
 }
 
