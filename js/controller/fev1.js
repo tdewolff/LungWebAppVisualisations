@@ -45,7 +45,7 @@ define([
 				var chart = new Chart(dom);
 				chart.setTheme(TomTheme);
 				chart.addAxis("x", {min: 0, max: 100, title:'Age (years)', titleGap: 5, titleOrientation: 'away', titleFontColor: 'white'});
-				chart.addAxis("y", {vertical: true, min: 30, max: 110, title:'Lung function (FEV1)', titleGap: 5, titleFontColor: 'white'});
+				chart.addAxis("y", {vertical: true, min: 0, max: 140, title:'Lung function (FEV1)', titleGap: 5, titleFontColor: 'white'});
 	
 				this._plot = chart;
 			}
