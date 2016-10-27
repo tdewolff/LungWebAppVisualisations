@@ -3,15 +3,15 @@ function computedFEV1(gender, age, height) {
 	var current_fev1 = 0;
 	if (gender == "male") {
 		if (age < 19) {
-			current_fev1 = -0.2584-0.20415*age+0.010133*age*age+0.00018642*height*height;
+			current_fev1 = -0.7453 - 0.04106*age + 0.004477*age*age+0.00014098*height*height;
 		} else {
-			current_fev1 = -0.1933+0.00064*age-0.000269*age*age+0.00018642*height*height;
+			current_fev1 = 0.5536 -0.01303*age-0.000172*age*age+0.00014098*height*height;
 		}
 	} else {
 		if (age < 17) {
-			current_fev1 = -1.2082+0.05916*age+0.00014815*height*height;
+			current_fev1 = -0.871+0.06537*age+0.00011496*height*height;
 		} else {
-			current_fev1 = -0.3560+0.01870*age-0.000382*age*age+0.00014815*height*height;
+			current_fev1 = 0.4333-0.00361*age-0.000194*age*age+0.00011496*height*height;
 		}
 	} 
 	
