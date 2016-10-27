@@ -188,9 +188,9 @@ function smokingPacksClicked(sender) {
 	if (sender.classList.contains('GreenIcon')) {
 		subjectDetails.packsPerDay = 0.0;
 	} else if (sender.classList.contains('YellowIcon')) {
-		subjectDetails.packsPerDay = 0.5;
-	} else if (sender.classList.contains('PinkIcon')) {
 		subjectDetails.packsPerDay = 1.0;
+	} else if (sender.classList.contains('PinkIcon')) {
+		subjectDetails.packsPerDay = 2.0;
 	}
 	updateUniformsWithDetails();
 	updateUi();
