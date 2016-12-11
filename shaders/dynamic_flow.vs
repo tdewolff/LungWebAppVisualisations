@@ -13,12 +13,12 @@ uniform float weight;
 uniform float breathing_cycle;
 
 vec3 getPosition(vec3 positionIn)  {
-	float max_z = -1.0;
-	float min_z = -251.0;
 	float max_y = -41.9418;
 	float min_y = -196.627;
-	float range_z = max_z - min_z;
+	float max_z = -18.6336;
+	float min_z = -177.955;
 	float range_y = max_y - min_y;
+	float range_z = max_z - min_z;
 	float scale = 1.0;
 	vec3 newPosition = positionIn * vec3(1.0, scale, scale);
 
@@ -27,8 +27,10 @@ vec3 getPosition(vec3 positionIn)  {
 	float vol_increment = tidal_vol * breathing_cycle;
  	float lung_volume = lung_volume_0 + vol_increment;
 	float linear_scale = pow(lung_volume / lung_volume_0, 0.5);
-	newPosition.y = newPosition.y * linear_scale;
-	newPosition.z = newPosition.z * linear_scale;
+	float offset_y = min_y - min_y * linear_scale;
+	float offset_z = max_z - max_z * linear_scale;
+	newPosition.y = newPosition.y * linear_scale + offset_y;
+	newPosition.z = newPosition.z * linear_scale + offset_z;
 	return newPosition;
 }
 
