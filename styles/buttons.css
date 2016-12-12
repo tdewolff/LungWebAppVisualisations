@@ -83,6 +83,14 @@
 	background-repeat: no-repeat;
 }
 
+.DoubleArmSpacer3 {
+	flex: 0 1 3vmin;
+}
+
+.DoubleArmSpacer8 {
+	flex: 0 1 8vmin;
+}
+
 .DoubleArmLocation {
 	position: relative;
 	width: 35%;

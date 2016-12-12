@@ -262,12 +262,12 @@ function setValueDisplay(element, value) {
 }
 
 function setInputsToSubjectDetailsValues() {
-	var age_input = document.getElementById("age_input");
+	var resistance_input = document.getElementById("resistance_input");
 	var height_input = document.getElementById("height_input");
 	var gender_input = document.getElementById("gender_input");
 	var fev_input = document.getElementById("fev_input");
 
-	setValueDisplay(age_input, subjectDetails.age);
+	setValueDisplay(resistance_input, subjectDetails.resistance);
 	setValueDisplay(height_input, subjectDetails.height);
 	setValueDisplay(gender_input, subjectDetails.gender == 'Male' ? 'M' : 'F');
 	setValueDisplay(fev_input, subjectDetails.FEV1);	
@@ -294,6 +294,8 @@ function setPage(pageIndex) {
 function setSubjectDetailsValue(identifier, value) {
 	if (identifier == "height_input") {
 		subjectDetails.height = value;
+	} else if (identifier == "resistance_input") {
+		subjectDetails.resistance = value;
 	} else if (identifier == "age_input") {
 		subjectDetails.age = value;
 	} else if (identifier == "gender_input") {
@@ -308,10 +310,10 @@ function setSubjectDetailsValue(identifier, value) {
 function startAgain() {
 	resetSubjectDetails();
 	
-	setPage(1);
+	setPage(3);
 	setInputsToSubjectDetailsValues();
 	
-	modelButtonClicked("Surface");
+	modelButtonClicked("Airways");
 	
 	// var asthma_button_div = document.getElementById('asthma_condition');
 	// asthmaConditionClicked(asthma_button_div.children[0]);

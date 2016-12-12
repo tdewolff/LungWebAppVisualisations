@@ -1,15 +1,25 @@
-<p>When the airways constrict during an asthma attack, this causes the air delivery to be ‘patchy’. Some patches of lung get a small amount of air, and others get more air than usual.</p>
-
-<ul>
-<li>Gas exchange is worse</li>
-<li>The breathing muscles have to work harder to breathe</li>
-<li>Much more energy is required just to breathe, which is distressing for the patient</li>
-</ul>
-
+<div id="control_panel" class="Expand HBox">
+	<div id="resistance_input" class="Expand HBox Width50" style="color: #4A4A5B;">
+		<div class=DoubleArmSpacer3></div>
+		<div class="VerticalAlignMiddle TextAlignRight InlineBlock AlignSelfCenter Margin1VMin"><p>Resistance</p></div>
+		<div class="DoubleArmLocation DoubleArmYellow VerticalAlignMiddle InlineBlock" style="height: 18vmin;">
+			<div class="PlusYellow TopArm Button" onclick="addClicked(this);"></div>
+			<div class="MinusYellow BottomArm Button" onclick="subClicked(this);"></div>
+			<div class="ValueDisplay"></div>
+		</div>
+	</div><div id="height_input" class="Expand HBox Width50 JustifyContentEnd" style="color: #4A4A5B;"> <div class="DoubleArmLocation DoubleArmGreen VerticalAlignMiddle InlineBlock" style="height: 18vmin;">
+			<div class="PlusGreen TopArm Button" onclick="addClicked(this);"></div>
+			<div class="MinusGreen BottomArm Button" onclick="subClicked(this);"></div>
+			<div class="ValueDisplay"></div>
+		</div>
+		<div class="VerticalAlignMiddle TextAlignRight InlineBlock AlignSelfCenter Margin1VMin"><p>??????</p></div>
+		<div class=DoubleArmSpacer8></div>
+	</div>
+</div>
 <p>In this model:</p>
 
 <ul>
-<li><font color="green">Green</font> is good</li>
-<li><font color="red">Red</font> is too high</li>
-<li><font color="blue">Blue</font> is too low</li>
+	<li><font color="green">Green</font> shows good flow</li>
+	<li><font color="red">Red</font> shows where the flow is too high</li>
+	<li><font color="blue">Blue</font> shows where the flow is too low</li>
 </ul>
