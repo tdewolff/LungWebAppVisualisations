@@ -17,6 +17,9 @@ define([
 		constructor: function(params){
 			dojo.mixin(this, params);
 			this._active = false;
+			this._resistance = 1.0;
+			this._min_y = 0.0;
+			this._max_y = 0.0;
 		},
 
 		setActive: function(state) {
@@ -68,12 +71,14 @@ define([
 		},
 
 		_determineFunctionPoint: function(breath, time) {
+			// 0.0006011 x - 0.03912 x + 0.8304 x - 6.068 x + 15.22 x + 18.11
 			// Assume plot data is monotonically increasing in time.
 			// Assume plot data is somewhat linearly spaced.
 			var active_data = undefined;
 			var first_point = undefined;
 			var last_point = undefined;
 			var data_length = undefined;
+			//var pt = {'x': 0.0, 'y': 0.0};
 			if (breath == 1) {
 				active_data = plot_data.inspiration;
 				data_length = active_data.length;
@@ -89,6 +94,16 @@ define([
 			var x_range = last_point.x - first_point.x;
 			var mapped_x = time * x_range + first_point.x;
 
+			//var x_1 = mapped_x;
+			//var x_2 = x_1 * x_1;
+			//var x_3 = x_2 * x_1;
+			//var x_4 = x_2 * x_2;
+			//var x_5 = x_3 * x_2;
+
+			//pt.x = mapped_x;
+			//pt.y = 0.0006011 * x_5 - 0.03912 * x_4 + 0.8304 * x_3 - 6.068 * x_2 + 15.22 * x_1 + 18.11;
+
+			//return pt;
 			var index = Math.floor(time * data_length + 0.5);
 
 			while (0 <= index && index < data_length - 1 && active_data[index + 1].x < mapped_x) {
