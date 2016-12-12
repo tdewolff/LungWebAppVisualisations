@@ -86,6 +86,7 @@ function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 
 		var trace_time = breath == 2 ? currentBreathingTime / 8000.0 + 0.5 : currentBreathingTime / 8000.0;
 		breathing_plot.updateTrace(trace_time);
+		dynamic_p_v_plot.updateTrace(breath, currentBreathingTime / 4000.0);
 
 		flowUniforms["breathing_cycle"].value = breathing_cycle;
 		cellUniforms["breathing_cycle"].value = breathing_cycle;
@@ -288,7 +289,8 @@ function setPage(pageIndex) {
 		}
 	}
 	fev1_plot.renderPlot();
-	breathing_plot.setActive(pageIndex == 1 ? true : false)
+	breathing_plot.setActive(pageIndex == 1 ? true : false);
+        dynamic_p_v_plot.setActive(pageIndex == 3 ? true : false);
 }
 
 function setSubjectDetailsValue(identifier, value) {
