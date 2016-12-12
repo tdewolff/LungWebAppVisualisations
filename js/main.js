@@ -345,12 +345,14 @@ function requestFullScreen(element) {
 }
 
 require(["js/controller/fev1", 
+	"js/controller/dynamic_p_v",
 	"js/controller/breathing",
 	"js/controller/breathing_blood_air",
 	"js/controller/asthma_volume",
 	"js/controller/asthma_flow",
-	"dojo/domReady!"], function(FEV1, Breathing, BloodAir, AsthmaVolume, AsthmaFlow){
+	"dojo/domReady!"], function(FEV1, DynamicPV, Breathing, BloodAir, AsthmaVolume, AsthmaFlow){
 	
+	dynamic_p_v_plot = new DynamicPV();
 	fev1_plot = new FEV1();
 	breathing_plot = new Breathing();
 	breathing_blood_air_plot = new BloodAir();

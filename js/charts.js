@@ -1,6 +1,8 @@
 
 function initPlots() {
 	
+	var dynamic_p_v_element = document.getElementById("dynamic_p_v_plot");
+	dynamic_p_v_plot.createPlot(dynamic_p_v_element);
 	var fev1_plot_element = document.getElementById("fev1_plot");
 	fev1_plot.createPlot(fev1_plot_element);
 	var breathing_plot_element = document.getElementById("breathing_plot");
@@ -12,6 +14,8 @@ function initPlots() {
 	var asthma_volume_plot_element = document.getElementById("asthma_volume_plot");
 	asthma_volume_plot.createPlot(asthma_volume_plot_element);
 
+	loadPlotData('inspiration', 'data/inspiration_dynamic_flow.json');
+	loadPlotData('expiration', 'data/expiration_dynamic_flow.json');
 	loadPlotData('breathing', 'data/breathing.json');
 	loadPlotData('breathing_blood', 'data/breathing_blood.json');
 	loadPlotData('breathing_air', 'data/breathing_air.json');
@@ -92,6 +96,16 @@ function getColourForSeverity(severity) {
 	return colour;
 }
 
+function plotInspirationData(data) {
+	dynamic_p_v_plot.removeSeries('inspiration');
+	dynamic_p_v_plot.addSeries('inspiration', data, 'blue');
+	dynamic_p_v_plot.renderPlot();
+}
+function plotExpirationData(data) {
+	dynamic_p_v_plot.removeSeries('expiration');
+	dynamic_p_v_plot.addSeries('expiration', data, 'red');
+	dynamic_p_v_plot.renderPlot();
+}
 function plotAsthmaVolumeData(data, severity) {
 	asthma_volume_plot.removeSeries(severity);
 	asthma_volume_plot.addSeries(severity, data, getColourForSeverity(severity));
@@ -108,6 +122,10 @@ function showData(dataName) {
 	var currentData = plot_data[dataName];
 	if (dataName == 'breathing') {
 		plotBreathingData(currentData);
+	} else if (dataName == 'inspiration') {
+		plotInspirationData(currentData);
+	} else if (dataName == 'expiration') {
+		plotExpirationData(currentData);
 	} else if (dataName == 'breathing_blood') {
 		plotBreathingBloodData(currentData);
 	} else if (dataName == 'breathing_air') {

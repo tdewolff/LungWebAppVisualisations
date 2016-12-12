@@ -10,6 +10,7 @@ var currentBreathingTime = 0.0;
 var currentDate = undefined;
 var breath = 1;
 
+var dynamic_p_v_plot = undefined;
 var fev1_plot = undefined;
 var breathing_plot = undefined;
 var breathing_blood_air_plot = undefined;
@@ -31,6 +32,8 @@ function person(age, height, gender) {
 
 function dataSet() {
 	this.test = undefined;
+	this.inspiration = undefined;
+	this.expiration = undefined;
 	this.breathing = undefined;
 	this.breathing_blood = undefined;
 	this.breathing_air = undefined;

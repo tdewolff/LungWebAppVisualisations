@@ -52,6 +52,10 @@ nav, article, aside {
 	pointer-events: all;
 }
 
+.HeightDynamicPVPlot {
+	height: 40vmin;
+}
+
 .HeightBreathingPlot {
 	height: 20%;
 }
