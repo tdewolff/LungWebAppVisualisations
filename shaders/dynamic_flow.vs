@@ -13,8 +13,8 @@ uniform float weight;
 uniform float breathing_cycle;
 
 vec3 getPosition(vec3 positionIn)  {
-	float max_y = 81.9418;
-	float min_y = -89.627;
+	float max_y = -89.627;//81.9418;
+	float min_y = 94.9418;//-89.627;
 	float max_z = 145.6336;
 	float min_z = -14.955;
 	float range_y = max_y - min_y;
@@ -31,6 +31,7 @@ vec3 getPosition(vec3 positionIn)  {
 	float offset_z = max_z - max_z * linear_scale;
 	newPosition.y = newPosition.y * linear_scale + offset_y;
 	newPosition.z = newPosition.z * linear_scale + offset_z;
+
 	return newPosition;
 }
 
