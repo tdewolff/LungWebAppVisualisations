@@ -14,8 +14,8 @@ function initPlots() {
 	var asthma_volume_plot_element = document.getElementById("asthma_volume_plot");
 	asthma_volume_plot.createPlot(asthma_volume_plot_element);
 
-	loadPlotData('inspiration', 'data/inspiration_dynamic_flow.json');
-	loadPlotData('expiration', 'data/expiration_dynamic_flow.json');
+	//loadPlotData('inspiration', 'data/inspiration_dynamic_flow.json');
+	//loadPlotData('expiration', 'data/expiration_dynamic_flow.json');
 	loadPlotData('breathing', 'data/breathing.json');
 	loadPlotData('breathing_blood', 'data/breathing_blood.json');
 	loadPlotData('breathing_air', 'data/breathing_air.json');
@@ -29,7 +29,8 @@ function initPlots() {
 	loadPlotData('asthma_flow_moderate', 'data/asthma_flow_moderate.json');
 	loadPlotData('asthma_flow_severe', 'data/asthma_flow_severe.json');
 
-	updateFEV1Plot();
+	//updateFEV1Plot();
+	updateDynamicPVPlot();
 };
 
 var onDataLoaded = function(xmlhttp, dataName) {
@@ -48,7 +49,12 @@ function loadPlotData(data_name, data_location) {
 	xmlhttp.open("GET", data_location, true);
 	xmlhttp.send();
 }
-	
+
+function updateDynamicPVPlot() {
+	dynamic_p_v_plot.setResistance(subjectDetails.resistance);
+	dynamic_p_v_plot.calculateDynamicPVCurves();	
+}
+
 function updateFEV1Plot() {
 	var asthmaScaling = asthmaLevel[subjectDetails.asthmaSeverity];
 	var age = Math.floor(+subjectDetails.age + 0.5);

@@ -22,7 +22,7 @@ var plot_data = new dataSet();
 function person(age, height, gender) {
 	this.age = age;
 	this.height = height // cm
-	this.resistance = 17;
+	this.resistance = 1.0;
 	this.gender = gender;
 	this.asthmaSeverity = "none";
 	this.ageStartedSmoking = 25;

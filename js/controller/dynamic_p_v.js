@@ -18,8 +18,17 @@ define([
 			dojo.mixin(this, params);
 			this._active = false;
 			this._resistance = 1.0;
-			this._min_y = 0.0;
-			this._max_y = 0.0;
+			this._pt1 = {'x': 0.0, 'y': 0.0};
+			this._pt2 = {'x': 10.0, 'y': 1000.0};
+			this._cpt1 = {'x': 4.0, 'y': 100.0};
+			this._cpt2 = {'x': 9.0, 'y': 600.0};
+			this._cpt3 = {'x': 6.0, 'y': 900.0};
+			this._cpt4 = {'x': 1.0, 'y': 400.0};
+			this._expiration_factor = 1.05;
+		},
+
+		setResistance: function(value) {
+			this._resistance = value;
 		},
 
 		setActive: function(state) {
@@ -43,14 +52,58 @@ define([
 				this._plot.removeSeries(seriesName);
 			}
 		},
-		
-		updateTrace: function(breath, time) {
-			// time is expected to be between (0, 1]
-			// breath is expected to be either 1 or 2
-			if (plot_data.inspiration && plot_data.expiration && this._active) {
-				this._plot.removeSeries('point');
 
-				var pt = this._determineFunctionPoint(breath, time);
+		_getInspirationCurveControlPoints: function() {
+			// scale control points
+			var cpt1 = this._scaleControlPoint(this._cpt1, 1.0);	
+			var cpt2 = this._scaleControlPoint(this._cpt2, 1.0);	
+
+			var inspiration_pts = [this._pt1, cpt1, cpt2, this._pt2];
+			return inspiration_pts;
+		},
+
+		_getExpirationCurveControlPoints: function() {
+			// scale control points
+			var cpt3 = this._scaleControlPoint(this._cpt3, -this._expiration_factor);
+			var cpt4 = this._scaleControlPoint(this._cpt4, -this._expiration_factor);
+
+			var expiration_pts = [this._pt2, cpt3, cpt4, this._pt1];
+			return expiration_pts;
+		},
+
+		calculateDynamicPVCurves: function() {
+			var inspiration_pts = this._getInspirationCurveControlPoints();
+			var expiration_pts = this._getExpirationCurveControlPoints();
+
+			var temp_pt;
+
+			var in_pts = [];
+			var ex_pts = [];
+
+			var n = 15;
+			var step_size = 1.0 / (n - 1);
+			for (var i = 0; i < n; i++) {
+				tmp_pt = this._calculateBezierPoint(i * step_size, inspiration_pts);
+				in_pts.push(tmp_pt);
+				tmp_pt = this._calculateBezierPoint(i * step_size, expiration_pts);
+				ex_pts.push(tmp_pt);
+			}
+			this.removeSeries('inspiration');
+			this.addSeries('inspiration', in_pts, 'red');
+			this.removeSeries('expiration');
+			this.addSeries('expiration', ex_pts, 'blue');
+
+			this._plot.render();
+		},
+		
+		updateTrace: function(time) {
+			// time is expected to be between (0, 1]
+//this._active = false;
+			if (this._active) {
+				this._plot.removeSeries('point');
+				var inspiration_pts = this._getInspirationCurveControlPoints();
+				var expiration_pts = this._getExpirationCurveControlPoints();
+				var pt = this._calculateBezierPoint(time < 0.5 ? 2 * time : 2 * time - 1.0, time < 0.5 ? inspiration_pts : expiration_pts);
 				this._plot.addSeries('point', [pt], {plot: "plot_markers", marker: "m-3,0 c0,-4 6,-4 6,0 m-6,0 c0,4 6,4 6,0", markerStroke: 'white', markerFill: 'white'})
 				this._plot.render();
 			}
@@ -64,13 +117,33 @@ define([
 				var chart = new Chart(dom);
 				chart.setTheme(TomTheme);
 				chart.addPlot("plot_markers", { type: MarkersOnly });
+				chart.addPlot("compliance");
 				chart.addAxis("x", {title:'Pressure (cm H2O)', titleGap: 2, titleOrientation: 'away', titleFontColor: 'white', majorTicks: true, majorLabels: true, minorTicks: false, minorLabels: false, microTicks: false,  majorTick: {color: "red", length: 0},});
 				chart.addAxis("y", {vertical: true, title:'Volume (L)', titleGap: 5, titleFontColor: 'white', majorTicks: false, majorLabels: false, minorTicks: false, minorLabels: false, microTicks: false,});
 				this._plot = chart;
+				this._plot.addSeries('compliance', [this._pt1, this._pt2], {plot: 'compliance', stroke: {color: 'green', style: 'Dash'}});
 			}
 		},
 
-		_determineFunctionPoint: function(breath, time) {
+		_scaleControlPoint: function(pt, expiration_factor) {
+			return {'x': pt.x + this._resistance * expiration_factor, 'y': pt.y};
+		},
+
+		_calculateBezierPoint: function(t, pts) {
+			var tm1 = 1 - t;
+			var tm1_2 = tm1 * tm1;
+			var tm1_3 = tm1 * tm1_2;
+			var t_2 = t * t;
+			var t_3 = t_2 * t;
+
+			var out_pt = {'x': 0.0, 'y': 0.0};
+
+			out_pt.x = pts[0].x * tm1_3 + pts[1].x * 3 * tm1_2 * t + pts[2].x * 3 * tm1 * t_2 + pts[3].x * t_3;
+			out_pt.y = pts[0].y * tm1_3 + pts[1].y * 3 * tm1_2 * t + pts[2].y * 3 * tm1 * t_2 + pts[3].y * t_3;
+			return out_pt;
+		},
+
+		_determineFunctionPoint: function(time) {
 			// 0.0006011 x - 0.03912 x + 0.8304 x - 6.068 x + 15.22 x + 18.11
 			// Assume plot data is monotonically increasing in time.
 			// Assume plot data is somewhat linearly spaced.
