@@ -9,6 +9,9 @@ var rendered_age = 0;
 var currentBreathingTime = 0.0;
 var currentDate = undefined;
 var breath = 1;
+var idleTime = 0;
+var idleTimeLimit = 300000;
+var oldTime = new Date();
 
 var dynamic_p_v_plot = undefined;
 var fev1_plot = undefined;
@@ -22,9 +25,10 @@ var plot_data = new dataSet();
 function person(age, height, gender) {
 	this.age = age;
 	this.height = height // cm
-	this.resistance = 1.0;
+	this.fraction_constrict = 0.0;
 	this.gender = gender;
 	this.asthmaSeverity = "none";
+	this.asthmaCondition = "none";
 	this.ageStartedSmoking = 25;
 	this.packsPerDay = 0.0;
 	this.FEV1 = 2.7;

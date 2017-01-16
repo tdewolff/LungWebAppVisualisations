@@ -51,7 +51,7 @@ function loadPlotData(data_name, data_location) {
 }
 
 function updateDynamicPVPlot() {
-	dynamic_p_v_plot.setResistance(subjectDetails.resistance);
+	dynamic_p_v_plot.setResistance(subjectDetails.fraction_constrict);
 	dynamic_p_v_plot.calculateDynamicPVCurves();	
 }
 

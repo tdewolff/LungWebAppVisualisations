@@ -264,12 +264,12 @@ function setValueDisplay(element, value) {
 }
 
 function setInputsToSubjectDetailsValues() {
-	var resistance_input = document.getElementById("resistance_input");
+	var fraction_constrict_input = document.getElementById("fraction_constrict_input");
 	var height_input = document.getElementById("height_input");
 	var gender_input = document.getElementById("gender_input");
 	var fev_input = document.getElementById("fev_input");
 
-	setValueDisplay(resistance_input, subjectDetails.resistance);
+	setValueDisplay(fraction_constrict_input, subjectDetails.fraction_constrict);
 	setValueDisplay(height_input, subjectDetails.height);
 	setValueDisplay(gender_input, subjectDetails.gender == 'Male' ? 'M' : 'F');
 	setValueDisplay(fev_input, subjectDetails.FEV1);	
@@ -297,8 +297,8 @@ function setPage(pageIndex) {
 function setSubjectDetailsValue(identifier, value) {
 	if (identifier == "height_input") {
 		subjectDetails.height = value;
-	} else if (identifier == "resistance_input") {
-		subjectDetails.resistance = value;
+	} else if (identifier == "fraction_constrict_input") {
+		subjectDetails.fraction_constrict = value;
 	} else if (identifier == "age_input") {
 		subjectDetails.age = value;
 	} else if (identifier == "gender_input") {
@@ -347,6 +347,15 @@ function requestFullScreen(element) {
     }
 }
 
+function resetScreenSaverTimer() {
+    console.log('reset screen saver timer');
+}
+
+function initialiseScreenSaver() {
+    document.body.addEventListener('mousedown', resetScreenSaverTimer, true);
+    document.body.addEventListener('touchstart', resetScreenSaverTimer, true);
+}
+
 require(["js/controller/fev1", 
 	"js/controller/dynamic_p_v",
 	"js/controller/breathing",
@@ -374,5 +383,6 @@ require(["js/controller/fev1",
 	
 	var body = document.body;
 	requestFullScreen(body);
+	initialiseScreenSaver();
 });
 

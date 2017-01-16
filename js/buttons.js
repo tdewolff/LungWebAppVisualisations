@@ -105,10 +105,12 @@ function addClicked(owner) {
 		number_display = adder_button.getElementsByClassName('ValueWideDisplay')[0];
 	}
 	
+	var maxvalue = adder_button.hasAttribute('maxvalue') ? parseFloat(adder_button.getAttribute('maxvalue')): 99999;
 	var increment = owner.hasAttribute('incrementsize') ? parseFloat(owner.getAttribute('incrementSize')) : 1;
 	var precision = owner.hasAttribute('precision') ? precision = owner.getAttribute('precision') : 0;
 	var num = +number_display.innerHTML + increment;
 
+	num = num < maxvalue ? num : maxvalue;
 	number_display.innerHTML = num.toFixed(precision);
 	setSubjectDetailsValue(adder_button.parentNode.id, number_display.innerHTML);
 	updateUniformsWithDetails();
