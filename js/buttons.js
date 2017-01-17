@@ -99,6 +99,8 @@ function setRenderedAge(owner, value) {
 }
 
 function addClicked(owner) {
+console.log("========================");
+console.log(owner);
 	var adder_button = owner.parentNode;
 	var number_display = adder_button.getElementsByClassName('ValueDisplay')[0];
 	if (number_display == undefined) {

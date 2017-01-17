@@ -46,6 +46,14 @@ function interfaceState() {
 	this.active_mode = "ventilation";
 };
 
+function lungFunctionValues() {
+	this.deadspace = undefined;
+	this.compliance = undefined;
+	this.resistance = undefined;
+	this.work = undefined;
+	this.pao2 = undefined;
+};
+
 function dataSet() {
 	this.test = undefined;
 	this.inspiration = undefined;
@@ -62,6 +70,15 @@ function dataSet() {
 	this.asthma_flow_mild = undefined;
 	this.asthma_flow_moderate = undefined;
 	this.asthma_flow_severe = undefined;
+}
+
+var dataLookup = {
+	0.0: {"old": [103.7, 0.267, 0.56, 0.43, 91.3], "young": [103.7, 0.267, 0.274, 0.43, 91.5]},
+	0.1: {"old": [ 84.0, 0.408, 0.56, 0.43, 91.3], "young": [ 84.0, 0.408, 0.274, 0.43, 91.4]},
+	0.2: {"old": [ 66.4, 0.653, 0.56, 0.44, 91.1], "young": [ 66.4, 0.653, 0.274, 0.44, 91.2]},
+	0.3: {"old": [ 50.8, 1.114, 0.56, 0.45, 90.0], "young": [ 50.8, 1.114, 0.274, 0.45, 90.4]},
+	0.4: {"old": [ 37.3, 2.064, 0.56, 0.47, 83.9], "young": [ 37.3, 2.064, 0.274, 0.47, 88.4]},
+	0.5: {"old": [ 25.9, 4.279, 0.56, 0.53, 81.7], "young": [ 25.9, 4.279, 0.274, 0.53, 82.6]},
 }
 
 /* According to studies, asthma severity affects percentage FEV1 */

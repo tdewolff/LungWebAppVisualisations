@@ -31,6 +31,7 @@ function beginLoading() {
 function updateUi() {
 	//updateFEV1Plot();
 	updateDynamicPVPlot();
+	updateUiValues();
 }
 
 var skip = 0;
@@ -86,12 +87,39 @@ function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 		}
 
 		var trace_time = breath == 2 ? currentBreathingTime / 8000.0 + 0.5 : currentBreathingTime / 8000.0;
-		//breathing_plot.updateTrace(trace_time);
-		dynamic_p_v_plot.updateTrace(currentBreathingTime / 4000.0);
+		// dynamic_p_v_plot.updateTrace(currentBreathingTime / 4000.0);
 
 		flowUniforms["breathing_cycle"].value = breathing_cycle;
 		cellUniforms["breathing_cycle"].value = breathing_cycle;
 	};
+}
+
+function getLungFunctionValues() {
+	var values = new lungFunctionValues();
+	var constrict = subjectDetails.fraction_constrict;
+	var age_range = currentInterfaceState.age_range;
+	var array_values = dataLookup[constrict][age_range];
+	values.deadspace = array_values[0];
+	values.resistance = array_values[1];
+	values.compliance = array_values[2];
+	values.work = array_values[3];
+	values.pao2 = array_values[4];
+
+	return values;
+}
+
+function updateUiValues() {
+	var values = getLungFunctionValues();
+	resistance_element = document.getElementById("resistance_value");
+	resistance_element.innerHTML = "<p>" + values.resistance + "</p>";
+	deadspace_element = document.getElementById("deadspace_value");
+	deadspace_element.innerHTML = "<p>" + values.deadspace + "</p>";
+	compliance_element = document.getElementById("compliance_value");
+	compliance_element.innerHTML = "<p>" + values.compliance + "</p>";
+	work_element = document.getElementById("work_value");
+	work_element.innerHTML = "<p>" + values.work + "</p>";
+	pao2_element = document.getElementById("pao2_value");
+	pao2_element.innerHTML = "<p>" + values.pao2 + "</p>";
 }
 
 function isSceneInitialised(scene_name) {
@@ -211,6 +239,8 @@ function initAirways(scene) {
 }
 
 function initModel(scene) {
+console.log("++++++++");
+console.log(scene);
 	scene.loadViewURL('airways/airways_view.json');
 	loadExternalFiles(['shaders/airways.vs', 'shaders/airways.fs'], function (shaderText) {
 		loadURLsIntoNewBufferGeometry('airways/' + scene.sceneName + '_1.json', 
@@ -373,13 +403,15 @@ function startAgain() {
 	
 	// modelButtonClicked("Airways");
 	
-	viewModel(currentInterfaceState.age_range, currentInterfaceState.active_mode);
+	// viewModel(currentInterfaceState.age_range, currentInterfaceState.active_mode);
 
 	var asthma_button_div = document.getElementById('asthma_condition');
 	asthmaConditionClicked(asthma_button_div.children[0]);
 	
 	// var smoking_packs_div = document.getElementById('smoking_packs');
 	// smokingPacksClicked(smoking_packs_div.children[0]);
+
+	updateUi();
 }
 
 function resetViewButtonClicked() {
