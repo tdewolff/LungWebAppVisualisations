@@ -173,22 +173,22 @@ function asthmaConditionClicked(sender) {
 		// asthma_flow_plot.setActiveSeries('mild');
 		// asthma_volume_plot.setActiveSeries('mild');
 		// subjectDetails.asthmaSeverity = 'Mild';
-		viewModel('young', 'ventilation');
+		viewModel(currentInterfaceState.age_range, 'ventilation');
 	} else if (sender.classList.contains('BrightPinkIcon')) {
 		// asthma_flow_plot.setActiveSeries('moderate');
 		// asthma_volume_plot.setActiveSeries('moderate');
 		// subjectDetails.asthmaSeverity = 'Moderate';
-		viewModel('young', 'v_q');
+		viewModel(currentInterfaceState.age_range, 'v_q');
 	} else if (sender.classList.contains('PurpleIcon')) {
 		// asthma_flow_plot.setActiveSeries('severe');
 		// asthma_volume_plot.setActiveSeries('severe');
 		// subjectDetails.asthmaSeverity = 'Severe';
-		viewModel('young', 'qdot');
+		viewModel(currentInterfaceState.age_range, 'qdot');
 	} else if (sender.classList.contains('CyanIcon')) {
 		// asthma_flow_plot.setActiveSeries('severe');
 		// asthma_volume_plot.setActiveSeries('severe');
 		// subjectDetails.asthmaSeverity = 'Severe';
-		viewModel('young', 'pao2');
+		viewModel(currentInterfaceState.age_range, 'pao2');
 	}
 	// updateUniformsWithDetails();
 }
