@@ -137,6 +137,30 @@ function subClicked(owner) {
 	updateUi();
 }
 
+function dotTopClicked() {
+	if (dot_top.style.fill == "#66901C") {
+		dot_bottom.style.fill = "#66901C";
+        	dot_bottom.style.stroke = "#66901C";
+		dot_top.style.fill = "#FFFFFF";
+	        dot_top.style.stroke = "#FFFFFF";
+		currentInterfaceState.age_range = "young";
+	}
+	updateUniformsWithDetails();
+	updateUi();
+}
+
+function dotBottomClicked() {
+	if (dot_bottom.style.fill == "#66901C") {
+		dot_bottom.style.fill = "#FFFFFF";
+ 	       dot_bottom.style.stroke = "#FFFFFF";
+		dot_top.style.fill = "#66901C";
+        	dot_top.style.stroke = "#66901C";
+		currentInterfaceState.age_range = "old";
+	}
+	updateUniformsWithDetails();
+	updateUi();
+}
+
 function maleClicked(owner) {
 	var gender_button = owner.parentNode;
 	var gender_display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];

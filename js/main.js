@@ -147,10 +147,6 @@ function updateModelDownloadProgress(scene_name) {
 }
 
 var updateModelDownloadProgressOriginal = function(model_name, scene, model_ready) {
-console.log('function: updateModelDownloadProgress');
-console.log(model_name);
-console.log(scene);
-console.log(model_ready);
 	var error = false;
 	if (scene) {
 		var message = "";
@@ -175,7 +171,6 @@ console.log(model_ready);
 		setTimeout(endLoading, 1000);
 	}
 	else if (error == false) {
-console.log("error is false in updateModelDownloadProgress");
 		setTimeout(updateModelDownloadProgress, 500, model_name, scene, isSceneInitialised(model_name));
 	}
 }
@@ -239,8 +234,6 @@ function initAirways(scene) {
 }
 
 function initModel(scene) {
-console.log("++++++++");
-console.log(scene);
 	scene.loadViewURL('airways/airways_view.json');
 	loadExternalFiles(['shaders/airways.vs', 'shaders/airways.fs'], function (shaderText) {
 		loadURLsIntoNewBufferGeometry('airways/' + scene.sceneName + '_1.json', 
@@ -292,7 +285,6 @@ function setScene(scene_name) {
 	} else {
 		console.log("Trying to set undefined scene!!!!")
 	}
-console.log(sceneStatuses);
 	zincRenderer.setCurrentScene(currentScene);
 }
 
@@ -302,7 +294,6 @@ function modelButtonClicked(model_name) {
 
 function viewModel(model_range, model_name) {
 	var full_model_name = model_range + model_name;
-	console.log(full_model_name);
 	setScene(full_model_name);
 }
 
@@ -373,8 +364,8 @@ function setPage(pageIndex) {
 			e.style.display = "none";
 		}
 	}
-	fev1_plot.renderPlot();
-	breathing_plot.setActive(pageIndex == 1 ? true : false);
+	// fev1_plot.renderPlot();
+	// breathing_plot.setActive(pageIndex == 1 ? true : false);
         dynamic_p_v_plot.setActive(pageIndex == 3 ? true : false);
 }
 
@@ -474,9 +465,6 @@ require(["js/controller/fev1",
 	asthma_volume_plot = new AsthmaVolume();
 	asthma_flow_plot = new AsthmaFlow();
 	
-	var height_input = document.getElementById('height_input')
-	setRepeatOnButtons(height_input);
-
 	initialiseSceneStatuses();
 	resetSubjectDetails();
 	resetInterfaceState();

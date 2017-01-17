@@ -12,6 +12,9 @@ var currentBreathingTime = 0.0;
 var currentDate = undefined;
 var breath = 1;
 
+var dot_top = undefined;
+var dot_bottom = undefined;
+
 var interface_ranges = ["young", "old"];
 var mode_types = ["ventilation", "qdot", "v_q", "pao2"];
 var scene_names = undefined;
