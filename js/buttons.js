@@ -99,8 +99,6 @@ function setRenderedAge(owner, value) {
 }
 
 function addClicked(owner) {
-console.log("========================");
-console.log(owner);
 	var adder_button = owner.parentNode;
 	var number_display = adder_button.getElementsByClassName('ValueDisplay')[0];
 	if (number_display == undefined) {
@@ -137,26 +135,20 @@ function subClicked(owner) {
 	updateUi();
 }
 
-function dotTopClicked() {
-	if (dot_top.style.fill == "#66901C") {
-		dot_bottom.style.fill = "#66901C";
-        	dot_bottom.style.stroke = "#66901C";
-		dot_top.style.fill = "#FFFFFF";
-	        dot_top.style.stroke = "#FFFFFF";
-		currentInterfaceState.age_range = "young";
-	}
+function youngClicked(owner) {
+	var young_button = owner.parentNode;
+	var display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];
+	display.innerHTML = 'Y';
+	setInterfaceState('age_range', 'young');
 	updateUniformsWithDetails();
 	updateUi();
 }
 
-function dotBottomClicked() {
-	if (dot_bottom.style.fill == "#66901C") {
-		dot_bottom.style.fill = "#FFFFFF";
- 	       dot_bottom.style.stroke = "#FFFFFF";
-		dot_top.style.fill = "#66901C";
-        	dot_top.style.stroke = "#66901C";
-		currentInterfaceState.age_range = "old";
-	}
+function oldClicked(owner) {
+	var old_button = owner.parentNode;
+	var display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];
+	display.innerHTML = 'O';
+	setInterfaceState('age_range', 'old');
 	updateUniformsWithDetails();
 	updateUi();
 }

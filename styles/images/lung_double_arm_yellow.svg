@@ -29,15 +29,4 @@
 	</g>
 	<circle fill="#FFFFFF" cx="419.9" cy="299.6" r="67.2"/>
 </g>
-<g id="Age_Area_1_" onclick="subClicked(this);">
-	<ellipse fill="#FFC000" cx="421.7" cy="521.6" rx="47.5" ry="47.7"/>
-	<rect x="387.7" y="516.2" fill="#FFFFFF" width="68.3" height="10.8"/>
-</g>
-<g id="Age_Area_2_" onclick="addClicked(this);">
-	<ellipse fill="#FFC000" cx="420.7" cy="79.4" rx="49.4" ry="49.6" onclick="addClicked(this);" class="btn"/>
-	<g>
-		<rect x="385.1" y="73.8" fill="#FFFFFF" width="71" height="11.2"/>
-		<rect x="414.9" y="43.8" fill="#FFFFFF" width="11.2" height="71"/>
-	</g>
-</g>
 </svg>

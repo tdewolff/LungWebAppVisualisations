@@ -89,6 +89,7 @@ function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 		var trace_time = breath == 2 ? currentBreathingTime / 8000.0 + 0.5 : currentBreathingTime / 8000.0;
 		// dynamic_p_v_plot.updateTrace(currentBreathingTime / 4000.0);
 
+		flowUniforms["constrict"].value = subjectDetails.fraction_constrict; 
 		flowUniforms["breathing_cycle"].value = breathing_cycle;
 		cellUniforms["breathing_cycle"].value = breathing_cycle;
 	};
@@ -385,6 +386,10 @@ function setSubjectDetailsValue(identifier, value) {
 	}
 }
 
+function setInterfaceState(attribute, value) {
+	currentInterfaceState[attribute] = value;
+}
+
 function startAgain() {
 	resetSubjectDetails();
 	resetInterfaceState();
@@ -393,7 +398,9 @@ function startAgain() {
 	setInputsToSubjectDetailsValues();
 	
 	// modelButtonClicked("Airways");
-	
+	var age_range_input = document.getElementById("age_range_input");
+	setValueDisplay(age_range_input, currentInterfaceState.age_range == 'young' ? 'Y' : 'O');	
+
 	// viewModel(currentInterfaceState.age_range, currentInterfaceState.active_mode);
 
 	var asthma_button_div = document.getElementById('asthma_condition');
@@ -428,7 +435,7 @@ function requestFullScreen(element) {
 }
 
 function resetScreenSaverTimer() {
-    console.log('reset screen saver timer');
+    // console.log('reset screen saver timer');
 }
 
 function initialiseScreenSaver() {

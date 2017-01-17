@@ -202,6 +202,18 @@
 	background-repeat: no-repeat;
 }
 
+.YGreen {
+	background-image: url("images/lung_y_green.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.OGreen {
+	background-image: url("images/lung_o_green.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
 .MaleIcon {
 	background-image: url("images/lung_male.svg");
 	background-size: 100% 100%;
@@ -232,10 +244,7 @@
 
 .ValueDisplay {
 	position: relative;
-	top: 42%;
-	left: 18.5%;
-	width: 63%;
-	height: 23%;
+	top: calc(50% - 1.25vmin);
 	text-align: center;
 	font-size: 2.5vmin;
 	font-weight: bold;
@@ -243,11 +252,10 @@
 
 .ValueWideDisplay {
 	position: relative;
-	top: 45%;
-	left: 24.5%;
-	width: 50%;
-	height: 23%;
+	top: cacl(50% - 1.25vmin);
+	font-size: 2.5vmin;
 	text-align: center;
+	font-weight: bold;
 }
 
 .ResetViewButton {

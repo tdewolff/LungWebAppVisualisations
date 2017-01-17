@@ -163,7 +163,8 @@ var flowUniforms= THREE.UniformsUtils.merge( [
 	"height": { type: "f", value: 160.0 },
 	"weight": { type: "f", value: 70.0 },
 	"breathing_cycle": { type: "f", value: 0.0 },
-	"asthmaSeverity": { type: "f", value: 1.0 }
+	"asthmaSeverity": { type: "f", value: 1.0 },
+	"constrict": { type: "f", value: 0.4 },
 } ] );
 
 
