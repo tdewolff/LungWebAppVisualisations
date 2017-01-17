@@ -169,20 +169,28 @@ function activateCondition(sender) {
 
 function asthmaConditionClicked(sender) {
 	activateCondition(sender);
-	if (sender.classList.contains('GreenIcon')) {
-		asthma_flow_plot.setActiveSeries('mild');
-		asthma_volume_plot.setActiveSeries('mild');
-		subjectDetails.asthmaSeverity = 'Mild';
-	} else if (sender.classList.contains('YellowIcon')) {
-		asthma_flow_plot.setActiveSeries('moderate');
-		asthma_volume_plot.setActiveSeries('moderate');
-		subjectDetails.asthmaSeverity = 'Moderate';
-	} else if (sender.classList.contains('PinkIcon')) {
-		asthma_flow_plot.setActiveSeries('severe');
-		asthma_volume_plot.setActiveSeries('severe');
-		subjectDetails.asthmaSeverity = 'Severe';
+	if (sender.classList.contains('BlueIcon')) {
+		// asthma_flow_plot.setActiveSeries('mild');
+		// asthma_volume_plot.setActiveSeries('mild');
+		// subjectDetails.asthmaSeverity = 'Mild';
+		viewModel('young', 'ventilation');
+	} else if (sender.classList.contains('BrightPinkIcon')) {
+		// asthma_flow_plot.setActiveSeries('moderate');
+		// asthma_volume_plot.setActiveSeries('moderate');
+		// subjectDetails.asthmaSeverity = 'Moderate';
+		viewModel('young', 'v_q');
+	} else if (sender.classList.contains('PurpleIcon')) {
+		// asthma_flow_plot.setActiveSeries('severe');
+		// asthma_volume_plot.setActiveSeries('severe');
+		// subjectDetails.asthmaSeverity = 'Severe';
+		viewModel('young', 'qdot');
+	} else if (sender.classList.contains('CyanIcon')) {
+		// asthma_flow_plot.setActiveSeries('severe');
+		// asthma_volume_plot.setActiveSeries('severe');
+		// subjectDetails.asthmaSeverity = 'Severe';
+		viewModel('young', 'pao2');
 	}
-	updateUniformsWithDetails();
+	// updateUniformsWithDetails();
 }
 
 function smokingPacksClicked(sender) {

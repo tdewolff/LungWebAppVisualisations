@@ -69,12 +69,27 @@
 				<img src="images/turanga_banner_0_transparent.png" onclick="window.open('http://www.turanga.org.nz/')" class="Link Width50"><!--
 				--><img src="images/MedTech CoRE Logo.png" onclick="window.open('http://www.abi.auckland.ac.nz/en.html')" class="Link Width50">
 			</div>
+			<div id="asthma_condition" class="Expand HBox JustifySpaceBetween PositionAbsolute ConditionButtonsPosition Level3 toggleByPageNumber page_3 page_6" >
+				<div class="InactiveIcon BlueIcon Button VMin13 FlexAlignCenter" onclick="asthmaConditionClicked(this);">
+					<span>V</span>
+				</div>
+				<div class="InactiveIcon BrightPinkIcon Button VMin13 FlexAlignCenter" onclick="asthmaConditionClicked(this);">
+					<span>V/Q</span>
+				</div>
+				<div class="InactiveIcon PurpleIcon Button VMin13 FlexAlignCenter" onclick="asthmaConditionClicked(this);">
+					<span>Q</span>
+				</div>
+				<div class="InactiveIcon CyanIcon Button VMin13 FlexAlignCenter" onclick="asthmaConditionClicked(this);">
+					<span>PaO<sub>2</sub></span>
+				</div>
+			</div>
 		</div>
 		<script src="js/three.min.js"></script>
 		<script src="js/zinc_threejs_control.js"></script>
 		<script src="js/zinc_3js_renderer.js"></script>
 		<script src="js/data_generator.js"></script>
 		<script src="js/display_airways_flow.js"></script>
+		<script src="js/display_new_airways.js"></script>
 		<script src="js/Detector.js"></script>
 		<!-- <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: 1, parseOnLoad: true" ></script> -->
 		<script src="js/dojo/1.10.6/dojo/dojo.js"></script>

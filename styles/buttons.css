@@ -23,6 +23,30 @@
 	font-family: titillium;
 }
 
+.BrightPinkIcon {
+	background-image: url("images/lung_bright_pink.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.BlueIcon {
+	background-image: url("images/lung_blue.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.CyanIcon {
+	background-image: url("images/lung_cyan.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.PurpleIcon {
+	background-image: url("images/lung_purple.svg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
 .PinkIcon {
 	background-image: url("images/lung_pink.svg");
 	background-size: 100% 100%;

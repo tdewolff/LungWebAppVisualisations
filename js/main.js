@@ -109,7 +109,20 @@ var modelDownloadError = function(model_name, scene) {
 	console.log('Error downloading model: ' + model_name);
 }
 
-var updateModelDownloadProgress = function(model_name, scene, model_ready) {
+function updateModelDownloadProgress(scene_name) {
+	return function(progress) {
+		var message = "";
+		var element = document.getElementById("loadingMessage");
+		message = "<p>Loading " + scene_name + " ... (" + parseInt(progress["loaded"]/1024).toString() + " KB of " + parseInt(progress["total"]/1024).toString() + " KB).</p>";
+		loadingPage.setLoadingText(message);
+	};
+}
+
+var updateModelDownloadProgressOriginal = function(model_name, scene, model_ready) {
+console.log('function: updateModelDownloadProgress');
+console.log(model_name);
+console.log(scene);
+console.log(model_ready);
 	var error = false;
 	if (scene) {
 		var message = "";
@@ -134,6 +147,7 @@ var updateModelDownloadProgress = function(model_name, scene, model_ready) {
 		setTimeout(endLoading, 1000);
 	}
 	else if (error == false) {
+console.log("error is false in updateModelDownloadProgress");
 		setTimeout(updateModelDownloadProgress, 500, model_name, scene, isSceneInitialised(model_name));
 	}
 }
@@ -159,8 +173,15 @@ function meshReady(sceneName, shaderText, uniforms) {
 		} else if (sceneName == "Lungs") {
 			lungsStatus.initialised = true;
 			lungsStatus.scene.viewAll();
+		} else if (scene_names.includes(sceneName)) {
+			sceneStatuses[sceneName].initialised = true;
+			sceneStatuses[sceneName].scene.addZincGeometry(mygeometry, 10001, undefined, undefined, false, false, true, undefined, material);
+			sceneStatuses[sceneName].scene.viewAll();
 		}
 		updateUniformsWithDetails();
+		var element = document.getElementById("loadingMessage");
+		loadingPage.setLoadingText("<p>Loading " + sceneName + " ... Completed.</p>");
+		setTimeout(endLoading, 1000);
 	}
 }
 		
@@ -181,9 +202,24 @@ function initSurface(scene) {
 // }
 
 function initAirways(scene) {
-	scene.loadViewURL('airways/smoker_and_asthmatic_flow_view.json')
-	loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
+	scene.loadViewURL('airways/airways_view.json')
+	loadExternalFiles(['shaders/airways.vs', 'shaders/airways.fs'], function (shaderText) {
 		loadURLsIntoBufferGeometry('airways/smoker_and_asthmatic_flow_1.json', meshReady(scene.sceneName, shaderText, flowUniforms), updateModelDownloadProgress(scene.sceneName, scene, isSceneInitialised(scene.sceneName), modelDownloadError(scene.sceneName, scene)));
+	}, function (url) {
+	    alert('Failed to download "' + url + '"');
+	});
+}
+
+function initModel(scene) {
+	scene.loadViewURL('airways/airways_view.json');
+	loadExternalFiles(['shaders/airways.vs', 'shaders/airways.fs'], function (shaderText) {
+		loadURLsIntoNewBufferGeometry('airways/' + scene.sceneName + '_1.json', 
+			meshReady(scene.sceneName, shaderText, flowUniforms), 
+			updateModelDownloadProgress(scene.sceneName), 
+			function(scene) {
+				modelDownloadError(scene.sceneName, scene);
+			}
+		);
 	}, function (url) {
 	    alert('Failed to download "' + url + '"');
 	});
@@ -196,10 +232,12 @@ function initScene(scene_name) {
 		initSurface(scene);
 	} else if (scene_name == "Airways") {
 		initAirways(scene);
-	}else {
+	} else if (scene_names.includes(scene_name)) {
+		initModel(scene);
+	} else {
 		console.log("Trying to initialise an undefined scene!!!")
 	}
-	updateModelDownloadProgress(scene_name, scene, isSceneInitialised(scene_name));
+	// updateModelDownloadProgress(scene_name, scene, isSceneInitialised(scene_name));
 	
 	return scene;
 }
@@ -216,14 +254,26 @@ function setScene(scene_name) {
 			airwaysStatus["scene"] = initScene(scene_name);
 		}
 		currentScene = airwaysStatus["scene"];
+	} else if (scene_names.includes(scene_name)) {
+		if (!sceneStatuses[scene_name]["initialised"]) {
+			sceneStatuses[scene_name]["scene"] = initScene(scene_name);
+		}
+		currentScene = sceneStatuses[scene_name]["scene"];
 	} else {
 		console.log("Trying to set undefined scene!!!!")
 	}
+console.log(sceneStatuses);
 	zincRenderer.setCurrentScene(currentScene);
 }
 
 function modelButtonClicked(model_name) {
 	setScene(model_name);
+}
+
+function viewModel(model_range, model_name) {
+	var full_model_name = model_range + model_name;
+	console.log(full_model_name);
+	setScene(full_model_name);
 }
 
 function initZinc() {
@@ -250,6 +300,10 @@ function initZinc() {
 
 function resetSubjectDetails() {
 	subjectDetails = new person(11, 153, "Male");
+}
+
+function resetInterfaceState() {
+	currentInterfaceState = new interfaceState();
 }
 
 function setValueDisplay(element, value) {
@@ -312,14 +366,17 @@ function setSubjectDetailsValue(identifier, value) {
 
 function startAgain() {
 	resetSubjectDetails();
+	resetInterfaceState();
 	
 	setPage(3);
 	setInputsToSubjectDetailsValues();
 	
-	modelButtonClicked("Airways");
+	// modelButtonClicked("Airways");
 	
-	// var asthma_button_div = document.getElementById('asthma_condition');
-	// asthmaConditionClicked(asthma_button_div.children[0]);
+	viewModel(currentInterfaceState.age_range, currentInterfaceState.active_mode);
+
+	var asthma_button_div = document.getElementById('asthma_condition');
+	asthmaConditionClicked(asthma_button_div.children[0]);
 	
 	// var smoking_packs_div = document.getElementById('smoking_packs');
 	// smokingPacksClicked(smoking_packs_div.children[0]);
@@ -356,6 +413,20 @@ function initialiseScreenSaver() {
     document.body.addEventListener('touchstart', resetScreenSaverTimer, true);
 }
 
+function initialiseSceneStatuses() {
+	sceneStatuses = {};
+	scene_names = [];
+	for (var i = 0; i < interface_ranges.length ; i++) {
+		var range = interface_ranges[i];
+		for (var j = 0; j < mode_types.length; j++) {
+			var mode_type = mode_types[j];
+			// sceneStatuses[range + mode_type] = undefined;
+			sceneStatuses[range + mode_type] = new sceneStatus();
+			scene_names.push(range + mode_type);
+		}
+	}
+};
+
 require(["js/controller/fev1", 
 	"js/controller/dynamic_p_v",
 	"js/controller/breathing",
@@ -374,7 +445,9 @@ require(["js/controller/fev1",
 	var height_input = document.getElementById('height_input')
 	setRepeatOnButtons(height_input);
 
+	initialiseSceneStatuses();
 	resetSubjectDetails();
+	resetInterfaceState();
 	initZinc();
 	initPlots();
 

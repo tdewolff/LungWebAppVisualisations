@@ -1,6 +1,8 @@
 var zincRenderer = undefined;
+var currentInterfaceState = undefined;
 var subjectDetails = undefined; /* new person(11, 152, "Male"); */
 var dataController = undefined;
+var sceneStatuses = undefined;
 
 var container = document.getElementById( "zinc_window" );
 var myLoadingPage = document.getElementById("loadingOverlay");
@@ -9,6 +11,11 @@ var rendered_age = 0;
 var currentBreathingTime = 0.0;
 var currentDate = undefined;
 var breath = 1;
+
+var interface_ranges = ["young", "old"];
+var mode_types = ["ventilation", "qdot", "v_q", "pao2"];
+var scene_names = undefined;
+
 var idleTime = 0;
 var idleTimeLimit = 300000;
 var oldTime = new Date();
@@ -32,6 +39,11 @@ function person(age, height, gender) {
 	this.ageStartedSmoking = 25;
 	this.packsPerDay = 0.0;
 	this.FEV1 = 2.7;
+};
+
+function interfaceState() {
+	this.age_range = "young";
+	this.active_mode = "ventilation";
 };
 
 function dataSet() {
@@ -85,6 +97,15 @@ var lungsStatus = {
 		"progress": 0,
 		"total": 0,
 	},
+};
+
+function sceneStatus() {
+	this.scene = undefined;
+	this.initialised = false;
+	this.download = {
+		"progress": 0,
+		"total": 0,
+	};
 };
 
 var cellUniforms= THREE.UniformsUtils.merge( [
