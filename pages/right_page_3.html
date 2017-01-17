@@ -1,20 +1,20 @@
-<div id="control_panel" class="Expand HBox">
-	<div id="resistance_input" class="Expand HBox Width50" style="color: #4A4A5B;">
-		<div class=DoubleArmSpacer3></div>
-		<div class="VerticalAlignMiddle TextAlignRight InlineBlock AlignSelfCenter Margin1VMin"><p>Resistance</p></div>
-		<div class="DoubleArmLocation DoubleArmYellow VerticalAlignMiddle InlineBlock" style="height: 18vmin;">
-			<div class="PlusYellow TopArm Button" onclick="addClicked(this);"></div>
-			<div class="MinusYellow BottomArm Button" onclick="subClicked(this);"></div>
-			<div class="ValueDisplay"></div>
-		</div>
-	</div><div id="height_input" class="Expand HBox Width50 JustifyContentEnd" style="color: #4A4A5B;"> <div class="DoubleArmLocation DoubleArmGreen VerticalAlignMiddle InlineBlock" style="height: 18vmin;">
-			<div class="PlusGreen TopArm Button" onclick="addClicked(this);"></div>
-			<div class="MinusGreen BottomArm Button" onclick="subClicked(this);"></div>
-			<div class="ValueDisplay"></div>
-		</div>
-		<div class="VerticalAlignMiddle TextAlignRight InlineBlock AlignSelfCenter Margin1VMin"><p>??????</p></div>
-		<div class=DoubleArmSpacer8></div>
+<div id="control_panel" class="Expand HBox JustifySpaceBetween">
+	<div class="FlexAlignCenter TextAlignRight"><p>Fraction constrict</p></div>
+<div id="fraction_constrict_input">
+	<div class="DoubleArmLocation DoubleArmYellow VerticalAlignMiddle InlineBlock" maxvalue="0.5" style="width: 7vmin;">
+		<div class="PlusYellow TopArm Button"  incrementsize="0.1" precision="1" onclick="addClicked(this);"></div>
+		<div id="minus_yellow" class="MinusYellow BottomArm Button" incrementsize="0.1" precision="1" onclick="subClicked(this);"></div>
+		<div class="ValueDisplay" style="color: #4A4A5B;"></div>
 	</div>
+</div>
+<div id="age_range_input">
+<div class="DoubleArmLocation DoubleArmGreen VerticalAlignMiddle InlineBlock" style="width: 7vmin;">
+	<div class="YGreen TopArm Button" onclick="youngClicked(this);"></div>
+	<div class="OGreen BottomArm Button" onclick="oldClicked(this);"></div>
+	<div class="ValueDisplay" style="color: #4A4A5B;"></div>
+</div>
+</div>
+	<div class="FlexAlignCenter"><div class="Expand VBox"><div><p>20-30 years</p></div><div><p></p></div><div><p>40-50 years</p></div></div></div>
 </div>
 <p>In this model:</p>
 

@@ -17,7 +17,7 @@ define([
 		constructor: function(params){
 			dojo.mixin(this, params);
 			this._active = false;
-			this._resistance = 1.0;
+			this._resistance = 0.5;
 			this._pt1 = {'x': 0.0, 'y': 0.0};
 			this._pt2 = {'x': 10.0, 'y': 1000.0};
 			this._cpt1 = {'x': 4.0, 'y': 100.0};
@@ -118,8 +118,8 @@ define([
 				chart.setTheme(TomTheme);
 				chart.addPlot("plot_markers", { type: MarkersOnly });
 				chart.addPlot("compliance");
-				chart.addAxis("x", {title:'Pressure (cm H2O)', titleGap: 2, titleOrientation: 'away', titleFontColor: 'white', majorTicks: true, majorLabels: true, minorTicks: false, minorLabels: false, microTicks: false,  majorTick: {color: "red", length: 0},});
-				chart.addAxis("y", {vertical: true, title:'Volume (L)', titleGap: 5, titleFontColor: 'white', majorTicks: false, majorLabels: false, minorTicks: false, minorLabels: false, microTicks: false,});
+				chart.addAxis("x", {title:'Pressure (cm H2O)', titleGap: 2, titleOrientation: 'away', titleFontColor: 'white', min: -5, max: 15, majorTicks: true, majorLabels: true, minorTicks: false, minorLabels: false, microTicks: false,  majorTick: {color: "red", length: 0},});
+				chart.addAxis("y", {vertical: true, title:'Volume (L)', titleGap: 5, titleFontColor: 'white', min: 0, max: 1000, majorTicks: false, majorLabels: false, minorTicks: false, minorLabels: false, microTicks: false,});
 				this._plot = chart;
 				this._plot.addSeries('compliance', [this._pt1, this._pt2], {plot: 'compliance', stroke: {color: 'green', style: 'Dash'}});
 			}

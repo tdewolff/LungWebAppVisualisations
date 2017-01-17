@@ -105,10 +105,12 @@ function addClicked(owner) {
 		number_display = adder_button.getElementsByClassName('ValueWideDisplay')[0];
 	}
 	
+	var maxvalue = adder_button.hasAttribute('maxvalue') ? parseFloat(adder_button.getAttribute('maxvalue')): 99999;
 	var increment = owner.hasAttribute('incrementsize') ? parseFloat(owner.getAttribute('incrementSize')) : 1;
 	var precision = owner.hasAttribute('precision') ? precision = owner.getAttribute('precision') : 0;
 	var num = +number_display.innerHTML + increment;
 
+	num = num < maxvalue ? num : maxvalue;
 	number_display.innerHTML = num.toFixed(precision);
 	setSubjectDetailsValue(adder_button.parentNode.id, number_display.innerHTML);
 	updateUniformsWithDetails();
@@ -130,6 +132,24 @@ function subClicked(owner) {
 		setSubjectDetailsValue(adder_button.parentNode.id, number_display.innerHTML);
 		updateUniformsWithDetails();
 	}
+	updateUi();
+}
+
+function youngClicked(owner) {
+	var young_button = owner.parentNode;
+	var display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];
+	display.innerHTML = 'Y';
+	setInterfaceState('age_range', 'young');
+	updateUniformsWithDetails();
+	updateUi();
+}
+
+function oldClicked(owner) {
+	var old_button = owner.parentNode;
+	var display = owner.parentNode.getElementsByClassName('ValueDisplay')[0];
+	display.innerHTML = 'O';
+	setInterfaceState('age_range', 'old');
+	updateUniformsWithDetails();
 	updateUi();
 }
 
@@ -167,20 +187,28 @@ function activateCondition(sender) {
 
 function asthmaConditionClicked(sender) {
 	activateCondition(sender);
-	if (sender.classList.contains('GreenIcon')) {
-		asthma_flow_plot.setActiveSeries('mild');
-		asthma_volume_plot.setActiveSeries('mild');
-		subjectDetails.asthmaSeverity = 'Mild';
-	} else if (sender.classList.contains('YellowIcon')) {
-		asthma_flow_plot.setActiveSeries('moderate');
-		asthma_volume_plot.setActiveSeries('moderate');
-		subjectDetails.asthmaSeverity = 'Moderate';
-	} else if (sender.classList.contains('PinkIcon')) {
-		asthma_flow_plot.setActiveSeries('severe');
-		asthma_volume_plot.setActiveSeries('severe');
-		subjectDetails.asthmaSeverity = 'Severe';
+	if (sender.classList.contains('BlueIcon')) {
+		// asthma_flow_plot.setActiveSeries('mild');
+		// asthma_volume_plot.setActiveSeries('mild');
+		// subjectDetails.asthmaSeverity = 'Mild';
+		viewModel(currentInterfaceState.age_range, 'ventilation');
+	} else if (sender.classList.contains('BrightPinkIcon')) {
+		// asthma_flow_plot.setActiveSeries('moderate');
+		// asthma_volume_plot.setActiveSeries('moderate');
+		// subjectDetails.asthmaSeverity = 'Moderate';
+		viewModel(currentInterfaceState.age_range, 'v_q');
+	} else if (sender.classList.contains('PurpleIcon')) {
+		// asthma_flow_plot.setActiveSeries('severe');
+		// asthma_volume_plot.setActiveSeries('severe');
+		// subjectDetails.asthmaSeverity = 'Severe';
+		viewModel(currentInterfaceState.age_range, 'qdot');
+	} else if (sender.classList.contains('CyanIcon')) {
+		// asthma_flow_plot.setActiveSeries('severe');
+		// asthma_volume_plot.setActiveSeries('severe');
+		// subjectDetails.asthmaSeverity = 'Severe';
+		viewModel(currentInterfaceState.age_range, 'pao2');
 	}
-	updateUniformsWithDetails();
+	// updateUniformsWithDetails();
 }
 
 function smokingPacksClicked(sender) {

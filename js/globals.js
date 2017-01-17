@@ -1,6 +1,8 @@
 var zincRenderer = undefined;
+var currentInterfaceState = undefined;
 var subjectDetails = undefined; /* new person(11, 152, "Male"); */
 var dataController = undefined;
+var sceneStatuses = undefined;
 
 var container = document.getElementById( "zinc_window" );
 var myLoadingPage = document.getElementById("loadingOverlay");
@@ -9,6 +11,17 @@ var rendered_age = 0;
 var currentBreathingTime = 0.0;
 var currentDate = undefined;
 var breath = 1;
+
+var dot_top = undefined;
+var dot_bottom = undefined;
+
+var interface_ranges = ["young", "old"];
+var mode_types = ["ventilation", "qdot", "v_q", "pao2"];
+var scene_names = undefined;
+
+var idleTime = 0;
+var idleTimeLimit = 300000;
+var oldTime = new Date();
 
 var dynamic_p_v_plot = undefined;
 var fev1_plot = undefined;
@@ -22,12 +35,26 @@ var plot_data = new dataSet();
 function person(age, height, gender) {
 	this.age = age;
 	this.height = height // cm
-	this.resistance = 1.0;
+	this.fraction_constrict = 0.0;
 	this.gender = gender;
 	this.asthmaSeverity = "none";
+	this.asthmaCondition = "none";
 	this.ageStartedSmoking = 25;
 	this.packsPerDay = 0.0;
 	this.FEV1 = 2.7;
+};
+
+function interfaceState() {
+	this.age_range = "young";
+	this.active_mode = "ventilation";
+};
+
+function lungFunctionValues() {
+	this.deadspace = undefined;
+	this.compliance = undefined;
+	this.resistance = undefined;
+	this.work = undefined;
+	this.pao2 = undefined;
 };
 
 function dataSet() {
@@ -46,6 +73,15 @@ function dataSet() {
 	this.asthma_flow_mild = undefined;
 	this.asthma_flow_moderate = undefined;
 	this.asthma_flow_severe = undefined;
+}
+
+var dataLookup = {
+	0.0: {"old": [103.7, 0.267, 0.56, 0.43, 91.3], "young": [103.7, 0.267, 0.274, 0.43, 91.5]},
+	0.1: {"old": [ 84.0, 0.408, 0.56, 0.43, 91.3], "young": [ 84.0, 0.408, 0.274, 0.43, 91.4]},
+	0.2: {"old": [ 66.4, 0.653, 0.56, 0.44, 91.1], "young": [ 66.4, 0.653, 0.274, 0.44, 91.2]},
+	0.3: {"old": [ 50.8, 1.114, 0.56, 0.45, 90.0], "young": [ 50.8, 1.114, 0.274, 0.45, 90.4]},
+	0.4: {"old": [ 37.3, 2.064, 0.56, 0.47, 83.9], "young": [ 37.3, 2.064, 0.274, 0.47, 88.4]},
+	0.5: {"old": [ 25.9, 4.279, 0.56, 0.53, 81.7], "young": [ 25.9, 4.279, 0.274, 0.53, 82.6]},
 }
 
 /* According to studies, asthma severity affects percentage FEV1 */
@@ -83,6 +119,15 @@ var lungsStatus = {
 	},
 };
 
+function sceneStatus() {
+	this.scene = undefined;
+	this.initialised = false;
+	this.download = {
+		"progress": 0,
+		"total": 0,
+	};
+};
+
 var cellUniforms= THREE.UniformsUtils.merge( [
 	{
 		"ambient"  : { type: "c", value: new THREE.Color( 0xffffff ) },
@@ -118,7 +163,8 @@ var flowUniforms= THREE.UniformsUtils.merge( [
 	"height": { type: "f", value: 160.0 },
 	"weight": { type: "f", value: 70.0 },
 	"breathing_cycle": { type: "f", value: 0.0 },
-	"asthmaSeverity": { type: "f", value: 1.0 }
+	"asthmaSeverity": { type: "f", value: 1.0 },
+	"constrict": { type: "f", value: 0.4 },
 } ] );
 
 
