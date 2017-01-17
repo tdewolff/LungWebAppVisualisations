@@ -127,5 +127,5 @@ vec3 totalSpecular = vec3( 0.0 );
 	totalDiffuse += dirDiffuse;
 	totalSpecular += dirSpecular;
 #endif
-	gl_FragColor.xyz = totalDiffuse;
+	gl_FragColor.xyz = totalDiffuse + totalSpecular + emissive + ambientLightColor * ambient * 0.3;
 }
