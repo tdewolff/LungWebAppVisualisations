@@ -388,6 +388,7 @@ function setSubjectDetailsValue(identifier, value) {
 
 function setInterfaceState(attribute, value) {
 	currentInterfaceState[attribute] = value;
+	viewModel(currentInterfaceState.age_range, currentInterfaceState.active_mode);
 }
 
 function startAgain() {
