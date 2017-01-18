@@ -24,7 +24,7 @@ define([
 			this._cpt2 = {'x': 9.0, 'y': 600.0};
 			this._cpt3 = {'x': 6.0, 'y': 900.0};
 			this._cpt4 = {'x': 1.0, 'y': 400.0};
-			this._expiration_factor = 1.05;
+			this._expiration_factor = 1.25;
 		},
 
 		setResistance: function(value) {
