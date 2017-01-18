@@ -1,4 +1,38 @@
 
+@media only screen
+and (max-device-width : 640px) {
+	.DoubleArmWidth {
+		width: 19vmin;
+	}
+}
+
+/* Smaller screens ------------ */
+@media only screen
+and (min-width : 641px)
+and (max-device-width : 1223px) {
+	.DoubleArmWidth {
+		width: 11vmin;
+	}
+}
+
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 1224px) {
+    /* Styles */
+	.DoubleArmWidth {
+		width: 14vmin;
+	}
+}
+
+/* Large screens ----------- */
+@media only screen
+and (min-width : 1824px) {
+    /* Styles */
+	.DoubleArmWidth {
+		width: 14vmin;
+	}
+}
+
 .Button {
 	cursor: pointer;
 	pointer-events: auto;
@@ -117,7 +151,6 @@
 
 .DoubleArmLocation {
 	position: relative;
-	width: 35%;
 	height: 100%;
 }
 
