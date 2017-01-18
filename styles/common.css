@@ -74,6 +74,10 @@ and (min-width : 1824px) {
     /* Styles */
 }
 
+.FlexSpacer8 {
+        flex: 0 1 8vmin;
+}
+
 .HeightDynamicPVPlot {
 	height: 40vmin;
 }
