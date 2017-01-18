@@ -87,7 +87,7 @@ function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 		}
 
 		var trace_time = breath == 2 ? currentBreathingTime / 8000.0 + 0.5 : currentBreathingTime / 8000.0;
-		// dynamic_p_v_plot.updateTrace(currentBreathingTime / 4000.0);
+		dynamic_p_v_plot.updateTrace(currentBreathingTime / 4000.0);
 
 		flowUniforms["constrict"].value = subjectDetails.fraction_constrict; 
 		flowUniforms["breathing_cycle"].value = breathing_cycle;

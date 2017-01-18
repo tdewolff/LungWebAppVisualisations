@@ -51,7 +51,7 @@ function loadPlotData(data_name, data_location) {
 }
 
 function updateDynamicPVPlot() {
-	dynamic_p_v_plot.setResistance(currentInterfaceState.age_range == "young" ? 0.274 : 0.56);
+	dynamic_p_v_plot.setResistance(1.0 + subjectDetails.fraction_constrict * resistance_multiplier);
 	dynamic_p_v_plot.calculateDynamicPVCurves();	
 }
 

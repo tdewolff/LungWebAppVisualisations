@@ -11,6 +11,7 @@ var rendered_age = 0;
 var currentBreathingTime = 0.0;
 var currentDate = undefined;
 var breath = 1;
+var resistance_multiplier = 10.0;
 
 var dot_top = undefined;
 var dot_bottom = undefined;
