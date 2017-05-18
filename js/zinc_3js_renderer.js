@@ -587,6 +587,10 @@ Zinc.Renderer = function (containerIn, window) {
 		_this.setCurrentScene(scene);
 	}
 	
+	this.setClearColor = function(color, alpha) {
+		renderer.setClearColor( color, alpha);
+	}
+	
 	this.getCurrentScene = function() {
 		return currentScene;
 	}

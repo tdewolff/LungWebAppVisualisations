@@ -63,6 +63,9 @@ vec3 calculateSpectrumColor(float value)
 			rgb[1]=0.75-(value-5.0/6.0)*4.5;
 		}
 	}
+	//rgb[0] = 1.0;
+	//rgb[1] = 0.0;
+	//rgb[2] = 0.0;
 	return rgb;
 }
 

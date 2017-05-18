@@ -472,13 +472,25 @@ require(["js/controller/fev1",
 	breathing_blood_air_plot = new BloodAir();
 	asthma_volume_plot = new AsthmaVolume();
 	asthma_flow_plot = new AsthmaFlow();
+
+	function processGetParameters(name)
+	{
+			if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+			return decodeURIComponent(name[1]);
+	}
+
+	colour = processGetParameters("background");
 	
 	initialiseSceneStatuses();
 	resetSubjectDetails();
 	resetInterfaceState();
 	initZinc();
 	initPlots();
-
+	if (colour !== undefined) {
+		var color = new THREE.Color(colour)
+		zincRenderer.setClearColor(color, 1);
+	}
+	
 	startAgain();
 	setPage(0);
 	
