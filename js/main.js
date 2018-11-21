@@ -342,11 +342,11 @@ function requestFullScreen(element) {
     }
 }
 
-require(["js/controller/fev1", 
-	"js/controller/breathing",
-	"js/controller/breathing_blood_air",
-	"js/controller/asthma_volume",
-	"js/controller/asthma_flow",
+require(["../js/controller/fev1.js", 
+	"../js/controller/breathing.js",
+	"../js/controller/breathing_blood_air.js",
+	"../js/controller/asthma_volume.js",
+	"../js/controller/asthma_flow.js",
 	"dojo/domReady!"], function(FEV1, Breathing, BloodAir, AsthmaVolume, AsthmaFlow){
 	
 	fev1_plot = new FEV1();
