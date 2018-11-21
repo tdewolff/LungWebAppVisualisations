@@ -458,12 +458,12 @@ function initialiseSceneStatuses() {
 	}
 };
 
-require(["js/controller/fev1", 
-	"js/controller/dynamic_p_v",
-	"js/controller/breathing",
-	"js/controller/breathing_blood_air",
-	"js/controller/asthma_volume",
-	"js/controller/asthma_flow",
+require(["../js/controller/fev1.js", 
+	"../js/controller/dynamic_p_v.js",
+	"../js/controller/breathing.js",
+	"../js/controller/breathing_blood_air.js",
+	"../js/controller/asthma_volume.js",
+	"../js/controller/asthma_flow.js",
 	"dojo/domReady!"], function(FEV1, DynamicPV, Breathing, BloodAir, AsthmaVolume, AsthmaFlow){
 	
 	dynamic_p_v_plot = new DynamicPV();
