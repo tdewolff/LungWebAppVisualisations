@@ -2,6 +2,8 @@ var zincRenderer = undefined;
 var subjectDetails = undefined; /* new person(11, 152, "Male"); */
 var dataController = undefined;
 
+var THREE = Zinc.THREE;
+
 var container = document.getElementById( "zinc_window" );
 var myLoadingPage = document.getElementById("loadingOverlay");
 var lung_age_display = document.getElementById("play_pause_button");

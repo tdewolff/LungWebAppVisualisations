@@ -143,6 +143,7 @@ function meshReady(sceneName, shaderText, uniforms) {
 			fragmentShader: shaderText[1],
 			uniforms: uniforms,
 		} );
+		material.onBeforeCompile = function(){}; // fix bug in ThreeJS
 		material.side = THREE.DoubleSide;
 		if (sceneName == "Surface") {
 			surfaceStatus.initialised = true;
@@ -163,7 +164,7 @@ function meshReady(sceneName, shaderText, uniforms) {
 }
 		
 function initSurface(scene) {
-	loadExternalFiles(['shaders/clean_cell.vs', 'shaders/clean_cell.fs'], function (shaderText) {
+	Zinc.loadExternalFiles(['shaders/clean_cell.vs', 'shaders/clean_cell.fs'], function (shaderText) {
 		scene.loadFromViewURL('surface/surface', meshReady(scene.sceneName, shaderText, cellUniforms));
 	}, function (url) {
 	    alert('Failed to download "' + url + '"');
@@ -171,7 +172,7 @@ function initSurface(scene) {
 }
 
 // function initAirways(scene) {
-// 	loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
+// 	Zinc.loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
 // 		scene.loadFromViewURL('airways/smoker_and_asthmatic_flow', meshReady(scene.sceneName, shaderText, cellUniforms), );
 // 	}, function (url) {
 // 	    alert('Failed to download "' + url + '"');
@@ -180,7 +181,7 @@ function initSurface(scene) {
 
 function initAirways(scene) {
 	scene.loadViewURL('airways/smoker_and_asthmatic_flow_view.json')
-	loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
+	Zinc.loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
 		loadURLsIntoBufferGeometry('airways/smoker_and_asthmatic_flow_1.json', meshReady(scene.sceneName, shaderText, flowUniforms), updateModelDownloadProgress(scene.sceneName, scene, isSceneInitialised(scene.sceneName), modelDownloadError(scene.sceneName, scene)));
 	}, function (url) {
 	    alert('Failed to download "' + url + '"');
@@ -231,6 +232,7 @@ function initZinc() {
 	if (errorString == undefined) {
 		zincRenderer = new Zinc.Renderer(container, window);
 		zincRenderer.initialiseVisualisation();
+        zincRenderer.getThreeJSRenderer().setClearColor(0x000000, 1);
 		zincRenderer.addPreRenderCallbackFunction(updateUniforms(zincRenderer, cellUniforms, flowUniforms));
 		zincRenderer.setPlayRate(500);
 		zincRenderer.playAnimation = false;
