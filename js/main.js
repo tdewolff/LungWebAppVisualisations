@@ -375,6 +375,6 @@ require(["../js/controller/fev1.js",
 	setPage(0);
 	
 	var body = document.body;
-	requestFullScreen(body);
+	// requestFullScreen(body); // TODO: not allowed in Chrome
 });
 
