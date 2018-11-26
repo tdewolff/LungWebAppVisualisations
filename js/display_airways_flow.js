@@ -149,7 +149,11 @@ function myLoader(finishCallback) {
 
 function loadURLsIntoBufferGeometry(url, finishCallback, progressCallback, errorCallback)
 {
-	var loader = new THREE.JSONLoader( true );
-	var colour = Zinc.defaultMaterialColor;
-	loader.load( url, myLoader(finishCallback), progressCallback, errorCallback);
+	var loader = new THREE.FileLoader();
+	loader.load( url, function (text) {
+		var json = JSON.parse(text);
+		var object = (new THREE.JSONLoader()).parse(json, 'path');
+		object.geometry.morphColors = json.morphColors;
+		myLoader(finishCallback)(object.geometry, object.materials);
+	}, progressCallback, errorCallback);
 }

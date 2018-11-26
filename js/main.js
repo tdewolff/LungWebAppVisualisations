@@ -182,7 +182,15 @@ function initSurface(scene) {
 function initAirways(scene) {
 	scene.loadViewURL('airways/smoker_and_asthmatic_flow_view.json')
 	Zinc.loadExternalFiles(['shaders/dynamic_flow.vs', 'shaders/dynamic_flow.fs'], function (shaderText) {
-		loadURLsIntoBufferGeometry('airways/smoker_and_asthmatic_flow_1.json', meshReady(scene.sceneName, shaderText, flowUniforms), updateModelDownloadProgress(scene.sceneName, scene, isSceneInitialised(scene.sceneName), modelDownloadError(scene.sceneName, scene)));
+		loadURLsIntoBufferGeometry(
+			'airways/smoker_and_asthmatic_flow_1.json',
+			meshReady(scene.sceneName, shaderText, flowUniforms),
+			updateModelDownloadProgress(
+				scene.sceneName,
+				scene,
+				isSceneInitialised(scene.sceneName)
+			)
+		);
 	}, function (url) {
 	    alert('Failed to download "' + url + '"');
 	});
