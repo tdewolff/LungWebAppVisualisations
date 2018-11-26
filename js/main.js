@@ -235,8 +235,8 @@ function modelButtonClicked(model_name) {
 
 function initZinc() {
 	var errorString = undefined;
-	if ( ! Detector.webgl )
-		errorString = Detector.getWebGLErrorMessage();
+	if (!WEBGL.isWebGLAvailable())
+		errorString = WEBGL.getWebGLErrorMessage();
 	if (errorString == undefined) {
 		zincRenderer = new Zinc.Renderer(container, window);
 		zincRenderer.initialiseVisualisation();
