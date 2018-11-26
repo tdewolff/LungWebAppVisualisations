@@ -110,28 +110,28 @@ var modelDownloadError = function(model_name, scene) {
 var updateModelDownloadProgress = function(model_name, scene, model_ready) {
 	var error = false;
 	if (scene) {
-		var message = "";
-		var element = document.getElementById("loadingMessage");
+		var message = '';
 		if (model_ready) {
-			message = "<p>Loading " + model_name + " ... Completed.</p>";
+			message = '100%';
 		} else {
-			var progress = scene.getDownloadProgress();
-			if (progress[2] == false) {
-				var totalString = "";
-				if (progress.totalSize > 0)
-					totalString = parseInt(progress[0]/1024).toString() + " KB";
-				message = "<p>Loading " + model_name + " ... (" + parseInt(progress[1]/1024).toString() + " KB" + (totalString ? "/" + totalString : "") + ").</p>";
+			var totalSize, currentSize;
+			[totalSize, currentSize, error] = scene.getDownloadProgress();
+			if (!error) {
+				message = '0%';
+				if (totalSize > 0) {
+					message = parseInt(Math.round((currentSize/totalSize)*100.0)) + '%';
+				} else if (currentSize > 0) {
+					message = '?';
+				}
 			} else {
-				error = true;
-				message = "<p>Loading " + model_name + " ... Failed to load models. Please try again later.</p>";
+				message = 'Error';
 			}
 		}
 		loadingPage.setLoadingText(message);
 	}
 	if (model_ready) {
-		setTimeout(endLoading, 1000);
-	}
-	else if (error == false) {
+		endLoading();
+	} else if (!error) {
 		setTimeout(updateModelDownloadProgress, 500, model_name, scene, isSceneInitialised(model_name));
 	}
 }

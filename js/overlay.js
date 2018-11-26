@@ -1,16 +1,16 @@
 var loadingPage = new (function() {
     // save a reference to the overlay
-    this.overlayNode = $("#loadingOverlay");
-    this.messageNode = $("#loadingMessage");
+    this.overlayNode = document.getElementById('loading');
+    this.messageNode = this.overlayNode.getElementsByTagName('p')[0];
 
     // called to hide the loading overlay
     this.endLoading = function() {
-        this.overlayNode.fadeOut();
+        this.overlayNode.classList.remove('visible');
     };
     this.beginLoading = function() {
-        this.overlayNode.css({"opacity":0.9, 'display': 'initial'});
+        this.overlayNode.classList.add('visible');
     };
     this.setLoadingText = function(text) {
-        this.messageNode.html(text);
+        this.messageNode.innerHTML = text;
     };
 })();

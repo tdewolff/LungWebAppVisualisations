@@ -1,18 +1,43 @@
-.pageOverlay {
-	top: 30%;
-	left: 30%;
+#loading {
 	position: absolute;
-	height: 12%;
-	width: 40%;
+	top: 50%;
+	left: 50%;
 	z-index: 1001;
+	margin-left: -50px;
+	margin-top: -50px;
+	overflow: hidden;
+
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0s .2s, opacity .2s linear;
 }
 
-#loadingOverlay {
-	background:  #fff url('//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/claro/images/loadingAnimation.gif') no-repeat 10px 23px;
-	color: black;
+#loading.visible {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity .2s linear;
 }
 
-.loadingMessage {
-	padding: 25px 40px;
-	color: #999;
+#loading .spinner {
+	border: 10px solid #202020;
+    border-top: 10px solid #00FBE8;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 1.5s linear infinite;
 }
+
+#loading p {
+	position: absolute;
+	top:50%;
+	margin:0;
+	width: 100%;
+	text-align:center;
+	transform: translateY(-50%);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
