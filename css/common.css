@@ -1,47 +1,5 @@
-body {
-	pointer-events: auto;
-	background-color: black;
-	color: white;
-	font-family: moon, titillium;
-}
-
-html, body {
-/*	width: 100%; */
-	height: 100%;
-	margin: 0px;
-	padding: 0px;
-	overflow: hidden;
-}
-
-h1 {
-	font-family: moon;
-	font-size: 7vmin;
-	color: #00FBE8;
-	margin-top: 0;
-	margin-bottom: 0;
-}
-
-h2 {
-	font-size: 3.5vmin;
-	color: #00FBE8;
-	margin-top: 0;
-}
-
-p, ul, span {
-	font-family: titillium;
-	font-size: 2.7vmin;
-}
-
 #left_page2, p {
 	font-size: 2.5vmin;
-}
-
-header, footer, section,
-nav, article, aside {
-/*	border: 1px solid black;*/
-	padding: 0.0em;
-	margin: 0.0em;
-/*	border-radius: 0.25em;*/
 }
 
 .IgnoreMouse {
