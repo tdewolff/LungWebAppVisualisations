@@ -1,30 +1,34 @@
 @font-face {
-	font-family: "Moon";
-	src: url("fonts/Moon/MoonBold.otf") format("opentype");
+	font-family: 'Moon';
+	src: url('fonts/MoonBold.woff2') format('woff2'),
+		 url('fonts/MoonBold.woff') format('woff');
 	font-weight: bold;
 	font-style: normal;
 	font-display: block;
 }
 
 @font-face {
-	font-family: "Moon";
-	src: url("fonts/Moon/MoonLight.otf") format("opentype");
+	font-family: 'Moon';
+	src: url('fonts/MoonLight.woff2') format('woff2'),
+		 url('fonts/MoonLight.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
 }
 
 @font-face {
-	font-family: "Titillium";
-	src: url("fonts/Titillium/Titillium-Bold.otf") format("opentype");
+	font-family: 'Titillium';
+	src: url('fonts/Titillium-Bold.woff2') format('woff2'),
+		 url('fonts/Titillium-Bold.woff') format('woff');
 	font-weight: bold;
 	font-style: normal;
 	font-display: block;
 }
 
 @font-face {
-	font-family: "Titillium";
-	src: url("fonts/Titillium/Titillium-Regular.otf") format("opentype");
+	font-family: 'Titillium';
+	src: url('fonts/Titillium-Regular.woff2') format('woff2'),
+		 url('fonts/Titillium-Regular.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
@@ -193,15 +197,15 @@ body[data-page="smoking-interactive"] #page-smoking-interactive {
 }
 
 #navigation > a.breathing {
-	background-image: url(images/lung_breathing.svg);
+	background-image: url(images/breathing.svg);
 }
 
 #navigation > a.asthma {
-	background-image: url(images/lung_asthma.svg);
+	background-image: url(images/asthma.svg);
 }
 
 #navigation > a.smoking {
-	background-image: url(images/lung_smoking.svg);
+	background-image: url(images/smoking.svg);
 }
 
 #zinc {
@@ -226,7 +230,7 @@ article.right {
 
 .nav-button {
 	display: block;
-	background-image: url(images/lung_question.svg);
+	background-image: url(images/question.svg);
     background-repeat: no-repeat;
 	background-position: left center;
 	padding-left: 14vmin;
@@ -269,19 +273,19 @@ article.right {
 }
 
 #age-control .control-button {
-	background-image: url(images/lung_double_arm_yellow.svg);
+	background-image: url(images/control_yellow.svg);
 }
 
 #height-control .control-button {
-	background-image: url(images/lung_double_arm_green.svg);
+	background-image: url(images/control_green.svg);
 }
 
 #gender-control .control-button {
-	background-image: url(images/lung_double_arm_blue.svg);
+	background-image: url(images/control_blue_mf.svg);
 }
 
 #fev-control .control-button {
-	background-image: url(images/lung_double_arm_blue.svg);
+	background-image: url(images/control_blue.svg);
 }
 
 .control-button div.plus {
@@ -308,6 +312,7 @@ article.right {
 	color: grey;
 	font-size: 7vmin;
 	white-space: nowrap;
+	line-height: 1;
 }
 
 #page-landing .start {
@@ -353,7 +358,7 @@ article.right {
 
 #asthma-conditions > a,
 #smoking-packs > a {
-	background-image: url(images/lung_inactive.svg);
+	background-image: url(images/button_grey.svg);
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	cursor: pointer;
@@ -371,16 +376,16 @@ article.right {
 
 #asthma-conditions > a.mild.active,
 #smoking-packs > a.mild.active {
-	background-image: url(images/lung_green.svg);
+	background-image: url(images/button_green.svg);
 }
 
 #asthma-conditions > a.moderate.active,
 #smoking-packs > a.moderate.active {
-	background-image: url(images/lung_yellow.svg);
+	background-image: url(images/button_yellow.svg);
 }
 
 #asthma-conditions > a.severe.active,
 #smoking-packs > a.severe.active {
-	background-image: url(images/lung_pink.svg);
+	background-image: url(images/button_pink.svg);
 }
 
