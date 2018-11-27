@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height:100%">
+<html lang="en">
 <head>
 	<title>MedTech CORE - Lung Simulation</title>
 	<meta charset="utf-8">
@@ -9,80 +9,192 @@
 	<meta property="og:title" content="Personalised Lung Estimation and Visualisation."/>
 	<meta property="og:description" content="Using parameters from an individual estimate the state of the lung and provide a 3D visualisation representative of the individual."/>
 	<meta property="og:image" content="images/lungapp.jpg"/>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<link rel="stylesheet" type="text/css" href="css/common.css">
-	<link rel="stylesheet" type="text/css" href="css/buttons.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
-<body style="position: relative;">
+<body data-page="">
+	<div id="zinc"></div>
+	<div id="pages">
+		<section id="page-landing">
+			<a class="start" href="#/breathing">
+				<img src="css/images/medtech_click.svg">
+				<strong>Click here</strong><br>For more info
+			</a>
+			<div class="info">
+				<img src="css/images/medtech_spin.svg">
+				<strong>Spin &amp; zoom</strong><br>To take a closer look
+			</div>
+			<!--<div id="qr_code" class="toggleByPageNumber page_0 Level3 VMin18Height PositionAbsolute">
+				<img src="images/MedTech_CoRE_Lungs.png" style="height: 100%;">
+			</div>-->
+		</section>
+
+
+		<section id="page-breathing">
+			<article class="left">
+				<h1>The Lungs</h1>
+				<h2>Normal breathing</h2>
+				<p>When the healthy lung breathes in the upright position, the lung tissue that is closest to the diaphragm (the muscle that sits beneath the lungs) expands the most, and the tissue at the top of the lung expands the least.</p>
+				<p>We usually breathe in just as much air as we need to supply oxygen for energy for the activities that we are doing.</p>
+				<a class="nav-button" href="#/breathing-gas-exchange">Learn more about GAS<br>EXCHANGE</a>
+			</article>
+			<article class="right">
+				<div id="breathing_plot" class="HeightBreathingPlot"></div>
+			</article>
+		</section>
+
+
+		<section id="page-breathing-gas-exchange">
+			<article class="left">
+				<h1>The Lungs</h1>
+				<h2>Healthy gas exchange</h2>
+				<p>The lungs have about 30,000 airways that transport oxygen and carbon dioxide to/from the gas exchange units that are deep within the lungs.</p>
+				<p>Lungs also have blood vessels that bring blood to the gas exchange units, &amp; transport oxygenated blood to the heart for delivery to the body.</p>
+				<p>Gas exchange works best when the same amount of air and blood is delivered to a gas exchange unit.</p>
+				<p>Lung disease affects the amount of air or blood that is delivered to the gas exchange units: some get too much, and some get too little.</p>
+				<a class="nav-button" href="#/breathing">Go back to BREATHING</a>
+			</article>
+			<article class="right">
+				<div id = "breathing_blood_air_plot"></div>
+				<p>In the graph the <font color="blue">Blue</font> line is air and the <font color="red">Red</font> line is blood.</p>
+				<p>The colours show how much air gets to the gas exchange units. In the model colours towards <font color="blue">Blue</font> is low, and colours toward <font color="red">Red</font> is high.</p>
+			</article>
+		</section>
+
+
+		<section id="page-asthma">
+			<article class="left">
+				<h1>Asthma</h1>
+				<p>Asthma causes airways to become smaller in size. The smooth muscle that wraps around the airways constricts, and the airways secrete mucus.</p>
+				<p>This makes it much harder for air to flow through the airways, and the amount of ventilation that goes to some of the gas exchange units is reduced or zero.</p>
+				<p>Select an option under the lung to see how air delivery to the gas exchange units is affected in MILD, MODERATE, and SEVERE asthma.</p>
+				<a class="nav-button" href="#/asthma-lung-function">Learn more about<br>MEASURING LUNG<br>FUNCTION</a>
+			</article>
+			<article class="right">
+				<p>When the airways constrict during an asthma attack, this causes the air delivery to be ‘patchy’. Some patches of lung get a small amount of air, and others get more air than usual.</p>
+				<ul>
+					<li>Gas exchange is worse</li>
+					<li>The breathing muscles have to work harder to breathe</li>
+					<li>Much more energy is required just to breathe, which is distressing for the patient</li>
+				</ul>
+				<p>In this model:</p>
+				<ul>
+					<li><font color="green">Green</font> is good</li>
+					<li><font color="red">Red</font> is too high</li>
+					<li><font color="blue">Blue</font> is too low</li>
+				</ul>
+			</article>
+			<div id="asthma-conditions">
+				<a class="mild" href="#/asthma/mild">Mild</a>
+				<a class="moderate" href="#/asthma/moderate">Moderate</a>
+				<a class="severe" href="#/asthma/severe">Severe</a>
+			</div>
+		</section>
+
+
+		<section id="page-asthma-lung-function">
+			<article class="left">
+				<h1>Asthma</h1>
+				<h2>Measuring lung function</h2>
+				<p>The classic test of lung function (to tell us how healthy the lung is) is FEV1. This measures the volume of air that is forcefully exhaled from the lung in one second.</p>
+				<p>The size of FEV1 depends on the size of a person’s lungs, but it also depends on how stretchy or floppy the lung tissue and airways are.</p>
+				<p>For a healthy lung at least 80% of the total air that a person can breathe out will be expired in the first one second.</p>
+				<a class="nav-button" href="#/asthma">Go back to ASTHMA</a>
+			</article>
+			<article class="right">
+				<div id="asthma_flow_plot"></div>
+				<div id="asthma_volume_plot"></div>
+				<p>In the graphs above the <font color="blue">blue</font> line is a person who does not have asthma.  The <font color="green">green</font> line is for a person with mild asthma, the <font color="yellow">yellow</font> lins is for a person with moderate asthma, and the <font color="pink">pink</font> line is for a person with severe asthma.</p>
+			</article>
+			<div id="asthma-conditions">
+				<a class="mild" href="#/asthma-lung-function/mild">Mild</a>
+				<a class="moderate" href="#/asthma-lung-function/moderate">Moderate</a>
+				<a class="severe" href="#/asthma-lung-function/severe">Severe</a>
+			</div>
+		</section>
+		
+
+		<section id="page-smoking">
+			<article class="left">
+				<h1>Smoking</h1>
+				<p>Smoking affects the body in many ways. Smokers are at higher risk of lung cancer. Smoking damages the heart muscle and the blood vessels of the heart. Smoking even damages your eyes.</p>
+				<p>The worst effect of smoking is that it damages the airways and gas exchange tissue of the lungs, making it harder to get enough oxygen. Airways become irritated so they secrete too much mucus which leads to coughing. The lung tissue breaks down and gets ‘floppy’. Smokers become breathless, and are at high risk of heart failure.</p>
+				<a class="nav-button" href="#/smoking-interactive">Start MY SMOKING LUNG</a>
+			</article>
+		</section>
+
+
+		<section id="page-smoking-interactive">
+			<article class="left">
+				<h1>Smoking</h1>
+				<h2>My smoking lung</h2>
+				<p>Enter your AGE, GENDER &amp; HEIGHT on the control panel.</p>
+				<p>Did you blow into the spirometer? If yes, enter your value on the control panel.</p>
+				<p>See what will happen to your lung function if you smoke: choose the options below to see the impact of smoking 0, 1, or 2 packs of cigarettes a day.</p>
+				<a class="nav-button" href="#/smoking">Go back to SMOKING</a>
+			</article>
+			<article class="right">
+				<div class="control-panel">
+					<div id="age-control">
+						<p>Age</p>
+						<div class="control-button">
+							<div class="plus" onclick="addClicked(this);"></div>
+							<div class="value">x</div>
+							<div class="minus" onclick="subClicked(this);"></div>
+						</div>
+					</div>
+					<div id="gender-control">
+						<div class="control-button">
+							<div class="plus" onclick="addClicked(this);"></div>
+							<div class="value">x</div>
+							<div class="minus" onclick="subClicked(this);"></div>
+						</div>
+						<p>Gender</p>
+					</div>
+					<div id="height-control">
+						<p>Height</p>
+						<div class="control-button">
+							<div class="plus" onclick="addClicked(this);"></div>
+							<div class="value">x</div>
+							<div class="minus" onclick="subClicked(this);"></div>
+						</div>
+					</div>
+					<div id="fev-control">
+						<div class="control-button">
+							<div class="plus" onclick="addClicked(this);"></div>
+							<div class="value">x</div>
+							<div class="minus" onclick="subClicked(this);"></div>
+						</div>
+						<p>FEV1</p>
+					</div>
+				</div>
+				<div id="fev1_plot"></div>
+				<div>
+					<ul>
+						<li style="font-size:0.7em">The <font color="blue">Blue</font> line is the population average non-smoking person</li>
+						<li style="font-size:0.7em">The <font color="green">Green</font> line is you if you never smoked</li>
+						<li style="font-size:0.7em">The <font color="red">Red</font> line is you if you started smoking at 25</li>
+					</ul>
+				</div>
+			</article>
+			<div id="smoking-packs">
+				<a class="mild" href="#/smoking-interactive/mild">0<br>packs</a>
+				<a class="moderate" href="#/smoking-interactive/mild">1<br>pack</a>
+				<a class="severe" href="#/smoking-interactive/mild">2<br>packs</a>
+			</div>
+		</section>
+	</div>
+	<div id="branding">
+		<img id="logo-turanga" src="images/turanga_banner_0_transparent.png">
+		<img id="logo-medtech" src="images/MedTech CoRE Logo.png">
+	</div>
+	<div id="navigation">
+		<a class="breathing" href="#/breathing"></a>
+		<a class="asthma" href="#/asthma"></a>
+		<a class="smoking" href="#/smoking"></a>
+	</div>
 	<div id="loading">
 		<div class="spinner"></div>
 		<p>Loading</p>
-	</div>
-	<div id="zinc_window" class="FullSize Level1 PositionAbsolute"></div>
-	<div id="screen_saver">
-		<div id="clickButton" class="toggleByPageNumber page_0 Level3 GreyTitle NearBottom PositionAbsolute VMin16Height" onclick="startAgain();">
-			<img src="styles/images/medtech_click.svg" style="height: 100%;">
-			<h1 class="InlineBlock">Click here <i>For more info</i></h1>
-		</div>
-		<div id="spinIcon" class="toggleByPageNumber page_0 Level3 GreyTitle NearBottom PositionAbsolute FixRight VMin16Height">
-			<img src="styles/images/medtech_spin.svg" style="height: 100%;">
-			<h1 class="InlineBlock">Spin & zoom <i>To take a closer look</i></h1>
-		</div>
-		<div id="qr_code" class="toggleByPageNumber page_0 Level3 VMin18Height PositionAbsolute">
-			<img src="images/MedTech_CoRE_Lungs.png" style="height: 100%;">
-		</div>
-	</div>
-	<div class="Expand HBox IgnoreMouse">
-		<section id="left_section" class="Expand VBox WidthLeftColumn Level3 Margin1VMin">
-			<div id="left_page_1" class="toggleByPageNumber page_1"></div>
-			<div id="left_page_2" class="toggleByPageNumber page_2"></div>
-			<div id="left_page_3" class="toggleByPageNumber page_3"></div>
-			<div id="left_page_4" class="toggleByPageNumber page_4"></div>
-			<div id="left_page_5" class="toggleByPageNumber page_5"></div>
-			<div id="left_page_6" class="toggleByPageNumber page_6"></div>
-			<div id="left_page_7" class="toggleByPageNumber page_7"></div>
-			<div id="left_page_8" class="toggleByPageNumber page_8"></div>
-		</section>
-		<section id="main_section" class="WidthCentreColumn Level3 IgnoreMouse">
-		</section>
-		<section id="right_section" class="WidthRightColumn Level3 Margin1VMin">
-			<div id="right_page_1" class="toggleByPageNumber page_1"></div>
-			<div id="right_page_2" class="toggleByPageNumber page_2"></div>
-			<div id="right_page_3" class="toggleByPageNumber page_3"></div>
-			<div id="right_page_6" class="toggleByPageNumber page_6"></div>
-			<div id="right_page_8" class="toggleByPageNumber page_8"></div>
-		</section>
-		<div id="asthma_condition" class="Expand HBox JustifySpaceBetween PositionAbsolute ConditionButtonsPosition Level3 toggleByPageNumber page_3 page_6" >
-			<div class="InactiveIcon GreenIcon Button VMin13 FlexAlignCenter" onclick="asthmaConditionClicked(this);">
-				<span>Mild</span>
-			</div>
-			<div class="InactiveIcon YellowIcon Button VMin13 FlexAlignCenter" onclick="asthmaConditionClicked(this);">
-				<span>Moderate</span>
-			</div>
-			<div class="InactiveIcon PinkIcon Button VMin13 FlexAlignCenter" onclick="asthmaConditionClicked(this);">
-				<span>Severe</span>
-			</div>
-		</div>
-		<div id="smoking_packs" class="Expand HBox JustifySpaceBetween PositionAbsolute ConditionButtonsPosition Level3 toggleByPageNumber page_8" >
-			<div class="InactiveIcon GreenIcon Button VMin13 FlexAlignCenter TextAlignCenter" onclick="smokingPacksClicked(this);">
-				<span>0<br />packs</span>
-			</div>
-			<div class="InactiveIcon YellowIcon Button VMin13 FlexAlignCenter TextAlignCenter" onclick="smokingPacksClicked(this);">
-				<span>1<br />pack</span>
-			</div>
-			<div class="InactiveIcon PinkIcon Button VMin13 FlexAlignCenter TextAlignCenter" onclick="smokingPacksClicked(this);">
-				<span>2<br />packs</span>
-			</div>
-		</div>
-		<div class="PositionAbsolute WidthLogos FixBottom WhiteBackground Level3 toggleByPageNumber page_natural">
-			<img src="images/turanga_banner_0_transparent.png" onclick="window.open('http://www.turanga.org.nz/')" class="Link Width50"><!--
-			--><img src="images/MedTech CoRE Logo.png" onclick="window.open('http://www.abi.auckland.ac.nz/en.html')" class="Link Width50">
-		</div>
-		<div class="Expand HBox WidthLungCondition Level3 FixBottom FixRight JustifySpaceBetween PositionAbsolute toggleByPageNumber page_natural">
-			<div class="BreathingIcon Button VMin16" onclick="breathingClicked();"></div>
-			<div class="AsthmaIcon Button VMin16" onclick="asthmaClicked();"></div>
-			<div class="SmokingIcon Button VMin16" onclick="smokingClicked();"></div>
-		</div>
 	</div>
 	<script src="js/lib/zinc-0.29.5.min.js"></script>
 	<script src="js/lib/require-2.3.6.min.js"></script>
@@ -90,10 +202,10 @@
 	<script src="js/data_generator.js"></script>
 	<script src="js/display_airways_flow.js"></script>
 	<script src="js/globals.js"></script>
-	<script src="js/load.js"></script>
 	<script src="js/overlay.js"></script>
 	<script src="js/charts.js"></script>
 	<script src="js/buttons.js"></script>
 	<script src="js/main.js"></script>
+	<script src="js/script.js"></script>
 </body>
 </html>

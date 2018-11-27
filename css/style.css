@@ -35,6 +35,8 @@
 }
 
 html, body {
+	position: relative;
+	z-index: -2;
 	margin: 0;
 	padding: 0;
 	height: 100%;
@@ -66,12 +68,15 @@ header, footer, section, nav, article, aside {
 	margin: 0;
 }
 
+a > img {
+	display: inline-block;
+}
+
 /* Loading spinner */
 #loading {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	z-index: 1001;
 	margin-left: -50px;
 	margin-top: -50px;
 	overflow: hidden;
@@ -108,5 +113,274 @@ header, footer, section, nav, article, aside {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Pages */
+#pages {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+#pages > section {
+	display: none;
+}
+
+body[data-page=""] #page-landing {
+	display: block;
+}
+
+body[data-page=""] #branding,
+body[data-page=""] #navigation {
+	display: none;
+}
+
+body[data-page="breathing"] #page-breathing {
+	display: block;
+}
+
+body[data-page="breathing-gas-exchange"] #page-breathing-gas-exchange {
+	display: block;
+}
+
+body[data-page="asthma"] #page-asthma {
+	display: block;
+}
+
+body[data-page="asthma-lung-function"] #page-asthma-lung-function {
+	display: block;
+}
+
+body[data-page="smoking"] #page-smoking {
+	display: block;
+}
+
+body[data-page="smoking-interactive"] #page-smoking-interactive {
+	display: block;
+}
+
+/* Elements */
+#branding {
+	position: absolute;
+	bottom: 0;
+	background: white;
+	width: 204px;
+	padding: 2px;
+	font-size: 0; /* hack to remove whitespace */
+}
+
+#logo-turanga,
+#logo-medtech {
+	width: 100px;
+}
+
+#navigation {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 32%;
+
+	display: flex;
+	justify-content: space-between;
+}
+
+#navigation > a {
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	width: 16vmin;
+	height: 16vmin;
+}
+
+#navigation > a.breathing {
+	background-image: url(images/lung_breathing.svg);
+}
+
+#navigation > a.asthma {
+	background-image: url(images/lung_asthma.svg);
+}
+
+#navigation > a.smoking {
+	background-image: url(images/lung_smoking.svg);
+}
+
+#zinc {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+}
+
+article.left {
+	position: absolute;
+	width: 30%;
+	margin: 1vmin;
+}
+
+article.right {
+	position: absolute;
+	right: 0;
+	width: 30%;
+	margin: 1vmin;
+}
+
+.nav-button {
+	display: block;
+	background-image: url(images/lung_question.svg);
+    background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 14vmin;
+	height: 13vmin;
+
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	color: white;
+}
+
+.control-panel {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.control-panel > div {
+	width: 50%;
+	height: 50%;
+
+	display: flex;
+	align-items: center;
+}
+
+#age-control,
+#height-control {
+	justify-content: flex-end;
+}
+
+.control-panel > div > p {
+	margin: 0 1vmin;
+}
+
+.control-button {
+	display: block;
+    background-repeat: no-repeat;
+	background-size: 100% 100%;
+	width: 10vmin;
+	height: 18vmin;
+}
+
+#age-control .control-button {
+	background-image: url(images/lung_double_arm_yellow.svg);
+}
+
+#height-control .control-button {
+	background-image: url(images/lung_double_arm_green.svg);
+}
+
+#gender-control .control-button {
+	background-image: url(images/lung_double_arm_blue.svg);
+}
+
+#fev-control .control-button {
+	background-image: url(images/lung_double_arm_blue.svg);
+}
+
+.control-button div.plus {
+	cursor: pointer;
+	height: 4vmin;
+}
+
+.control-button div.value {
+	height: 10vmin;
+	color: #4A4A5B;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+.control-button div.minus {
+	cursor: pointer;
+	height: 4vmin;
+}
+
+#page-landing {
+	color: grey;
+	font-size: 7vmin;
+	white-space: nowrap;
+}
+
+#page-landing .start {
+	position: absolute;
+	bottom: 3%;
+	height: 16vmin;
+	width: 35%;
+}
+
+#page-landing .info {
+	position: absolute;
+	right: 0;
+	bottom: 3%;
+	height: 16vmin;
+	width: 50%;
+}
+
+#page-landing strong {
+	font-family: Moon;
+}
+
+#page-landing a {
+	text-decoration: none;
+	color: grey;
+}
+
+#page-landing img {
+	float: left;
+	height: 100%;
+	padding-right: 0.5em;
+}
+
+#asthma-conditions,
+#smoking-packs {
+	position: absolute;
+	bottom: 5%;
+	left: 30%;
+	width: 35%;
+
+	display: flex;
+	justify-content: space-between;
+}
+
+#asthma-conditions > a,
+#smoking-packs > a {
+	background-image: url(images/lung_inactive.svg);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	width: 13vmin;
+	height: 13vmin;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+
+	text-decoration: none;
+	color: white;
+}
+
+#asthma-conditions > a.mild.active,
+#smoking-packs > a.mild.active {
+	background-image: url(images/lung_green.svg);
+}
+
+#asthma-conditions > a.moderate.active,
+#smoking-packs > a.moderate.active {
+	background-image: url(images/lung_yellow.svg);
+}
+
+#asthma-conditions > a.severe.active,
+#smoking-packs > a.severe.active {
+	background-image: url(images/lung_pink.svg);
 }
 

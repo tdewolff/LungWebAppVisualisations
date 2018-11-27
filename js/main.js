@@ -85,7 +85,7 @@ function updateUniforms(zincRenderer, cellUniforms, flowUniforms) {
 		}
 
 		var trace_time = breath == 2 ? currentBreathingTime / 8000.0 + 0.5 : currentBreathingTime / 8000.0;
-		breathing_plot.updateTrace(trace_time);
+		// breathing_plot.updateTrace(trace_time);
 
 		flowUniforms["breathing_cycle"].value = breathing_cycle;
 		cellUniforms["breathing_cycle"].value = breathing_cycle;
@@ -185,11 +185,14 @@ function initAirways(scene) {
 		loadURLsIntoBufferGeometry(
 			'airways/smoker_and_asthmatic_flow_1.json',
 			meshReady(scene.sceneName, shaderText, flowUniforms),
-			updateModelDownloadProgress(
-				scene.sceneName,
-				scene,
-				isSceneInitialised(scene.sceneName)
-			)
+			function(xhr) {
+				// TODO: track progress
+			}
+		);
+		updateModelDownloadProgress(
+			scene.sceneName,
+			scene,
+			isSceneInitialised(scene.sceneName)
 		);
 	}, function (url) {
 	    alert('Failed to download "' + url + '"');
@@ -318,7 +321,7 @@ function setSubjectDetailsValue(identifier, value) {
 function startAgain() {
 	resetSubjectDetails();
 	
-	setPage(1);
+	// setPage(1);
 	setInputsToSubjectDetailsValues();
 	
 	modelButtonClicked("Surface");
@@ -352,29 +355,28 @@ function requestFullScreen(element) {
     }
 }
 
-require(["../js/controller/fev1.js", 
-	"../js/controller/breathing.js",
-	"../js/controller/breathing_blood_air.js",
-	"../js/controller/asthma_volume.js",
-	"../js/controller/asthma_flow.js"], function(FEV1, Breathing, BloodAir, AsthmaVolume, AsthmaFlow){
-	
-	fev1_plot = new FEV1();
-	breathing_plot = new Breathing();
-	breathing_blood_air_plot = new BloodAir();
-	asthma_volume_plot = new AsthmaVolume();
-	asthma_flow_plot = new AsthmaFlow();
-	
-	var height_input = document.getElementById('height_input')
-	setRepeatOnButtons(height_input);
-
-	resetSubjectDetails();
-	initZinc();
-	initPlots();
-
-	startAgain();
-	setPage(0);
-	
-	var body = document.body;
-	// requestFullScreen(body); // TODO: not allowed in Chrome
-});
+// require(["../js/controller/fev1.js", 
+// 	"../js/controller/breathing.js",
+// 	"../js/controller/breathing_blood_air.js",
+// 	"../js/controller/asthma_volume.js",
+// 	"../js/controller/asthma_flow.js"], function(FEV1, Breathing, BloodAir, AsthmaVolume, AsthmaFlow){
+// 	
+// 	fev1_plot = new FEV1();
+// 	breathing_plot = new Breathing();
+// 	breathing_blood_air_plot = new BloodAir();
+// 	asthma_volume_plot = new AsthmaVolume();
+// 	asthma_flow_plot = new AsthmaFlow();
+// 	
+// 	var height_input = document.getElementById('height_input')
+// 	setRepeatOnButtons(height_input);
+// 
+// 	resetSubjectDetails();
+// 	initPlots();
+// 
+// 	// startAgain();
+// 	// setPage(0);
+// 	
+// 	var body = document.body;
+// 	// requestFullScreen(body); // TODO: not allowed in Chrome
+// });
 

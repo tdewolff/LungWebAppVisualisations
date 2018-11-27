@@ -4,7 +4,7 @@ var dataController = undefined;
 
 var THREE = Zinc.THREE;
 
-var container = document.getElementById( "zinc_window" );
+var container = document.getElementById( "zinc" );
 var myLoadingPage = document.getElementById("loadingOverlay");
 var lung_age_display = document.getElementById("play_pause_button");
 var rendered_age = 0;
