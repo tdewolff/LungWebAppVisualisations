@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body data-page="">
-	<div id="zinc"></div>
+	<div id="renderer"></div>
 	<div id="pages">
 		<section id="page-landing">
 			<a class="start" href="#/breathing">
@@ -137,32 +137,32 @@
 					<div id="age-control">
 						<p>Age</p>
 						<div class="control-button">
-							<div class="plus" onclick="addClicked(this);"></div>
-							<div class="value">x</div>
-							<div class="minus" onclick="subClicked(this);"></div>
+							<div class="button" data-name="age" data-value="+"></div>
+							<div class="value"></div>
+							<div class="button" data-name="age" data-value="-"></div>
 						</div>
 					</div>
 					<div id="gender-control">
 						<div class="control-button">
-							<div class="plus" onclick="addClicked(this);"></div>
-							<div class="value">x</div>
-							<div class="minus" onclick="subClicked(this);"></div>
+							<div class="button" data-name="gender" data-value="F"></div>
+							<div class="value"></div>
+							<div class="button" data-name="gender" data-value="M"></div>
 						</div>
 						<p>Gender</p>
 					</div>
 					<div id="height-control">
 						<p>Height</p>
 						<div class="control-button">
-							<div class="plus" onclick="addClicked(this);"></div>
-							<div class="value">x</div>
-							<div class="minus" onclick="subClicked(this);"></div>
+							<div class="button" data-name="height" data-value="+"></div>
+							<div class="value"></div>
+							<div class="button" data-name="height" data-value="-"></div>
 						</div>
 					</div>
 					<div id="fev-control">
 						<div class="control-button">
-							<div class="plus" onclick="addClicked(this);"></div>
-							<div class="value">x</div>
-							<div class="minus" onclick="subClicked(this);"></div>
+							<div class="button" data-name="fev" data-value="+"></div>
+							<div class="value"></div>
+							<div class="button" data-name="fev" data-value="-"></div>
 						</div>
 						<p>FEV1</p>
 					</div>
@@ -192,20 +192,15 @@
 		<a class="asthma" href="#/asthma"></a>
 		<a class="smoking" href="#/smoking"></a>
 	</div>
-	<div id="loading">
+	<div id="loader">
 		<div class="spinner"></div>
 		<p>Loading</p>
 	</div>
 	<script src="js/lib/zinc-0.29.5.min.js"></script>
 	<script src="js/lib/require-2.3.6.min.js"></script>
 	<script src="js/webgl_check.js"></script>
-	<script src="js/data_generator.js"></script>
-	<script src="js/display_airways_flow.js"></script>
-	<script src="js/globals.js"></script>
-	<script src="js/overlay.js"></script>
-	<script src="js/charts.js"></script>
-	<script src="js/buttons.js"></script>
+	<script src="js/scene.js"></script>
+	<script src="js/subject.js"></script>
 	<script src="js/main.js"></script>
-	<script src="js/script.js"></script>
 </body>
 </html>
