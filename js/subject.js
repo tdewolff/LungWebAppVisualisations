@@ -43,7 +43,7 @@ function subSubjectValue(name) {
 
 function setSubjectValue(name, value) {
 	if (name === 'gender') {
-		if (value !== 'F' && value != 'M') {
+		if (value === 'F' || value === 'M') {
 			subject[name] = value;
 		} else {
 			console.error('Bad gender value ' + value);
@@ -71,8 +71,7 @@ for (let i = 0; i < buttons.length; i++) {
 	let repeat = function () {
 		clickButton(button);
 		t = setTimeout(repeat, delay);
-		delay = 100;
-
+		delay = 80;
 	};
 	button.onmousedown = function(e) {
 		delay = 1000;

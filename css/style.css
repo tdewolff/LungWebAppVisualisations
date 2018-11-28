@@ -380,18 +380,18 @@ article.right {
 	color: white;
 }
 
-#asthma-conditions > a.mild.active,
-#smoking-packs > a.mild.active {
+body[data-severity="mild"] #asthma-conditions > a.mild,
+body[data-severity="mild"] #smoking-packs > a.mild {
 	background-image: url(images/button_green.svg);
 }
 
-#asthma-conditions > a.moderate.active,
-#smoking-packs > a.moderate.active {
+body[data-severity="moderate"] #asthma-conditions > a.moderate,
+body[data-severity="moderate"] #smoking-packs > a.moderate {
 	background-image: url(images/button_yellow.svg);
 }
 
-#asthma-conditions > a.severe.active,
-#smoking-packs > a.severe.active {
+body[data-severity="severe"] #asthma-conditions > a.severe,
+body[data-severity="severe"] #smoking-packs > a.severe {
 	background-image: url(images/button_pink.svg);
 }
 
