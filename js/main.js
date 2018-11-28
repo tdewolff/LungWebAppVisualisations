@@ -66,5 +66,3 @@ function loadRoute(url) {
 }
 updateRoute();
 
-/* Controls */
-
