@@ -66,3 +66,9 @@ function loadRoute(url) {
 }
 updateRoute();
 
+document.getElementById('toggle-information').addEventListener('click', function(e) {
+	let articles = document.querySelectorAll('article');
+	for (let i = 0; i < articles.length; i++) {
+		articles[i].classList.toggle('hidden');
+	}
+});

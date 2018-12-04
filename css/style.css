@@ -188,8 +188,8 @@ body[data-page="smoking-interactive"] #page-smoking-interactive {
 
 #navigation {
 	position: absolute;
-	right: 0;
-	bottom: 0;
+	right: 1vmin;
+	bottom: 1vmin;
 	width: 32%;
 
 	display: flex;
@@ -216,11 +216,36 @@ body[data-page="smoking-interactive"] #page-smoking-interactive {
 	background-image: url(images/smoking.svg);
 }
 
+#toggle-information {
+	position: absolute;
+	bottom: 1vmin;
+	left: 1vmin;
+	display: inline-block;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	width: 12vmin;
+	height: 12vmin;
+	background-image: url(images/information.svg);
+}
+
 #renderer {
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	z-index: -1;
+}
+
+article {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity .2s linear;
+}
+
+article.hidden {
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0s .2s, opacity .2s linear;
 }
 
 article.left {
@@ -395,3 +420,46 @@ body[data-severity="severe"] #smoking-packs > a.severe {
 	background-image: url(images/button_pink.svg);
 }
 
+/* Graphs */
+.plot svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.plot svg .data {
+	fill: none;
+	stroke: orange;
+	stroke-width: 3;
+}
+
+.plot svg .background {
+	fill: #00000080;
+}
+
+.plot svg .axes {
+	fill: none;
+	stroke: white;
+	stroke-width: 1;
+	shape-rendering: crispEdges;
+}
+
+.plot svg .xlabel,
+.plot svg .ylabel {
+	fill: white;
+	text-anchor: middle;
+}
+
+.plot svg .xlabel {
+	transform: translate(0, 1em);
+}
+
+.plot svg .ylabel {
+	transform: rotate(-90deg) translate(0, -0.5em);
+}
+
+.plot svg .marker {
+	fill: none;
+	stroke: red;
+	stroke-width: 4px;
+}

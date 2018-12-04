@@ -42,13 +42,14 @@ function updateFrame(zincRenderer) {
         cellUniforms['directionalLightDirection'].value.set(light.position.x, light.position.y, light.position.z);
         flowUniforms['directionalLightDirection'].value.set(light.position.x, light.position.y, light.position.z);
 
-        let t = (new Date() - sceneStartDate) / 1000.0;
-		t = (t % 4.0) / 2.0;
-		if (t > 1.0) {
-			t = (2.0-t);
+        let dt = (new Date() - sceneStartDate) / 1000.0;
+		t = (dt % 4.0) / 4.0;
+		updateMarkers((dt % 8.0) / 8.0);
+		if (t > 0.5) {
+			t = (1.0-t);
 		}
-        flowUniforms['breathing_cycle'].value = t;
-        cellUniforms['breathing_cycle'].value = t;
+        flowUniforms['breathing_cycle'].value = t*2.0;
+        cellUniforms['breathing_cycle'].value = t*2.0;
 	};
 }
 

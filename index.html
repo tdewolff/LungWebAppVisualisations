@@ -9,6 +9,7 @@
 	<meta property="og:title" content="Personalised Lung Estimation and Visualisation."/>
 	<meta property="og:description" content="Using parameters from an individual estimate the state of the lung and provide a 3D visualisation representative of the individual."/>
 	<meta property="og:image" content="images/lungapp.jpg"/>
+	<link rel="stylesheet" href="lib/chartist-0.11.0.min.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body data-page="" data-severity="">
@@ -38,7 +39,7 @@
 				<a class="nav-button" href="#/breathing-gas-exchange">Learn more about GAS<br>EXCHANGE</a>
 			</article>
 			<article class="right">
-				<div id="breathing_plot" class="HeightBreathingPlot"></div>
+				<div id="breathing-plot" class="plot"></div>
 			</article>
 		</section>
 
@@ -183,10 +184,11 @@
 			</div>
 		</section>
 	</div>
-	<div id="branding">
+	<a id="toggle-information"></a>
+	<!--<div id="branding">
 		<img id="logo-turanga" src="images/turanga_banner_0_transparent.png">
 		<img id="logo-medtech" src="images/MedTech CoRE Logo.png">
-	</div>
+	</div>-->
 	<div id="navigation">
 		<a class="breathing" href="#/breathing"></a>
 		<a class="asthma" href="#/asthma"></a>
@@ -196,9 +198,10 @@
 		<div class="spinner"></div>
 		<p>Loading</p>
 	</div>
-	<script src="js/lib/zinc-0.29.5.min.js"></script>
-	<script src="js/lib/require-2.3.6.min.js"></script>
+	<script src="lib/zinc-0.29.5.min.js"></script>
+	<script src="lib/svg-2.7.1.min.js"></script>
 	<script src="js/webgl_check.js"></script>
+	<script src="js/graphs.js"></script>
 	<script src="js/scene.js"></script>
 	<script src="js/subject.js"></script>
 	<script src="js/main.js"></script>
