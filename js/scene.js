@@ -65,8 +65,6 @@ const renderer = (function() {
 	zincRenderer.initialiseVisualisation();
 	zincRenderer.getThreeJSRenderer().setClearColor(0x000000, 1);
 	zincRenderer.addPreRenderCallbackFunction(updateFrame(zincRenderer));
-	// zincRenderer.setPlayRate(500);
-	// zincRenderer.playAnimation = false;
 	zincRenderer.animate();
 
 	const scenes = {};
@@ -74,7 +72,6 @@ const renderer = (function() {
 		scenes[name] = scene;
 		scene.viewAll()
 		zincRenderer.setCurrentScene(scene);
-		sceneStartDate = new Date();
 	};
 
 	const loader = document.getElementById('loader');
@@ -121,8 +118,8 @@ const renderer = (function() {
 				});
 			} else if (name === 'airways') {
 				startLoading();
-				scene.loadViewURL('models/airways/smoker_and_asthmatic_flow_view.json')
 				Zinc.loadExternalFiles(['models/shaders/dynamic_flow.vs', 'models/shaders/dynamic_flow.fs'], function (shaderText) {
+					scene.loadViewURL('models/airways/smoker_and_asthmatic_flow_view.json');
 					loadURLsIntoBufferGeometry(
 						'models/airways/smoker_and_asthmatic_flow_1.json',
 						function (geometry) {
@@ -139,7 +136,11 @@ const renderer = (function() {
 							stopLoading();
 						},
 						function (xhr) {
-							setLoadingText((xhr.loaded / xhr.total * 100).toFixed(0) + '%');
+							let total = xhr.total;
+							if (total === 0) {
+								total = xhr.target.getResponseHeader('X-Uncompressed-Content-Length');
+							}
+							setLoadingText((xhr.loaded / total * 100).toFixed(0) + '%');
 						},
 						function (err) {
 							console.error('Could not load model: ', err);
@@ -308,10 +309,9 @@ function myLoader(finishCallback) {
 	}
 }
 
-function loadURLsIntoBufferGeometry(url, finishCallback, progressCallback, errorCallback)
-{
+function loadURLsIntoBufferGeometry(url, finishCallback, progressCallback, errorCallback) {
 	var loader = new THREE.FileLoader();
-	loader.load( url, function (text) {
+	loader.load(url, function (text) {
 		var json = JSON.parse(text);
 		var object = (new THREE.JSONLoader()).parse(json, 'path');
 		object.geometry.morphColors = json.morphColors;

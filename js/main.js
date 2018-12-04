@@ -49,6 +49,7 @@ function loadRoute(url) {
 		subject.asthmaSeverity = severity;
 		subject.packsPerDay = 0.0;
 		updateSubject();
+		break;
 	case 'smoking':
 	case 'smoking-interactive':
 		renderer.loadScene('airways');

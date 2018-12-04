@@ -17,6 +17,7 @@ uniform float asthmaSeverity;
 
 vec3 calculateSpectrumColor(float value)
 {
+	return vec3(0.0, 1.0, 0.0);
 	vec3 rgb = vec3( 0.0 );
 	if (value<1.0/3.0)
 	{
@@ -81,6 +82,8 @@ vec3 calculateColor() {
 }
 
 void main(void) {
+	gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
+	return;
 	vec3 adjustDiffuse = calculateColor();
 #ifdef ALPHATEST
 	if ( gl_FragColor.a < ALPHATEST ) discard;
