@@ -115,7 +115,7 @@ const renderer = (function() {
 			const scene = zincRenderer.createScene(name);
 			if (name === 'surface') {
 				startLoading();
-				Zinc.loadExternalFiles(['models/shaders/clean_cell.vs', 'models/shaders/clean_cell.fs'], function (shaderText) {
+				Zinc.loadExternalFiles(['shaders/surface.vs', 'shaders/surface.fs'], function (shaderText) {
 					const material = new THREE.ShaderMaterial({
 						vertexShader: shaderText[0],
 						fragmentShader: shaderText[1],
@@ -137,7 +137,7 @@ const renderer = (function() {
 				});
 			} else if (name === 'airways') {
 				startLoading();
-				Zinc.loadExternalFiles(['models/shaders/dynamic_flow.vs', 'models/shaders/dynamic_flow.fs'], function (shaderText) {
+				Zinc.loadExternalFiles(['shaders/airways.vs', 'shaders/airways.fs'], function (shaderText) {
 					scene.loadViewURL('models/airways/smoker_and_asthmatic_flow_view.json');
 					loadURLsIntoBufferGeometry(
 						'models/airways/smoker_and_asthmatic_flow_1.json',
