@@ -1,3 +1,5 @@
+const MIN_RATIO = 16/9; // minimum ratio of width/height
+
 /* Navigation */
 function updateRoute() {
 	const url = window.location.hash.substr(1);
@@ -67,9 +69,29 @@ function loadRoute(url) {
 }
 updateRoute();
 
-document.getElementById('toggle-information').addEventListener('click', function(e) {
+document.getElementById('information').addEventListener('click', function(e) {
 	let articles = document.querySelectorAll('article');
 	for (let i = 0; i < articles.length; i++) {
 		articles[i].classList.toggle('hidden');
 	}
 });
+
+// Scale down when height too small
+function resize() {
+  const h = window.innerHeight;
+  const minHeight = window.innerWidth / MIN_RATIO;
+  if (h < minHeight) {
+    const scale = h / minHeight;
+    document.body.style.transform = 'scale(' + scale + ',' + scale + ')';
+	document.body.style.height = (100/scale).toString() + '%';
+	document.body.style.top = ((100-100/scale)/2).toString() + '%';
+  } else if (document.body.style.transform != '') {
+    document.body.style.transform = '';
+	document.body.style.height = '';
+	document.body.style.top = '';
+  }
+}
+window.onresize = function(e) {
+  resize();
+};
+resize();

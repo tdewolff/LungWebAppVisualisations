@@ -1,4 +1,5 @@
 const THREE = Zinc.THREE;
+let PLAY_SPEED = 1.0;
 
 const cellUniforms = THREE.UniformsUtils.merge([{
 	'ambient'  : { type: 'c', value: new THREE.Color( 0xffffff ) },
@@ -35,21 +36,43 @@ const flowUniforms = THREE.UniformsUtils.merge([{
     'asthmaSeverity': { type: 'f', value: 1.0 }
 }]);
 
-let sceneStartDate = new Date();
+let playing = false;
+let sceneStartDate = new Date().getTime();
+let scenePauseDate = new Date().getTime();
+document.getElementById('play').addEventListener('click', function(e) {
+	if (this.classList.contains('playing')) {
+		scenePauseDate = new Date().getTime();
+		playing = false;
+	} else {
+		let offset = new Date().getTime() - scenePauseDate;
+		sceneStartDate += offset;
+		playing = true;
+	}
+	this.classList.toggle('playing');
+});
+
 function updateFrame(zincRenderer) {
 	return function () {
 		let light = zincRenderer.getCurrentScene().directionalLight;
         cellUniforms['directionalLightDirection'].value.set(light.position.x, light.position.y, light.position.z);
         flowUniforms['directionalLightDirection'].value.set(light.position.x, light.position.y, light.position.z);
 
-        let dt = (new Date() - sceneStartDate) / 1000.0;
-		t = (dt % 4.0) / 4.0;
-		updateMarkers((dt % 8.0) / 8.0);
+		let sceneTime = 0.0;
+		if (playing) {
+			sceneTime = (new Date().getTime() - sceneStartDate) / 1000.0;
+		} else {
+			sceneTime = (scenePauseDate - sceneStartDate) / 1000.0;
+		}
+		sceneTime *= PLAY_SPEED;
+
+		updateMarkers((sceneTime % 8.0) / 8.0);
+
+		let t = (sceneTime % 4.0) / 4.0;
 		if (t > 0.5) {
 			t = (1.0-t);
 		}
-        flowUniforms['breathing_cycle'].value = t*2.0;
-        cellUniforms['breathing_cycle'].value = t*2.0;
+		flowUniforms['breathing_cycle'].value = t*2.0;
+		cellUniforms['breathing_cycle'].value = t*2.0;
 	};
 }
 
