@@ -103,7 +103,7 @@ function loadGraph(id, url) {
 			i++;	
 		}
 
-		let pos = data[0];
+		let pos = {x: data[0].x, y: data[0].y};
 		if (i > 0) {
 			let dx = data[i].x-data[i-1].x;
 			let fa = (data[i].x-x)/dx;

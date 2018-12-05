@@ -166,10 +166,11 @@ vec2 cellular(vec3 P) {
 #endif
 }
 
-varying vec3 vTexCoord3D;
-varying vec3 tarPosition3D;
-varying vec3 vViewPosition;
-varying vec3 vNormal;
+varying vec3 v_texCoord;
+varying vec3 v_tarPos;
+varying vec3 v_viewPos;
+varying vec3 v_normal;
+
 uniform vec3 diffuse;
 uniform vec3 ambient;
 uniform vec3 emissive;
@@ -178,97 +179,70 @@ uniform float shininess;
 uniform vec3 ambientLightColor;
 uniform	vec3 directionalLightColor;
 uniform	vec3 directionalLightDirection;
-uniform float time;
-uniform float severity;
-uniform float starting_time;
-uniform float surfaceAlpha;
-
-float rand(vec2 co){
-    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
-}
+uniform float smokingSeverity;
+uniform float opacity;
 
 vec3 colorScale(vec2 seed) {
-#define pi 3.14159;
-	float scaling = 1.0;
-	float time_elapsed = time - starting_time;
-	scaling = 1.0 - 0.2 * time;
-	if (time_elapsed < 0.0)
-	{
-		time_elapsed = 0.0;
-	}
-	// log function here to make dark patch appear earlier and slow down at the end
-	float current_value = log(100.0 * severity * time_elapsed) / 3.0;
-	//current_value dictates area of patchiness. larger number = lower contrast
-	if (current_value > 1.8)
-		current_value = 1.8;
-	// the following adjust the colour of patches, using a constant 0.45 at this moment
-	if (current_value > seed.x) {
-		scaling = (scaling - 0.3 * (current_value - seed.x));
-	}
-	vec3 rgb_scale = vec3(scaling * scaling, scaling, scaling);
-	return rgb_scale ;	
+	float tar = seed.x * smokingSeverity;
+	float scaling = 1.0 - 0.7 * tar;
+	scaling *= 0.7 + 0.3 * (1.0-smokingSeverity);
+	return vec3(scaling * scaling, scaling, scaling);
 }
 
 void main(void) {
-	vec3 adjustDiffuse = diffuse;
 #ifdef ALPHATEST
-	if ( gl_FragColor.a < ALPHATEST ) discard;
+	if (gl_FragColor.a < ALPHATEST) discard;
 #endif
 
-	vec2 F = cellular(vTexCoord3D.xyz);
-	vec2 F_tar = cellular(tarPosition3D.xyz);
+	vec2 F = cellular(v_texCoord.xyz);
+	vec2 F_tar = cellular(v_tarPos.xyz);
 	float n = F.y-F.x;
 	vec3 rgb_scale = colorScale(F_tar);
+
 	vec3 normalScaling = vec3(1.0, 1.0, 1.0);
-	if (n < 0.1)
-	{
-		normalScaling.z = 0.1 + n * 9.0 ;
+	vec3 adjustDiffuse = diffuse;
+	if (n < 0.1) {
+		normalScaling.z = 0.1 + n * 9.0;
 		adjustDiffuse = vec3(0.78, 0.51, 0.51);
 	}
-	float specularStrength = 1.0;
-	vec3 normal = normalize( vNormal );
-
+	vec3 normal = normalize(v_normal);
 	normal = normalize(vec3(normal.x * normalScaling.x, normal.y * normalScaling.y, normal.z * normalScaling.z));
-	
 	if (!gl_FrontFacing)
 		normal.z = -normal.z;
 		
-	vec3 viewPosition = normalize( vViewPosition );
-
+	float specularStrength = 1.0;
+	vec3 viewPosition = normalize(v_viewPos);
+	vec3 totalDiffuse = vec3(0.0);
+	vec3 totalSpecular = vec3(0.0);
 #if NUM_DIR_LIGHTS > 0
-	vec3 dirDiffuse  = vec3( 0.0 );
-	vec3 dirSpecular = vec3( 0.0 );
+	vec3 dirDiffuse = vec3(0.0);
+	vec3 dirSpecular = vec3(0.0);
 
-	vec4 lDirection = viewMatrix * vec4( directionalLightDirection, 0.0 );
-	vec3 dirVector = normalize( lDirection.xyz );
-	float dotProduct = dot( normal, dirVector );
+	vec4 lDirection = viewMatrix * vec4(directionalLightDirection, 0.0);
+	vec3 dirVector = normalize(lDirection.xyz);
+	float dotProduct = dot(normal, dirVector);
 	#ifdef WRAP_AROUND
-		float dirDiffuseWeightFull = max( dotProduct, 0.0 );
-		float dirDiffuseWeightHalf = max( 0.5 * dotProduct + 0.5, 0.0 );
-		vec3 dirDiffuseWeight = mix( vec3( dirDiffuseWeightFull ), vec3( dirDiffuseWeightHalf ), wrapRGB );
+		float dirDiffuseWeightFull = max(dotProduct, 0.0);
+		float dirDiffuseWeightHalf = max(0.5 * dotProduct + 0.5, 0.0);
+		vec3 dirDiffuseWeight = mix(vec3(dirDiffuseWeightFull), vec3(dirDiffuseWeightHalf), wrapRGB);
 	#else
-		float dirDiffuseWeight = max( dotProduct, 0.0 );
+		float dirDiffuseWeight = max(dotProduct, 0.0);
 	#endif
 	dirDiffuse += adjustDiffuse * directionalLightColor * dirDiffuseWeight;
-	vec3 dirHalfVector = normalize( dirVector + viewPosition );
-	float dirDotNormalHalf = max( dot( normal, dirHalfVector ), 0.0 );
-	float dirSpecularWeight = specularStrength * max( pow( dirDotNormalHalf, shininess ), 0.0 );
-	float specularNormalization = ( shininess + 2.0001 ) / 8.0;
-	vec3 schlick = specular + vec3( 1.0 - specular ) * pow( max( 1.0 - dot( dirVector, dirHalfVector ), 0.0 ), 5.0 );
+	vec3 dirHalfVector = normalize(dirVector + viewPosition);
+	float dirDotNormalHalf = max(dot(normal, dirHalfVector ), 0.0);
+	float dirSpecularWeight = specularStrength * max(pow(dirDotNormalHalf, shininess), 0.0);
+	float specularNormalization = (shininess + 2.0001) / 8.0;
+	vec3 schlick = specular + vec3(1.0 - specular) * pow(max(1.0 - dot(dirVector, dirHalfVector), 0.0), 5.0);
 	dirSpecular += schlick * directionalLightColor * dirSpecularWeight * dirDiffuseWeight * specularNormalization;
-#endif
-
-vec3 totalDiffuse = vec3( 0.0 );
-vec3 totalSpecular = vec3( 0.0 );
-#if NUM_DIR_LIGHTS > 0
 	totalDiffuse += dirDiffuse;
 	totalSpecular += dirSpecular;
 #endif
+
 	gl_FragColor = vec4(1.0, 0.5, 0.5, 1.0);
-	gl_FragColor.xyz = gl_FragColor.xyz * ( emissive + totalDiffuse + ambientLightColor * ambient ) + totalSpecular;
+	gl_FragColor.xyz = gl_FragColor.xyz * (emissive + totalDiffuse + ambientLightColor * ambient) + totalSpecular;
  	gl_FragColor.xyz = gl_FragColor.xyz * rgb_scale;
  	if (gl_FragColor.y > gl_FragColor.x)
  		gl_FragColor.x = gl_FragColor.y;
- 	gl_FragColor.a = surfaceAlpha;
-//	gl_FragColor.xyz = vec3(threshold, threshold, threshold);
+ 	gl_FragColor.a = opacity;
 }

@@ -83,17 +83,10 @@ for (let i = 0; i < buttons.length; i++) {
 }
 
 function updateSubject() {
-	const age = Math.floor(subject.age + 0.5);
-	const start_age = subject.ageStartedSmoking * 0.01;
-	const height = subject.height;
-	const asthmaScaling = asthmaLevel[subject.asthmaSeverity];
-	cellUniforms["starting_time"].value = start_age;
-	cellUniforms["severity"].value = subject.packsPerDay * 1.0;
-	flowUniforms["starting_time"].value = start_age;
-	flowUniforms["severity"].value = subject.packsPerDay * 1.0;
-	flowUniforms["height"].value = height * 1.0;
-	flowUniforms["weight"].value = 70.0;
-	flowUniforms["asthmaSeverity"].value = asthmaScaling * 1.0;
+	const asthmaSeverity = asthmaLevel[subject.asthmaSeverity];
+	// cellUniforms["smokingSeverity"].value = subject.packsPerDay * 1.0;
+	// flowUniforms["smokingSeverity"].value = subject.packsPerDay * 1.0;
+	// flowUniforms["asthmaSeverity"].value = asthmaSeverity * 1.0;
 
 	document.querySelector('#age-control .value').innerHTML = subject['age'];
 	document.querySelector('#gender-control .value').innerHTML = subject['gender'];

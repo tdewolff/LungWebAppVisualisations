@@ -5,34 +5,30 @@ const cellUniforms = THREE.UniformsUtils.merge([{
 	'ambient'  : { type: 'c', value: new THREE.Color( 0xffffff ) },
 	'emissive' : { type: 'c', value: new THREE.Color( 0x000000 ) },
 	'specular' : { type: 'c', value: new THREE.Color( 0x111111 ) },
-	'shininess': { type: 'f', value: 100 },
+	'shininess': { type: 'f', value: 30 },
 	'diffuse': { type: 'c', value: new THREE.Color( 0xeecaa2 ) },
 	'ambientLightColor': { type: 'c', value: new THREE.Color( 0x444444 ) },
 	'directionalLightColor': { type: 'c', value: new THREE.Color( 0x888888 ) },
 	'directionalLightDirection': { type: 'v3', value: new THREE.Vector3()  },
-	'time': { type: 'f', value: 0.0 },
-	'starting_time': { type: 'f', value: 0.0 },
-	'severity': { type: 'f', value: 0.0 },
 	'cellsDensity': { type: 'f', value: 0.1 },
 	'tarDensity':  { type: 'f', value: 0.0175},
-	'breathing_cycle': { type: 'f', value: 0.0 },
-	'surfaceAlpha': { type: 'f', value: 0.5 }
+	't': { type: 'f', value: 0.0 },
+	'tidalVolumeRatio': { type: 'f', value: 0.7 },
+	'smokingSeverity': { type: 'f', value: 0.0 },
+	'opacity': { type: 'f', value: 0.5 }
 }]);
 
 const flowUniforms = THREE.UniformsUtils.merge([{
     'ambient'  : { type: 'c', value: new THREE.Color( 0xffffff ) },
     'emissive' : { type: 'c', value: new THREE.Color( 0x000000 ) },
     'specular' : { type: 'c', value: new THREE.Color( 0x111111 ) },
-    'shininess': { type: 'f', value: 100 },
+    'shininess': { type: 'f', value: 30 },
     'ambientLightColor': { type: 'c', value: new THREE.Color( 0x444444 ) },
     'directionalLightColor': { type: 'c', value: new THREE.Color( 0x888888 ) },
     'directionalLightDirection': { type: 'v3', value: new THREE.Vector3()  },
-    'time': { type: 'f', value: 0.0 },
-    'starting_time': { type: 'f', value: 0.0 },
-    'severity': { type: 'f', value: 1.0 },
-    'height': { type: 'f', value: 160.0 },
-    'weight': { type: 'f', value: 70.0 },
-    'breathing_cycle': { type: 'f', value: 0.0 },
+    't': { type: 'f', value: 0.0 },
+	'tidalVolumeRatio': { type: 'f', value: 0.2 },
+    'smokingSeverity': { type: 'f', value: 1.0 },
     'asthmaSeverity': { type: 'f', value: 1.0 }
 }]);
 
@@ -71,8 +67,8 @@ function updateFrame(zincRenderer) {
 		if (t > 0.5) {
 			t = (1.0-t);
 		}
-		flowUniforms['breathing_cycle'].value = t*2.0;
-		cellUniforms['breathing_cycle'].value = t*2.0;
+		flowUniforms['t'].value = t*2.0;
+		cellUniforms['t'].value = t*2.0;
 	};
 }
 
@@ -93,7 +89,7 @@ const renderer = (function() {
 	const scenes = {};
 	const setScene = function (name, scene) {
 		scenes[name] = scene;
-		scene.viewAll()
+		//scene.viewAll()
 		zincRenderer.setCurrentScene(scene);
 	};
 
