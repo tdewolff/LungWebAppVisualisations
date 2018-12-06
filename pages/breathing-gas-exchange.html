@@ -1,0 +1,25 @@
+<section id="page-breathing-gas-exchange">
+	<article class="left">
+		<h1>The Lungs</h1>
+		<h2>Healthy gas exchange</h2>
+		<p>The lungs have about 30,000 airways that transport oxygen and carbon dioxide to/from the gas exchange units that are deep within the lungs.</p>
+		<p>Lungs also have blood vessels that bring blood to the gas exchange units, &amp; transport oxygenated blood to the heart for delivery to the body.</p>
+		<p>Gas exchange works best when the same amount of air and blood is delivered to a gas exchange unit.</p>
+		<p>Lung disease affects the amount of air or blood that is delivered to the gas exchange units: some get too much, and some get too little.</p>
+		<a class="nav-button" href="#/breathing">Go back to BREATHING</a>
+	</article>
+	<article class="right">
+		<div id = "breathing_blood_air_plot"></div>
+		<p>In the graph the <font color="blue">Blue</font> line is air and the <font color="red">Red</font> line is blood.</p>
+		<p>The colours show how much air gets to the gas exchange units. In the model colours towards <font color="blue">Blue</font> is low, and colours toward <font color="red">Red</font> is high.</p>
+	</article>
+</section>
+
+<script>
+loadScene({
+	vs: 'shaders/airways.vs',
+	fs: 'shaders/airways.fs',
+	view: 'models/smoker_and_asthmatic_flow_view.json',
+	models: ['models/smoker_and_asthmatic_flow_1.json'],
+}, flowUniforms);
+</script>

@@ -1,10 +1,4 @@
-const GRAPH_WIDTH = 300;
-const GRAPH_HEIGHT = 300;
-const GRAPH_PADDING = 20;
-const GRAPH_SMOOTHING = 0.2;
-const MARKER_RADIUS = 10;
-
-let graphs = [];
+const graphs = [];
 function loadGraph(id, url) {
 	if (!SVG.supported) {
 		console.error('SVGs not supported');
@@ -95,7 +89,7 @@ function loadGraph(id, url) {
 		let marker = svg.circle(MARKER_RADIUS).addClass('marker');
 		graphs.push({marker: marker, data: data, xmin: xmin, xmax: xmax, xscale: xscale});
 	});
-	req.open('GET', url, false);
+	req.open('GET', url);
 	req.send();
 }
 
@@ -127,5 +121,4 @@ function updateMarkers(t) {
 	}
 }
 
-loadGraph('breathing-plot', 'graphdata/breathing.json');
 

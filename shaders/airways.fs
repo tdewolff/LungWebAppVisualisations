@@ -1,13 +1,18 @@
 varying vec3 v_viewPos;
 varying vec3 v_normal;
-varying vec3 v_color_baseline;
-varying vec3 v_color_smoker;
-varying vec3 v_color_asthmatic;
+varying vec3 v_color0;
+varying vec3 v_color1;
+varying vec3 v_color2;
 
+uniform vec3 ambient;
+uniform vec3 emissive;
+uniform vec3 specular;
+uniform float shininess;
+uniform vec3 ambientLightColor;
 uniform	vec3 directionalLightColor;
 uniform	vec3 directionalLightDirection;
-uniform float smokingSeverity;
 uniform float asthmaSeverity;
+uniform float smokingSeverity;
 
 vec3 calculateSpectrumColor(float value) {
 	vec3 rgb = vec3(0.0);
@@ -41,17 +46,13 @@ vec3 calculateSpectrumColor(float value) {
 }
 
 vec3 calculateColor() {
-	vec3 baseline = v_color_baseline;
-	vec3 smoker = v_color_smoker;
-	vec3 asthma = v_color_asthmatic;
-	float delta = baseline[0];
-	if (smokingSeverity > 0.0) {
-		delta = (smoker[0] - baseline[0]) * smokingSeverity / 2.0 + baseline[0];
-	} else if (asthmaSeverity < 1.0) {
-		delta = (asthma[0] - baseline[0]) * (1.0 - asthmaSeverity) / 0.4 + baseline[0];
+	float value = v_color0[0];
+	if (asthmaSeverity > 0.0) {
+		value = (v_color1[0] - v_color0[0]) * asthmaSeverity + v_color0[0];
+	} else if (smokingSeverity > 0.0) {
+		value = (v_color2[0] - v_color0[0]) * asthmaSeverity + v_color0[0];
 	}
-	delta = baseline[0];
-	return calculateSpectrumColor(1.0 - delta);
+	return calculateSpectrumColor(1.0 - value);
 }
 
 void main(void) {
@@ -63,9 +64,11 @@ void main(void) {
 	if (!gl_FrontFacing)
 		normal.z = -normal.z;
 		
+	float specularStrength = 1.0;
 	vec3 viewPosition = normalize(v_viewPos);
 	vec3 adjustDiffuse = calculateColor();
 	vec3 totalDiffuse = vec3(0.0);
+	vec3 totalSpecular = vec3(0.0);
 #if NUM_DIR_LIGHTS > 0
 	vec3 dirDiffuse = vec3(0.0);
 	vec3 dirSpecular = vec3(0.0);
@@ -81,8 +84,15 @@ void main(void) {
 		float dirDiffuseWeight = max(dotProduct, 0.0);
 	#endif
 	dirDiffuse += adjustDiffuse * directionalLightColor * dirDiffuseWeight;
+	vec3 dirHalfVector = normalize(dirVector + viewPosition);
+	float dirDotNormalHalf = max(dot(normal, dirHalfVector), 0.0);
+	float dirSpecularWeight = specularStrength * max(pow(dirDotNormalHalf, shininess), 0.0);
+	float specularNormalization = (shininess + 2.0001) / 8.0;
+	vec3 schlick = specular + vec3(1.0 - specular) * pow(max(1.0 - dot(dirVector, dirHalfVector), 0.0), 5.0);
+	dirSpecular += schlick * directionalLightColor * dirSpecularWeight * dirDiffuseWeight * specularNormalization;
 	totalDiffuse += dirDiffuse;
+	totalSpecular += dirSpecular;
 #endif
 
-	gl_FragColor.xyz = totalDiffuse;
+	gl_FragColor.xyz = totalDiffuse + totalSpecular + emissive + ambientLightColor * ambient * 0.3;
 }

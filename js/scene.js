@@ -1,37 +1,3 @@
-const THREE = Zinc.THREE;
-let PLAY_SPEED = 1.0;
-
-const cellUniforms = THREE.UniformsUtils.merge([{
-	'ambient'  : { type: 'c', value: new THREE.Color( 0xffffff ) },
-	'emissive' : { type: 'c', value: new THREE.Color( 0x000000 ) },
-	'specular' : { type: 'c', value: new THREE.Color( 0x111111 ) },
-	'shininess': { type: 'f', value: 30 },
-	'diffuse': { type: 'c', value: new THREE.Color( 0xeecaa2 ) },
-	'ambientLightColor': { type: 'c', value: new THREE.Color( 0x444444 ) },
-	'directionalLightColor': { type: 'c', value: new THREE.Color( 0x888888 ) },
-	'directionalLightDirection': { type: 'v3', value: new THREE.Vector3()  },
-	'cellsDensity': { type: 'f', value: 0.1 },
-	'tarDensity':  { type: 'f', value: 0.0175},
-	't': { type: 'f', value: 0.0 },
-	'tidalVolumeRatio': { type: 'f', value: 0.7 },
-	'smokingSeverity': { type: 'f', value: 0.0 },
-	'opacity': { type: 'f', value: 0.5 }
-}]);
-
-const flowUniforms = THREE.UniformsUtils.merge([{
-    'ambient'  : { type: 'c', value: new THREE.Color( 0xffffff ) },
-    'emissive' : { type: 'c', value: new THREE.Color( 0x000000 ) },
-    'specular' : { type: 'c', value: new THREE.Color( 0x111111 ) },
-    'shininess': { type: 'f', value: 30 },
-    'ambientLightColor': { type: 'c', value: new THREE.Color( 0x444444 ) },
-    'directionalLightColor': { type: 'c', value: new THREE.Color( 0x888888 ) },
-    'directionalLightDirection': { type: 'v3', value: new THREE.Vector3()  },
-    't': { type: 'f', value: 0.0 },
-	'tidalVolumeRatio': { type: 'f', value: 0.2 },
-    'smokingSeverity': { type: 'f', value: 1.0 },
-    'asthmaSeverity': { type: 'f', value: 1.0 }
-}]);
-
 let playing = false;
 let sceneStartDate = new Date().getTime();
 let scenePauseDate = new Date().getTime();
@@ -47,11 +13,15 @@ document.getElementById('play').addEventListener('click', function(e) {
 	this.classList.toggle('playing');
 });
 
+let currentUniforms = undefined;
 function updateFrame(zincRenderer) {
 	return function () {
+		if (!currentUniforms) {
+			return;
+		}
+
 		let light = zincRenderer.getCurrentScene().directionalLight;
-        cellUniforms['directionalLightDirection'].value.set(light.position.x, light.position.y, light.position.z);
-        flowUniforms['directionalLightDirection'].value.set(light.position.x, light.position.y, light.position.z);
+        currentUniforms['directionalLightDirection'].value.set(light.position.x, light.position.y, light.position.z);
 
 		let sceneTime = 0.0;
 		if (playing) {
@@ -67,273 +37,175 @@ function updateFrame(zincRenderer) {
 		if (t > 0.5) {
 			t = (1.0-t);
 		}
-		flowUniforms['t'].value = t*2.0;
-		cellUniforms['t'].value = t*2.0;
+		currentUniforms['t'].value = t*2.0;
 	};
 }
 
-const renderer = (function() {
-	if (!WEBGL.isWebGLAvailable()) {
-		console.error(WEBGL.getWebGLErrorMessage());
-        showError('WebGL is required to display the interactive 3D models.');
-		return
+String.prototype.hashCode = function() {
+	var hash = 0, i, chr;
+	if (this.length === 0) return hash;
+	for (i = 0; i < this.length; i++) {
+		chr   = this.charCodeAt(i);
+		hash  = ((hash << 5) - hash) + chr;
+		hash |= 0; // Convert to 32bit integer
 	}
+	return hash;
+};
 
-	const renderer = document.getElementById('renderer');
-	const zincRenderer = new Zinc.Renderer(renderer, window);
+const loader = document.getElementById('loader');
+const loaderMessage = loader.getElementsByTagName('p')[0];
+const startLoading = function() {
+	loader.classList.add('loading');
+};
+const stopLoading = function() {
+	loader.classList.remove('loading');
+};
+const setLoadingText = function(text) {
+	loaderMessage.innerHTML = text;
+};
+
+let zincRenderer = undefined;
+if (!WEBGL.isWebGLAvailable()) {
+	console.error(WEBGL.getWebGLErrorMessage());
+	showError('WebGL is required to display the interactive 3D models.');
+} else {
+	zincRenderer = new Zinc.Renderer(document.getElementById('renderer'), window);
 	zincRenderer.initialiseVisualisation();
 	zincRenderer.getThreeJSRenderer().setClearColor(0x000000, 1);
 	zincRenderer.addPreRenderCallbackFunction(updateFrame(zincRenderer));
 	zincRenderer.animate();
+}
 
-	const scenes = {};
-	const setScene = function (name, scene) {
-		scenes[name] = scene;
-		//scene.viewAll()
-		zincRenderer.setCurrentScene(scene);
-	};
+const scenes = {};
+const setScene = function (name, scene) {
+	scenes[name] = scene;
+	zincRenderer.setCurrentScene(scene);
+};
+const loadScene = function(data, uniforms) {
+	if (!zincRenderer) {
+		console.error('zinc not loaded');
+		return;
+	}
 
-	const loader = document.getElementById('loader');
-	const loaderMessage = loader.getElementsByTagName('p')[0];
-	const startLoading = function() {
-		loader.classList.add('loading');
-	};
-	const stopLoading = function() {
-		loader.classList.remove('loading');
-	};
-	const setLoadingText = function(text) {
-		loaderMessage.innerHTML = text;
-	};
+	let name = JSON.stringify(data).hashCode();
+	console.log(data, JSON.stringify(data), name);
+	if (name in scenes) {
+		setScene(name, scenes[name]);
+		return;
+	}
 
-	return {
-		'loadScene': function(name) {
-			if (name in scenes) {
-				setScene(name, scenes[name]);
-				return;
-			}
+	startLoading();
+	const scene = zincRenderer.createScene(name);
+	Zinc.loadExternalFiles([data.vs, data.fs], function (shaderText) {
+		scene.loadViewURL(data.view);
 
-			const scene = zincRenderer.createScene(name);
-			if (name === 'surface') {
-				startLoading();
-				Zinc.loadExternalFiles(['shaders/surface.vs', 'shaders/surface.fs'], function (shaderText) {
-					const material = new THREE.ShaderMaterial({
-						vertexShader: shaderText[0],
-						fragmentShader: shaderText[1],
-						uniforms: cellUniforms
-					});
-					material.onBeforeCompile = function(){}; // fix bug in ThreeJS
-					material.side = THREE.DoubleSide;
-					material.transparent = false;
+		currentUniforms = uniforms;
+		const material = new THREE.ShaderMaterial({
+			vertexShader: shaderText[0],
+			fragmentShader: shaderText[1],
+			uniforms: uniforms
+		});
+		material.onBeforeCompile = function(){}; // fix bug in ThreeJS
+		material.side = THREE.DoubleSide;
+	
+		let n = 0;
+		for (let i = 0; i < data.models.length; i++) {
+			n++;
+			(new THREE.FileLoader()).load(data.models[i],
+				function (text) {
+					let json = JSON.parse(text);
+					let object = (new THREE.JSONLoader()).parse(json, 'path');
+					object.geometry.morphColors = json.morphColors;
+					console.log(object)
 
-					scene.loadFromViewURL('models/surface/surface', function (geometry) {
-						geometry.setMaterial(material);
+					let bufferGeometry = toBufferGeometry(object.geometry);
+					scene.addZincGeometry(bufferGeometry, 10001, undefined, undefined, false, false, true, undefined, material);
+					n--;
+					if (n == 0) {
 						setScene(name, scene);
 						stopLoading();
-					});
-				}, function (url) {
-					console.error('Could not load ' + url);
+					}
+				}, function (xhr) {
+					let total = xhr.total;
+					if (total === 0) {
+						total = xhr.target.getResponseHeader('X-Uncompressed-Content-Length');
+					}
+					setLoadingText((xhr.loaded / total * 100).toFixed(0) + '%');
+				},
+				function (err) {
+					console.error('Could not load model: ', err);
 					showError('Could not load model files.');
 					stopLoading();
-				});
-			} else if (name === 'airways') {
-				startLoading();
-				Zinc.loadExternalFiles(['shaders/airways.vs', 'shaders/airways.fs'], function (shaderText) {
-					scene.loadViewURL('models/airways/smoker_and_asthmatic_flow_view.json');
-					loadURLsIntoBufferGeometry(
-						'models/airways/smoker_and_asthmatic_flow_1.json',
-						function (geometry) {
-							const material = new THREE.ShaderMaterial({
-								vertexShader: shaderText[0],
-								fragmentShader: shaderText[1],
-								uniforms: flowUniforms
-							});
-							material.onBeforeCompile = function(){}; // fix bug in ThreeJS
-							material.side = THREE.DoubleSide;
+				}
+			);
+		}
+	});
+};
 
-							scene.addZincGeometry(geometry, 10001, undefined, undefined, false, false, true, undefined, material);
-							setScene(name, scene);
-							stopLoading();
-						},
-						function (xhr) {
-							let total = xhr.total;
-							if (total === 0) {
-								total = xhr.target.getResponseHeader('X-Uncompressed-Content-Length');
-							}
-							setLoadingText((xhr.loaded / total * 100).toFixed(0) + '%');
-						},
-						function (err) {
-							console.error('Could not load model: ', err);
-							showError('Could not load model files.');
-							stopLoading();
-						}
-					);
-				}, function (url) {
-					console.error('Could not load ' + url);
-					showError('Could not load model files.');
-					stopLoading();
-				});
-			} else {
-				console.error('Undefined scene name ' + name);
-				showError('Could not load scene.')
+function toBufferGeometry(geometry) {
+	let arrayLength = geometry.faces.length * 3 * 3;
+	let positions = new Float32Array(arrayLength);
+	let normals = new Float32Array(arrayLength);
+
+	let colors0 = new Float32Array(arrayLength);
+	let colors1 = new Float32Array(arrayLength);
+	let colors2 = new Float32Array(arrayLength);
+
+	let hasColors = !!geometry.morphColors;
+
+	geometry.faces.forEach(function (face, index) {
+		positions[index*9 + 0] = geometry.vertices[face.a].x;
+		positions[index*9 + 1] = geometry.vertices[face.a].y;
+		positions[index*9 + 2] = geometry.vertices[face.a].z;
+		positions[index*9 + 3] = geometry.vertices[face.b].x;
+		positions[index*9 + 4] = geometry.vertices[face.b].y;
+		positions[index*9 + 5] = geometry.vertices[face.b].z;
+		positions[index*9 + 6] = geometry.vertices[face.c].x;
+		positions[index*9 + 7] = geometry.vertices[face.c].y;
+		positions[index*9 + 8] = geometry.vertices[face.c].z;
+
+		normals[index*9 + 0] = face.vertexNormals[0].x;
+		normals[index*9 + 1] = face.vertexNormals[0].y;
+		normals[index*9 + 2] = face.vertexNormals[0].z;
+		normals[index*9 + 3] = face.vertexNormals[1].x;
+		normals[index*9 + 4] = face.vertexNormals[1].y;
+		normals[index*9 + 5] = face.vertexNormals[1].z;
+		normals[index*9 + 6] = face.vertexNormals[2].x;
+		normals[index*9 + 7] = face.vertexNormals[2].y;
+		normals[index*9 + 8] = face.vertexNormals[2].z;
+
+		if (hasColors) {
+			let cis = [face.a, face.b, face.c];
+			for (let i = 0; i < 3; i++) {
+				let ci = cis[i];
+				let color0 = new THREE.Color(geometry.morphColors[0].colors[ci]);
+				let color1 = new THREE.Color(geometry.morphColors[1].colors[ci]);
+				let color2 = new THREE.Color(geometry.morphColors[2].colors[ci]);
+				if (i == 0 && index == 500) { console.log(color0);
+					console.log(color1);
+					console.log(color2);
+				}
+
+				colors0[index*9 + i*3 + 0] = color0.r;
+				colors0[index*9 + i*3 + 1] = color0.g;
+				colors0[index*9 + i*3 + 2] = color0.b;
+				colors1[index*9 + i*3 + 0] = color1.r;
+				colors1[index*9 + i*3 + 1] = color1.g;
+				colors1[index*9 + i*3 + 2] = color1.b;
+				colors2[index*9 + i*3 + 0] = color2.r;
+				colors2[index*9 + i*3 + 1] = color2.g;
+				colors2[index*9 + i*3 + 2] = color2.b;
 			}
-		},
-	};
-})();
-
-function convertGeometryIntoBufferGeometry(geometry) {
-	var arrayLength = geometry.faces.length * 3 * 3;
-	var positions = new Float32Array( arrayLength );
-	var normals = new Float32Array( arrayLength );
-	var colors_first = new Float32Array( arrayLength );
-	var colors_second = new Float32Array( arrayLength );
-	var colors_third = new Float32Array( arrayLength );
-	var colors1Map = geometry.morphColors[ 0 ];
-	var colors2Map = geometry.morphColors[ 1 ];
-	var colors3Map = geometry.morphColors[ 2 ];
-	var bufferGeometry = new THREE.BufferGeometry();
-
-	geometry.faces.forEach( function ( face, index ) {
-
-		positions[ index * 9 + 0 ] = geometry.vertices[ face.a ].x;
-		positions[ index * 9 + 1 ] = geometry.vertices[ face.a ].y;
-		positions[ index * 9 + 2 ] = geometry.vertices[ face.a ].z;
-		positions[ index * 9 + 3 ] = geometry.vertices[ face.b ].x;
-		positions[ index * 9 + 4 ] = geometry.vertices[ face.b ].y;
-		positions[ index * 9 + 5 ] = geometry.vertices[ face.b ].z;
-		positions[ index * 9 + 6 ] = geometry.vertices[ face.c ].x;
-		positions[ index * 9 + 7 ] = geometry.vertices[ face.c ].y;
-		positions[ index * 9 + 8 ] = geometry.vertices[ face.c ].z;
-
-		normals[ index * 9 + 0 ] = face.vertexNormals[0].x;
-		normals[ index * 9 + 1 ] = face.vertexNormals[0].y;
-		normals[ index * 9 + 2 ] = face.vertexNormals[0].z;
-		normals[ index * 9 + 3 ] = face.vertexNormals[1].x;
-		normals[ index * 9 + 4 ] = face.vertexNormals[1].y;
-		normals[ index * 9 + 5 ] = face.vertexNormals[1].z;
-		normals[ index * 9 + 6 ] = face.vertexNormals[2].x;
-		normals[ index * 9 + 7 ] = face.vertexNormals[2].y;
-		normals[ index * 9 + 8 ] = face.vertexNormals[2].z;
-
-
-		var index_in_colors = Math.floor((face.a)/3);
-		var remainder = (face.a)%3;
-		var hex_value_one = 0;
-		var hex_value_two = 0;
-		var hex_value_three = 0;
-		if (remainder == 0) {
-			hex_value_one = colors1Map.colors[index_in_colors].r;
-			hex_value_two = colors2Map.colors[index_in_colors].r;
-			hex_value_three = colors3Map.colors[index_in_colors].r
-		} else if (remainder == 1) {
-			hex_value_one = colors1Map.colors[index_in_colors].g;
-			hex_value_two = colors2Map.colors[index_in_colors].g;
-			hex_value_three = colors3Map.colors[index_in_colors].g;
-		} else if (remainder == 2) {
-			hex_value_one = colors1Map.colors[index_in_colors].b;
-			hex_value_two = colors2Map.colors[index_in_colors].b;
-			hex_value_three = colors3Map.colors[index_in_colors].b;
 		}
-		var mycolor_one = new THREE.Color(hex_value_one);
-		var mycolor_two = new THREE.Color(hex_value_two);
-		var mycolor_three = new THREE.Color(hex_value_three);
+	});
 
-		colors_first[ index * 9 + 0 ] = mycolor_one.r;
-		colors_first[ index * 9 + 1 ] = mycolor_one.g;
-		colors_first[ index * 9 + 2 ] = mycolor_one.b;
-		colors_second[ index * 9 + 0 ] = mycolor_two.r;
-		colors_second[ index * 9 + 1 ] = mycolor_two.g;
-		colors_second[ index * 9 + 2 ] = mycolor_two.b;
-		colors_third[ index * 9 + 0 ] = mycolor_three.r;
-		colors_third[ index * 9 + 1 ] = mycolor_three.g;
-		colors_third[ index * 9 + 2 ] = mycolor_three.b;
-
-
-		index_in_colors = Math.floor((face.b)/3);
-		remainder = (face.b)%3;
-		if (remainder == 0) {
-			hex_value_one = colors1Map.colors[index_in_colors].r;
-			hex_value_two = colors2Map.colors[index_in_colors].r;
-			hex_value_three = colors3Map.colors[index_in_colors].r;
-		} else if (remainder == 1) {
-			hex_value_one = colors1Map.colors[index_in_colors].g;
-			hex_value_two = colors2Map.colors[index_in_colors].g;
-			hex_value_three = colors3Map.colors[index_in_colors].g;
-		} else if (remainder == 2) {
-			hex_value_one = colors1Map.colors[index_in_colors].b;
-			hex_value_two = colors2Map.colors[index_in_colors].b;
-			hex_value_three = colors3Map.colors[index_in_colors].b;
-		}
-
-		mycolor_one = new THREE.Color(hex_value_one);
-		mycolor_two = new THREE.Color(hex_value_two);
-		mycolor_three = new THREE.Color(hex_value_three);
-		colors_first[ index * 9 + 3 ] = mycolor_one.r;
-		colors_first[ index * 9 + 4 ] = mycolor_one.g;
-		colors_first[ index * 9 + 5 ] = mycolor_one.b;
-		colors_second[ index * 9 + 3 ] = mycolor_two.r;
-		colors_second[ index * 9 + 4 ] = mycolor_two.g;
-		colors_second[ index * 9 + 5 ] = mycolor_two.b;
-		colors_third[ index * 9 + 3 ] = mycolor_three.r;
-		colors_third[ index * 9 + 4 ] = mycolor_three.g;
-		colors_third[ index * 9 + 5 ] = mycolor_three.b;
-
-		index_in_colors = Math.floor((face.c)/3);
-		remainder = (face.c)%3;
-		if (remainder == 0) {
-			hex_value_one = colors1Map.colors[index_in_colors].r;
-			hex_value_two = colors2Map.colors[index_in_colors].r;
-			hex_value_three = colors3Map.colors[index_in_colors].r;
-		} else if (remainder == 1) {
-			hex_value_one = colors1Map.colors[index_in_colors].g;
-			hex_value_two = colors2Map.colors[index_in_colors].g;
-			hex_value_three = colors3Map.colors[index_in_colors].g;
-		} else if (remainder == 2) {
-			hex_value_one = colors1Map.colors[index_in_colors].b;
-			hex_value_two = colors2Map.colors[index_in_colors].b;
-			hex_value_three = colors3Map.colors[index_in_colors].b;
-		}
-		mycolor_one = new THREE.Color(hex_value_one);
-		mycolor_two = new THREE.Color(hex_value_two);
-		mycolor_three = new THREE.Color(hex_value_three);
-		colors_first[ index * 9 + 6 ] = mycolor_one.r;
-		colors_first[ index * 9 + 7 ] = mycolor_one.g;
-		colors_first[ index * 9 + 8 ] = mycolor_one.b;
-		colors_second[ index * 9 + 6 ] = mycolor_two.r;
-		colors_second[ index * 9 + 7 ] = mycolor_two.g;
-		colors_second[ index * 9 + 8 ] = mycolor_two.b;
-		colors_third[ index * 9 + 6 ] = mycolor_three.r;
-		colors_third[ index * 9 + 7 ] = mycolor_three.g;
-		colors_third[ index * 9 + 8 ] = mycolor_three.b;
-
-	} );
-	bufferGeometry.addAttribute( 'position', new THREE.BufferAttribute(positions, 3));
-	bufferGeometry.addAttribute( 'normal', new THREE.BufferAttribute(normals, 3));
-	bufferGeometry.addAttribute( 'color_one', new THREE.BufferAttribute(colors_first, 3));
-	bufferGeometry.addAttribute( 'color_two', new THREE.BufferAttribute(colors_second, 3));
-	bufferGeometry.addAttribute( 'color_three', new THREE.BufferAttribute(colors_third, 3));
-
-	return bufferGeometry;
-}
-
-function myLoader(finishCallback) {
-	return function(geometry, materials){
-		var material = undefined;
-		if (materials && materials[0]) {
-			material = materials[0];
-		}
-		bufferGeometry = convertGeometryIntoBufferGeometry(geometry,finishCallback);
-		if (finishCallback != undefined && (typeof finishCallback == 'function')) {
-			finishCallback(bufferGeometry);
-		}
+	let bufferGeometry = new THREE.BufferGeometry();
+	bufferGeometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+	bufferGeometry.addAttribute('normal', new THREE.BufferAttribute(normals, 3));
+	if (hasColors) {
+		bufferGeometry.addAttribute('color0', new THREE.BufferAttribute(colors0, 3));
+		bufferGeometry.addAttribute('color1', new THREE.BufferAttribute(colors1, 3));
+		bufferGeometry.addAttribute('color2', new THREE.BufferAttribute(colors2, 3));
 	}
-}
-
-function loadURLsIntoBufferGeometry(url, finishCallback, progressCallback, errorCallback) {
-	var loader = new THREE.FileLoader();
-	loader.load(url, function (text) {
-		var json = JSON.parse(text);
-		var object = (new THREE.JSONLoader()).parse(json, 'path');
-		object.geometry.morphColors = json.morphColors;
-		myLoader(finishCallback)(object.geometry, object.materials);
-	}, progressCallback, errorCallback);
+	return bufferGeometry;
 }

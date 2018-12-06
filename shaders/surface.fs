@@ -179,13 +179,13 @@ uniform float shininess;
 uniform vec3 ambientLightColor;
 uniform	vec3 directionalLightColor;
 uniform	vec3 directionalLightDirection;
-uniform float smokingSeverity;
+uniform float severity;
 uniform float opacity;
 
 vec3 colorScale(vec2 seed) {
-	float tar = seed.x * smokingSeverity;
+	float tar = seed.x * severity;
 	float scaling = 1.0 - 0.7 * tar;
-	scaling *= 0.7 + 0.3 * (1.0-smokingSeverity);
+	scaling *= 0.7 + 0.3 * (1.0-severity);
 	return vec3(scaling * scaling, scaling, scaling);
 }
 

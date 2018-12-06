@@ -1,0 +1,68 @@
+<section id="page-smoking-interactive">
+	<article class="left">
+		<h1>Smoking</h1>
+		<h2>My smoking lung</h2>
+		<p>Enter your AGE, GENDER &amp; HEIGHT on the control panel.</p>
+		<p>Did you blow into the spirometer? If yes, enter your value on the control panel.</p>
+		<p>See what will happen to your lung function if you smoke: choose the options below to see the impact of smoking 0, 1, or 2 packs of cigarettes a day.</p>
+		<a class="nav-button" href="#/smoking">Go back to SMOKING</a>
+	</article>
+	<article class="right">
+		<div class="control-panel">
+			<div id="age-control">
+				<p>Age</p>
+				<div class="control-button">
+					<div class="button" data-name="age" data-value="+"></div>
+					<div class="value"></div>
+					<div class="button" data-name="age" data-value="-"></div>
+				</div>
+			</div>
+			<div id="gender-control">
+				<div class="control-button">
+					<div class="button" data-name="gender" data-value="F"></div>
+					<div class="value"></div>
+					<div class="button" data-name="gender" data-value="M"></div>
+				</div>
+				<p>Gender</p>
+			</div>
+			<div id="height-control">
+				<p>Height</p>
+				<div class="control-button">
+					<div class="button" data-name="height" data-value="+"></div>
+					<div class="value"></div>
+					<div class="button" data-name="height" data-value="-"></div>
+				</div>
+			</div>
+			<div id="fev-control">
+				<div class="control-button">
+					<div class="button" data-name="fev" data-value="+"></div>
+					<div class="value"></div>
+					<div class="button" data-name="fev" data-value="-"></div>
+				</div>
+				<p>FEV1</p>
+			</div>
+		</div>
+		<div id="fev1_plot"></div>
+		<div>
+			<ul>
+				<li style="font-size:0.7em">The <font color="blue">Blue</font> line is the population average non-smoking person</li>
+				<li style="font-size:0.7em">The <font color="green">Green</font> line is you if you never smoked</li>
+				<li style="font-size:0.7em">The <font color="red">Red</font> line is you if you started smoking at 25</li>
+			</ul>
+		</div>
+	</article>
+	<div id="smoking-packs">
+		<a class="mild" href="#/smoking-interactive/mild">0<br>packs</a>
+		<a class="moderate" href="#/smoking-interactive/moderate">1<br>pack</a>
+		<a class="severe" href="#/smoking-interactive/severe">2<br>packs</a>
+	</div>
+</section>
+
+<script>
+loadScene({
+	vs: 'shaders/airways.vs',
+	fs: 'shaders/airways.fs',
+	view: 'models/smoker_and_asthmatic_flow_view.json',
+	models: ['models/smoker_and_asthmatic_flow_1.json'],
+}, flowUniforms);
+</script>

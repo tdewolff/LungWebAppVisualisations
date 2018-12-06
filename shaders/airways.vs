@@ -1,12 +1,12 @@
-attribute vec3 color_one;
-attribute vec3 color_two;
-attribute vec3 color_three;
+attribute vec3 color0;
+attribute vec3 color1;
+attribute vec3 color2;
 
 varying vec3 v_viewPos;
 varying vec3 v_normal;
-varying vec3 v_color_baseline;
-varying vec3 v_color_smoker;
-varying vec3 v_color_asthmatic;
+varying vec3 v_color0;
+varying vec3 v_color1;
+varying vec3 v_color2;
 
 uniform float t;
 uniform float tidalVolumeRatio;
@@ -35,9 +35,9 @@ void main(void) {
 #endif
 	v_normal = normalize(normalMatrix * n);
 
-	v_color_baseline = color_one;
-	v_color_smoker = color_two;
-	v_color_asthmatic = color_three;
+	v_color0 = color0;
+	v_color1 = color1;
+	v_color2 = color2;
 
 	gl_Position = projectionMatrix * modelViewMatrix * vec4(getPosition(position), 1.0);
 }

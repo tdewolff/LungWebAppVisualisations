@@ -5,8 +5,9 @@ varying vec3 v_tarPos;
 
 uniform float t;
 uniform float tidalVolumeRatio;
-uniform float cellsDensity;
-uniform float tarDensity;
+
+const float cellsDensity = 0.5;
+const float tarDensity = 0.5;
 
 vec3 getPosition(vec3 pos)  {
 	float V = 4.0e6;

@@ -137,45 +137,6 @@ a > img {
 	pointer-events: auto;
 }
 
-#pages > section {
-	display: none;
-}
-
-body[data-page="landing"] #page-landing {
-	display: block;
-}
-
-body[data-page=""] #branding,
-body[data-page=""] #navigation,
-body[data-page="landing"] #branding,
-body[data-page="landing"] #navigation {
-	display: none;
-}
-
-body[data-page="breathing"] #page-breathing {
-	display: block;
-}
-
-body[data-page="breathing-gas-exchange"] #page-breathing-gas-exchange {
-	display: block;
-}
-
-body[data-page="asthma"] #page-asthma {
-	display: block;
-}
-
-body[data-page="asthma-lung-function"] #page-asthma-lung-function {
-	display: block;
-}
-
-body[data-page="smoking"] #page-smoking {
-	display: block;
-}
-
-body[data-page="smoking-interactive"] #page-smoking-interactive {
-	display: block;
-}
-
 /* Elements */
 #branding {
 	position: absolute;

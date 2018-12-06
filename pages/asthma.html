@@ -1,0 +1,37 @@
+<section id="page-asthma">
+	<article class="left">
+		<h1>Asthma</h1>
+		<p>Asthma causes airways to become smaller in size. The smooth muscle that wraps around the airways constricts, and the airways secrete mucus.</p>
+		<p>This makes it much harder for air to flow through the airways, and the amount of ventilation that goes to some of the gas exchange units is reduced or zero.</p>
+		<p>Select an option under the lung to see how air delivery to the gas exchange units is affected in MILD, MODERATE, and SEVERE asthma.</p>
+		<a class="nav-button" href="#/asthma-lung-function">Learn more about<br>MEASURING LUNG<br>FUNCTION</a>
+	</article>
+	<article class="right">
+		<p>When the airways constrict during an asthma attack, this causes the air delivery to be ‘patchy’. Some patches of lung get a small amount of air, and others get more air than usual.</p>
+		<ul>
+			<li>Gas exchange is worse</li>
+			<li>The breathing muscles have to work harder to breathe</li>
+			<li>Much more energy is required just to breathe, which is distressing for the patient</li>
+		</ul>
+		<p>In this model:</p>
+		<ul>
+			<li><font color="green">Green</font> is good</li>
+			<li><font color="red">Red</font> is too high</li>
+			<li><font color="blue">Blue</font> is too low</li>
+		</ul>
+	</article>
+	<div id="asthma-conditions">
+		<a class="mild" href="#/asthma/mild">Mild</a>
+		<a class="moderate" href="#/asthma/moderate">Moderate</a>
+		<a class="severe" href="#/asthma/severe">Severe</a>
+	</div>
+</section>
+
+<script>
+loadScene({
+	vs: 'shaders/airways.vs',
+	fs: 'shaders/airways.fs',
+	view: 'models/smoker_and_asthmatic_flow_view.json',
+	models: ['models/smoker_and_asthmatic_flow_1.json'],
+}, flowUniforms);
+</script>

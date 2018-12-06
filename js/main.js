@@ -1,79 +1,75 @@
 const MIN_RATIO = 16/9; // minimum ratio of width/height
 
+/* Pages */
+let pageInits = {};
+function addPageInit(id, f) {
+	pageInits[id] = f;
+}
+
+function initPage(page) {
+	let id = 'page-' + page;
+	if (page !== document.body.dataset.page && pageInits.hasOwnProperty(id)) {
+		document.body.dataset.page = page;
+
+		let pages = document.querySelector('#pages > section');
+		for (let i = 0; i < pages.length; i++) {
+			pages[i].classList.remove('active');
+		}
+		document.getElementById(id).classList.add('active');
+		pageInits[id]();
+	}
+}
+
+function loadPage(page) {
+	let url = 'pages/' + page + '.html';
+
+	const req = new XMLHttpRequest();
+	req.addEventListener('load', function() {
+		document.body.dataset.page = page;
+
+		let pages = document.getElementById('pages');
+		let node = document.createElement('div');
+		node.innerHTML = req.responseText;
+		
+		while (pages.hasChildNodes()) {
+			pages.removeChild(pages.lastChild);
+		}
+
+		let sections = node.querySelectorAll('section');
+		for (let i = 0; i < sections.length; i++) {
+			pages.appendChild(sections[i]);
+		}
+		
+		let scripts = node.querySelectorAll('script');
+		for (let i = 0; i < scripts.length; i++) {
+			let script = document.createElement('script');
+			script.textContent = scripts[i].textContent;
+			pages.appendChild(script);
+		}
+	});
+	req.open('GET', url);
+	req.send();
+}
+
 /* Navigation */
 function updateRoute() {
 	const url = window.location.hash.substr(1);
 	if (url.length == 0) {
 		window.location.hash = '/';
 	} else if (url[0] == '/') {
-		loadRoute(url);
-	}
-}
+		const segments = url.split('/');
 
-window.addEventListener('hashchange', function(e) {
-	updateRoute();
-});
-
-function loadRoute(url) {
-	const segments = url.split('/');
-
-	let page = segments[1];
-	if (page == '') {
-		page = 'landing';
-	}
-	document.body.dataset.page = page;
-
-	let severity = 'mild';
-	if (segments.length > 2 && (segments[2] === 'moderate' || segments[2] === 'severe')) {
-		severity = segments[2];
-	}
-	document.body.dataset.severity = severity;
-
-	switch (page) {
-	case 'landing':
-		renderer.loadScene('surface');
-		break;
-	case 'breathing':
-		renderer.loadScene('surface');
-		subject.asthmaSeverity = 'none';
-		subject.packsPerDay = 0.0;
-		updateSubject();
-		break;
-	case 'breathing-gas-exchange':
-		renderer.loadScene('airways');
-		subject.asthmaSeverity = 'none';
-		subject.packsPerDay = 0.0;
-		updateSubject();
-		break;
-	case 'asthma':
-	case 'asthma-lung-function':
-		renderer.loadScene('airways');
-		subject.asthmaSeverity = severity;
-		subject.packsPerDay = 0.0;
-		updateSubject();
-		break;
-	case 'smoking':
-	case 'smoking-interactive':
-		renderer.loadScene('airways');
-		subject.asthmaSeverity = 'none';
-		if (severity === 'mild') {
-			subject.packsPerDay = 0.0;
-		} else if (severity === 'moderate') {
-			subject.packsPerDay = 1.0;
-		} else if (severity === 'severe') {
-			subject.packsPerDay = 2.0;
+		let page = segments[1];
+		if (!page) {
+			page = 'index';
 		}
-		updateSubject();
-		break;
+		loadPage(page);
 	}
 }
 updateRoute();
 
-document.getElementById('information').addEventListener('click', function(e) {
-	let articles = document.querySelectorAll('article');
-	for (let i = 0; i < articles.length; i++) {
-		articles[i].classList.toggle('hidden');
-	}
+window.addEventListener('hashchange', function(e) {
+	updateRoute();
 });
 
 // Scale down when height too small
