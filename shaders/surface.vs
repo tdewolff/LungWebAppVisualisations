@@ -6,13 +6,11 @@ varying vec3 v_tarPos;
 uniform float t;
 uniform float tidalVolumeRatio;
 
-const float cellsDensity = 0.5;
-const float tarDensity = 0.5;
+const float cellsDensity = 0.1;
+const float tarDensity = 0.0125;
 
 vec3 getPosition(vec3 pos)  {
-	float V = 4.0e6;
-	float dV = V * tidalVolumeRatio * t;
-	float scale = pow(1.0+dV/V, 0.5) - 1.0;
+	float scale = tidalVolumeRatio * t;
 
 	float fixed_x = 0.0;
 	float fixed_y = 80.0;

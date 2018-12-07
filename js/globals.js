@@ -16,10 +16,8 @@ const cellUniforms = THREE.UniformsUtils.merge([{
 	'ambientLightColor': { type: 'c', value: new THREE.Color( 0x444444 ) },
 	'directionalLightColor': { type: 'c', value: new THREE.Color( 0x888888 ) },
 	'directionalLightDirection': { type: 'v3', value: new THREE.Vector3()  },
-	'cellsDensity': { type: 'f', value: 0.1 },
-	'tarDensity':  { type: 'f', value: 0.0175},
 	't': { type: 'f', value: 0.0 },
-	'tidalVolumeRatio': { type: 'f', value: 0.7 },
+	'tidalVolumeRatio': { type: 'f', value: 0.4 },
 	'severity': { type: 'f', value: 0.0 },
 	'opacity': { type: 'f', value: 0.5 }
 }]);

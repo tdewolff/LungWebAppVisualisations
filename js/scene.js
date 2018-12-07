@@ -31,13 +31,15 @@ function updateFrame(zincRenderer) {
 		}
 		sceneTime *= PLAY_SPEED;
 
-		updateMarkers((sceneTime % 8.0) / 8.0);
+		updateMarkers((sceneTime % 10.0) / 10.0);
 
-		let t = (sceneTime % 4.0) / 4.0;
-		if (t > 0.5) {
-			t = (1.0-t);
+		let t = (sceneTime % 5.0) / 2.5;
+		if (t <= 1.0) {
+			t = Math.sin(t*Math.PI/2.0)
+		} else {
+			t = 1.0-Math.sin((t-1.0)*Math.PI/2.0)
 		}
-		currentUniforms['t'].value = t*2.0;
+		currentUniforms['t'].value = t;
 	};
 }
 
