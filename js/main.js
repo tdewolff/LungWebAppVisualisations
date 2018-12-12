@@ -105,3 +105,18 @@ window.onresize = function(e) {
   resize();
 };
 resize();
+
+// Dragging of model
+document.getElementById('renderer').addEventListener('mousedown', function(e){
+    const links = document.querySelectorAll('a, .clickable');
+    for (let i = 0; i < links.length; i++) {
+        links[i].style.pointerEvents = 'none';
+    }
+});
+
+document.getElementById('renderer').addEventListener('mouseup', function(e){
+    const links = document.querySelectorAll('a, .clickable');
+    for (let i = 0; i < links.length; i++) {
+        links[i].style.pointerEvents = 'auto';
+    }
+});

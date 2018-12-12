@@ -111,7 +111,6 @@ const loadScene = function(data, uniforms) {
 		let n = 0;
 		for (let i = 0; i < data.models.length; i++) {
 			n++;
-            console.log('loading');
 			(new THREE.FileLoader()).load(data.models[i],
 				function (text) {
 					let json = JSON.parse(text);
@@ -131,7 +130,6 @@ const loadScene = function(data, uniforms) {
 					if (total === 0) {
 						total = xhr.target.getResponseHeader('X-Uncompressed-Content-Length');
 					}
-                    console.log(total);
 					setLoadingText((xhr.loaded / total * 100).toFixed(0) + '%');
 				},
 				function (err) {
