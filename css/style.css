@@ -305,38 +305,43 @@ article.right {
 	text-align: center;
 }
 
-#page-landing {
+body[data-page="index"] #top-buttons,
+body[data-page="index"] #navigation {
+    display: none;
+}
+
+#page-index {
 	color: grey;
-	font-size: 5vw;
+	font-size: 4vw;
 	white-space: nowrap;
 	line-height: 1;
 }
 
-#page-landing .start {
+#page-index .start {
 	position: absolute;
 	bottom: 3vw;
-	height: 16vw;
+	height: 9vw;
 	width: 35vw;
 }
 
-#page-landing .info {
+#page-index .info {
 	position: absolute;
 	right: 0;
 	bottom: 3vw;
-	height: 16vw;
+	height: 9vw;
 	width: 50vw;
 }
 
-#page-landing strong {
+#page-index strong {
 	font-family: Moon;
 }
 
-#page-landing a {
+#page-index a {
 	text-decoration: none;
 	color: grey;
 }
 
-#page-landing img {
+#page-index img {
 	float: left;
 	height: 100%;
 	padding-right: 0.5em;

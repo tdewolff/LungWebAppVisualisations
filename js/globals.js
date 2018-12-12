@@ -2,7 +2,7 @@ let PLAY_SPEED = 1.0;
 
 const GRAPH_WIDTH = 300;
 const GRAPH_HEIGHT = 300;
-const GRAPH_PADDING = 20;
+const GRAPH_PADDING = 25;
 const GRAPH_SMOOTHING = 0.2;
 const MARKER_RADIUS = 10;
 
