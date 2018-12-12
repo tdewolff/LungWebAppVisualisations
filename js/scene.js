@@ -108,12 +108,55 @@ const loadScene = function(data, uniforms) {
 		material.onBeforeCompile = function(){}; // fix bug in ThreeJS
 		material.side = THREE.DoubleSide;
 	
+        let loadedSizes = [];
+        let totalSize = 0;
+		for (let i = 0; i < data.models.length; i++) {
+            loadedSizes.push(0);
+            
+            let gzreq = new XMLHttpRequest();
+            gzreq.open('HEAD', data.models[i] + '.gz', false);
+            gzreq.send();
+            if (gzreq.status === 200) {
+                data.models[i] += '.gz';
+                totalSize += parseInt(gzreq.getResponseHeader('content-length'));
+            } else {
+                let req = new XMLHttpRequest();
+                req.open('HEAD', data.models[i], false);
+                req.send();
+                if (req.status !== 200) {
+                    return;
+                }
+                totalSize += parseInt(req.getResponseHeader('content-length'));
+            }
+        }
+
+        const updateLoader = function(i, loaded) {
+            loadedSizes[i] = loaded;
+
+            let loadedSize = 0;
+		    for (let i = 0; i < data.models.length; i++) {
+                loadedSize += loadedSizes[i];
+            }
+			setLoadingText((loadedSize / totalSize * 100).toFixed(0) + '%');
+        };
+
 		let n = 0;
 		for (let i = 0; i < data.models.length; i++) {
 			n++;
-			(new THREE.FileLoader()).load(data.models[i],
+            let useCompressed = data.models[i].endsWith('.gz');
+			let loader = new THREE.FileLoader();
+            if (useCompressed) {
+                loader.setResponseType('arraybuffer');
+            }
+            loader.load(data.models[i],
 				function (text) {
-					let json = JSON.parse(text);
+                    if (useCompressed) {
+                        let gzbuf = new Uint8Array(text);
+                        let buf = pako.ungzip(gzbuf);
+                        text = (new TextDecoder('utf-8')).decode(buf);
+                    }
+					
+                    let json = JSON.parse(text);
 					let object = (new THREE.JSONLoader()).parse(json, 'path');
 					object.geometry.morphColors = json.morphColors;
 
@@ -126,11 +169,7 @@ const loadScene = function(data, uniforms) {
 						stopLoading();
 					}
 				}, function (xhr) {
-					let total = xhr.total;
-					if (total === 0) {
-						total = xhr.target.getResponseHeader('X-Uncompressed-Content-Length');
-					}
-					setLoadingText((xhr.loaded / total * 100).toFixed(0) + '%');
+                    updateLoader(i, xhr.loaded);
 				},
 				function (err) {
 					console.error('Could not load model: ', err);
