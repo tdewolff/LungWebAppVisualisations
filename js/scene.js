@@ -80,7 +80,6 @@ if (!WEBGL.isWebGLAvailable()) {
 
 const scenes = {};
 const setScene = function (name, scene) {
-	scenes[name] = scene;
 	zincRenderer.setCurrentScene(scene);
 };
 const loadScene = function(data, uniforms) {
@@ -90,8 +89,10 @@ const loadScene = function(data, uniforms) {
 	}
 
 	let name = JSON.stringify(data).hashCode();
-	console.log(data, JSON.stringify(data), name);
 	if (name in scenes) {
+		let geometry = scenes[name].getZincGeometryByID(10001);
+		//console.log(geometry);
+		//geometry.morph.material.uniforms = uniforms;
 		setScene(name, scenes[name]);
 		return;
 	}
@@ -118,12 +119,12 @@ const loadScene = function(data, uniforms) {
 					let json = JSON.parse(text);
 					let object = (new THREE.JSONLoader()).parse(json, 'path');
 					object.geometry.morphColors = json.morphColors;
-					console.log(object)
 
 					let bufferGeometry = toBufferGeometry(object.geometry);
 					scene.addZincGeometry(bufferGeometry, 10001, undefined, undefined, false, false, true, undefined, material);
 					n--;
 					if (n == 0) {
+						scenes[name] = scene;
 						setScene(name, scene);
 						stopLoading();
 					}
@@ -183,10 +184,6 @@ function toBufferGeometry(geometry) {
 				let color0 = new THREE.Color(geometry.morphColors[0].colors[ci]);
 				let color1 = new THREE.Color(geometry.morphColors[1].colors[ci]);
 				let color2 = new THREE.Color(geometry.morphColors[2].colors[ci]);
-				if (i == 0 && index == 500) { console.log(color0);
-					console.log(color1);
-					console.log(color2);
-				}
 
 				colors0[index*9 + i*3 + 0] = color0.r;
 				colors0[index*9 + i*3 + 1] = color0.g;

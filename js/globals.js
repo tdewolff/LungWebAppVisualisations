@@ -7,7 +7,7 @@ const GRAPH_SMOOTHING = 0.2;
 const MARKER_RADIUS = 10;
 
 const THREE = Zinc.THREE;
-const cellUniforms = THREE.UniformsUtils.merge([{
+const surfaceUniforms = THREE.UniformsUtils.merge([{
 	'ambient'  : { type: 'c', value: new THREE.Color( 0xffffff ) },
 	'emissive' : { type: 'c', value: new THREE.Color( 0x000000 ) },
 	'specular' : { type: 'c', value: new THREE.Color( 0x111111 ) },
@@ -22,7 +22,7 @@ const cellUniforms = THREE.UniformsUtils.merge([{
 	'opacity': { type: 'f', value: 0.5 }
 }]);
 
-const flowUniforms = THREE.UniformsUtils.merge([{
+const airwaysUniforms = THREE.UniformsUtils.merge([{
     'ambient'  : { type: 'c', value: new THREE.Color( 0xffffff ) },
     'emissive' : { type: 'c', value: new THREE.Color( 0x000000 ) },
     'specular' : { type: 'c', value: new THREE.Color( 0x111111 ) },
@@ -33,7 +33,7 @@ const flowUniforms = THREE.UniformsUtils.merge([{
     't': { type: 'f', value: 0.0 },
 	'tidalVolumeRatio': { type: 'f', value: 0.2 },
     'asthmaSeverity': { type: 'f', value: 0.0 },
-    'smokingSeverity': { type: 'f', value: 1.0 },
+    'smokingSeverity': { type: 'f', value: 0.0 },
 }]);
 
 document.getElementById('information').addEventListener('click', function(e) {

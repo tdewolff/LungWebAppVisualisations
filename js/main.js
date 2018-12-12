@@ -20,35 +20,51 @@ function initPage(page) {
 	}
 }
 
+const eventLoadPage = new CustomEvent('load-page', {});
 function loadPage(page) {
-	let url = 'pages/' + page + '.html';
+	if (page !== document.body.dataset.page) {
+		const req = new XMLHttpRequest();
+		req.addEventListener('load', function() {
+			document.body.dataset.page = page;
 
-	const req = new XMLHttpRequest();
-	req.addEventListener('load', function() {
-		document.body.dataset.page = page;
+			let pages = document.getElementById('pages');
+			let node = document.createElement('div');
+			node.innerHTML = req.responseText;
+			
+			while (pages.hasChildNodes()) {
+				pages.removeChild(pages.lastChild);
+			}
 
-		let pages = document.getElementById('pages');
-		let node = document.createElement('div');
-		node.innerHTML = req.responseText;
-		
-		while (pages.hasChildNodes()) {
-			pages.removeChild(pages.lastChild);
-		}
+			let sections = node.querySelectorAll('section');
+			for (let i = 0; i < sections.length; i++) {
+				pages.appendChild(sections[i]);
+			}
+			
+			let scripts = node.querySelectorAll('script');
+			for (let i = 0; i < scripts.length; i++) {
+				// Isolate code from other pages
+				let jsContent = '';
+				jsContent += '(function(){';
+				jsContent += scripts[i].textContent;
+				jsContent += '})();';
 
-		let sections = node.querySelectorAll('section');
-		for (let i = 0; i < sections.length; i++) {
-			pages.appendChild(sections[i]);
-		}
-		
-		let scripts = node.querySelectorAll('script');
-		for (let i = 0; i < scripts.length; i++) {
-			let script = document.createElement('script');
-			script.textContent = scripts[i].textContent;
-			pages.appendChild(script);
-		}
-	});
-	req.open('GET', url);
-	req.send();
+				let script = document.createElement('script');
+				script.textContent = jsContent;
+				pages.appendChild(script);
+			}
+			document.body.dispatchEvent(eventLoadPage);
+		});
+		req.open('GET', 'pages/' + page + '.html');
+		req.send();
+	}
+}
+
+function getURLSegment(i) {
+	const segments = window.location.hash.substr(2).split('/');
+	if (i < segments.length) {
+		return segments[i];
+	}
+	return '';
 }
 
 /* Navigation */
@@ -57,9 +73,7 @@ function updateRoute() {
 	if (url.length == 0) {
 		window.location.hash = '/';
 	} else if (url[0] == '/') {
-		const segments = url.split('/');
-
-		let page = segments[1];
+		let page = getURLSegment(0);
 		if (!page) {
 			page = 'index';
 		}

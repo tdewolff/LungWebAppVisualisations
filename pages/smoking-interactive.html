@@ -11,35 +11,27 @@
 		<div class="control-panel">
 			<div id="age-control">
 				<p>Age</p>
-				<div class="control-button">
-					<div class="button" data-name="age" data-value="+"></div>
+				<div class="control-button" data-name="age" data-min="11" data-max="80" data-step="1" data-value="11">
+					<div class="button" data-value="+"></div>
 					<div class="value"></div>
-					<div class="button" data-name="age" data-value="-"></div>
+					<div class="button" data-value="-"></div>
 				</div>
 			</div>
 			<div id="gender-control">
-				<div class="control-button">
-					<div class="button" data-name="gender" data-value="F"></div>
-					<div class="value"></div>
-					<div class="button" data-name="gender" data-value="M"></div>
-				</div>
 				<p>Gender</p>
-			</div>
-			<div id="height-control">
-				<p>Height</p>
-				<div class="control-button">
-					<div class="button" data-name="height" data-value="+"></div>
+				<div class="control-button" data-name="gender" data-value="F">
+					<div class="button" data-value="F"></div>
 					<div class="value"></div>
-					<div class="button" data-name="height" data-value="-"></div>
+					<div class="button" data-value="M"></div>
 				</div>
 			</div>
 			<div id="fev-control">
-				<div class="control-button">
-					<div class="button" data-name="fev" data-value="+"></div>
-					<div class="value"></div>
-					<div class="button" data-name="fev" data-value="-"></div>
-				</div>
 				<p>FEV1</p>
+				<div class="control-button" data-name="fev" data-min="1.0" data-max="5.0" data-step="0.1" data-value="1.0">
+					<div class="button" data-value="+"></div>
+					<div class="value"></div>
+					<div class="button" data-value="-"></div>
+				</div>
 			</div>
 		</div>
 		<div id="fev1_plot"></div>
@@ -52,17 +44,54 @@
 		</div>
 	</article>
 	<div id="smoking-packs">
-		<a class="mild" href="#/smoking-interactive/mild">0<br>packs</a>
-		<a class="moderate" href="#/smoking-interactive/moderate">1<br>pack</a>
-		<a class="severe" href="#/smoking-interactive/severe">2<br>packs</a>
+		<a data-condition="mild" href="#/smoking-interactive/mild">0<br>packs</a>
+		<a data-condition="moderate" href="#/smoking-interactive/moderate">1<br>pack</a>
+		<a data-condition="severe" href="#/smoking-interactive/severe">2<br>packs</a>
 	</div>
 </section>
 
 <script>
+airwaysUniforms['asthmaSeverity']['value'] = 0.0
 loadScene({
 	vs: 'shaders/airways.vs',
 	fs: 'shaders/airways.fs',
 	view: 'models/smoker_and_asthmatic_flow_view.json',
 	models: ['models/smoker_and_asthmatic_flow_1.json'],
-}, flowUniforms);
+}, airwaysUniforms);
+
+function setCondition(condition) {
+	if (condition === 'moderate') {
+		airwaysUniforms['smokingSeverity']['value'] = 0.5
+	} else if (condition === 'severe') {
+		airwaysUniforms['smokingSeverity']['value'] = 1.0
+	} else {
+		condition = 'mild';
+		airwaysUniforms['smokingSeverity']['value'] = 0.0
+	}
+
+	let button = document.querySelector('#smoking-packs a[data-condition="' + condition + '"]');
+	if (button) {
+		button.classList.add('active');
+	}
+}
+setCondition(getURLSegment(1));
+
+let buttons = document.querySelectorAll('#smoking-packs a');
+for (let i = 0; i < buttons.length; i++) {
+	buttons[i].addEventListener('click', function(e) {
+		for (let i = 0; i < buttons.length; i++) {
+			buttons[i].classList.remove('active');
+		}
+		setCondition(this.dataset.condition);
+	});
+}
+
+let controlButtons = document.querySelectorAll('.control-button');
+for (let i = 0; i < controlButtons.length; i++) {
+	controlButtons[i].addEventListener('changed', function(e) {
+		// if (this.dataset.name === "age") {
+		// 	airwaysUniform['age'] = this.dataset.value;
+		// }
+	});
+}
 </script>

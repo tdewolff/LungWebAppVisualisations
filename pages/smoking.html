@@ -8,10 +8,11 @@
 </section>
 
 <script>
+airwaysUniforms['asthmaSeverity']['value'] = 0.0
 loadScene({
 	vs: 'shaders/airways.vs',
 	fs: 'shaders/airways.fs',
 	view: 'models/smoker_and_asthmatic_flow_view.json',
 	models: ['models/smoker_and_asthmatic_flow_1.json'],
-}, flowUniforms);
+}, airwaysUniforms);
 </script>

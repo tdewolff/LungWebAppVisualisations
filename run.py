@@ -42,7 +42,10 @@ class LungAppHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 						uncompressedLength = int(m[0])
 				else:
 					content = ShrinkJSON(content)
-					uncompressedLength = str(len(str(content)))
+					uncompressedLength = len(str(content))
+
+					if uncompressedLength < 500:
+						return SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
 
 					out = StringIO.StringIO()
 					f = gzip.GzipFile(fileobj=out, mode='w', compresslevel=5)
@@ -50,7 +53,7 @@ class LungAppHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 					f.close()
 					content = out.getvalue()
 
-					gzf = open(filename+'.'+uncompressedLength+'.gz', 'w+')
+					gzf = open(filename+'.'+str(uncompressedLength)+'.gz', 'w+')
 					gzf.write(content)
 					gzf.close()
 				

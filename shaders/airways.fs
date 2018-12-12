@@ -1,8 +1,8 @@
 varying vec3 v_viewPos;
 varying vec3 v_normal;
-varying vec3 v_color0;
-varying vec3 v_color1;
-varying vec3 v_color2;
+varying float v_field0;
+varying float v_field1;
+varying float v_field2;
 
 uniform vec3 ambient;
 uniform vec3 emissive;
@@ -15,6 +15,7 @@ uniform float asthmaSeverity;
 uniform float smokingSeverity;
 
 vec3 calculateSpectrumColor(float value) {
+	value = 1.0 - value;
 	vec3 rgb = vec3(0.0);
 	if (value<1.0/3.0) {
 		rgb[0]=1.0;
@@ -46,13 +47,14 @@ vec3 calculateSpectrumColor(float value) {
 }
 
 vec3 calculateColor() {
-	float value = v_color0[0];
+	float value = v_field0;
 	if (asthmaSeverity > 0.0) {
-		value = (v_color1[0] - v_color0[0]) * asthmaSeverity + v_color0[0];
+		value = (v_field1 - v_field0) * asthmaSeverity + v_field0;
 	} else if (smokingSeverity > 0.0) {
-		value = (v_color2[0] - v_color0[0]) * asthmaSeverity + v_color0[0];
+		value = (v_field2 - v_field0) * smokingSeverity * 2.0 + v_field0;
+		return mix(calculateSpectrumColor(value), vec3(0.3, 0.3, 0.3), smokingSeverity*(v_field1-v_field0));
 	}
-	return calculateSpectrumColor(1.0 - value);
+	return calculateSpectrumColor(value);
 }
 
 void main(void) {

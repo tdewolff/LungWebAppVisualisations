@@ -39,6 +39,7 @@
 }
 
 html, body {
+	user-select: none;
 	position: relative;
 	z-index: -2;
 	margin: 0;
@@ -75,6 +76,7 @@ header, footer, section, nav, article, aside {
 
 a {
 	cursor: pointer;
+	pointer-events: auto;
 }
 
 a > img {
@@ -131,10 +133,6 @@ a > img {
 	width: 100%;
 	height: 100%;
 	pointer-events: none;
-}
-
-#pages a {
-	pointer-events: auto;
 }
 
 /* Elements */
@@ -252,31 +250,25 @@ article.right {
 .control-panel {
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: space-evenly;
 }
 
 .control-panel > div {
-	width: 50%;
-	height: 50%;
-
-	display: flex;
-	align-items: center;
-}
-
-#age-control,
-#height-control {
-	justify-content: flex-end;
+	width: 7vw;
 }
 
 .control-panel > div > p {
-	margin: 0 1vw;
+	margin-top: 0;
+	margin-bottom: 0.5vw;
+	text-align: center;
 }
 
 .control-button {
 	display: block;
     background-repeat: no-repeat;
 	background-size: 100% 100%;
-	width: 10vw;
-	height: 18vw;
+	width: 6vw;
+	height: 12vw;
 	margin: 0.5vw;
 }
 
@@ -300,11 +292,11 @@ article.right {
 .control-button div.button {
 	cursor: pointer;
 	pointer-events: auto;
-	height: 5vw;
+	height: 3vw;
 }
 
 .control-button div.value {
-	height: 8vw;
+	height: 6vw;
 	color: #4A4A5B;
 
 	display: flex;
@@ -366,9 +358,11 @@ article.right {
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	cursor: pointer;
-	width: 10vw;
-	height: 10vw;
+	width: 8vw;
+	height: 8vw;
 	margin: 0 0.5vw;
+	font-size: 85%;
+	line-height: 100%;
 
 	display: flex;
 	align-items: center;
@@ -379,18 +373,18 @@ article.right {
 	color: white;
 }
 
-body[data-severity="mild"] #asthma-conditions > a.mild,
-body[data-severity="mild"] #smoking-packs > a.mild {
+#asthma-conditions > a.active[data-condition="mild"],
+#smoking-packs > a.active[data-condition="mild"] {
 	background-image: url(images/button_green.svg);
 }
 
-body[data-severity="moderate"] #asthma-conditions > a.moderate,
-body[data-severity="moderate"] #smoking-packs > a.moderate {
+#asthma-conditions > a.active[data-condition="moderate"],
+#smoking-packs > a.active[data-condition="moderate"] {
 	background-image: url(images/button_yellow.svg);
 }
 
-body[data-severity="severe"] #asthma-conditions > a.severe,
-body[data-severity="severe"] #smoking-packs > a.severe {
+#asthma-conditions > a.active[data-condition="severe"],
+#smoking-packs > a.active[data-condition="severe"] {
 	background-image: url(images/button_pink.svg);
 }
 

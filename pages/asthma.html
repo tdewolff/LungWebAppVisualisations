@@ -21,17 +21,45 @@
 		</ul>
 	</article>
 	<div id="asthma-conditions">
-		<a class="mild" href="#/asthma/mild">Mild</a>
-		<a class="moderate" href="#/asthma/moderate">Moderate</a>
-		<a class="severe" href="#/asthma/severe">Severe</a>
+		<a data-condition="mild" href="#/asthma/mild">Mild</a>
+		<a data-condition="moderate" href="#/asthma/moderate">Moderate</a>
+		<a data-condition="severe" href="#/asthma/severe">Severe</a>
 	</div>
 </section>
 
 <script>
+airwaysUniforms['smokingSeverity']['value'] = 0.0
 loadScene({
 	vs: 'shaders/airways.vs',
 	fs: 'shaders/airways.fs',
 	view: 'models/smoker_and_asthmatic_flow_view.json',
 	models: ['models/smoker_and_asthmatic_flow_1.json'],
-}, flowUniforms);
+}, airwaysUniforms);
+
+function setCondition(condition) {
+	if (condition === 'moderate') {
+		airwaysUniforms['asthmaSeverity']['value'] = 0.6
+	} else if (condition === 'severe') {
+		airwaysUniforms['asthmaSeverity']['value'] = 1.0
+	} else {
+		condition = 'mild';
+		airwaysUniforms['asthmaSeverity']['value'] = 0.2
+	}
+
+	let button = document.querySelector('#asthma-conditions a[data-condition="' + condition + '"]');
+	if (button) {
+		button.classList.add('active');
+	}
+}
+setCondition(getURLSegment(1));
+
+const buttons = document.querySelectorAll('#asthma-conditions a');
+for (let i = 0; i < buttons.length; i++) {
+	buttons[i].addEventListener('click', function(e) {
+		for (let i = 0; i < buttons.length; i++) {
+			buttons[i].classList.remove('active');
+		}
+		setCondition(this.dataset.condition);
+	});
+}
 </script>
