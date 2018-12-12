@@ -79,8 +79,9 @@ if (!WEBGL.isWebGLAvailable()) {
 }
 
 const scenes = {};
-const setScene = function (name, scene) {
+const setScene = function (name, scene, uniforms) {
 	zincRenderer.setCurrentScene(scene);
+	currentUniforms = uniforms;
 };
 const loadScene = function(data, uniforms) {
 	if (!zincRenderer) {
@@ -90,10 +91,7 @@ const loadScene = function(data, uniforms) {
 
 	let name = JSON.stringify(data).hashCode();
 	if (name in scenes) {
-		let geometry = scenes[name].getZincGeometryByID(10001);
-		//console.log(geometry);
-		//geometry.morph.material.uniforms = uniforms;
-		setScene(name, scenes[name]);
+		setScene(name, scenes[name], uniforms);
 		return;
 	}
 
@@ -102,7 +100,6 @@ const loadScene = function(data, uniforms) {
 	Zinc.loadExternalFiles([data.vs, data.fs], function (shaderText) {
 		scene.loadViewURL(data.view);
 
-		currentUniforms = uniforms;
 		const material = new THREE.ShaderMaterial({
 			vertexShader: shaderText[0],
 			fragmentShader: shaderText[1],
@@ -114,6 +111,7 @@ const loadScene = function(data, uniforms) {
 		let n = 0;
 		for (let i = 0; i < data.models.length; i++) {
 			n++;
+            console.log('loading');
 			(new THREE.FileLoader()).load(data.models[i],
 				function (text) {
 					let json = JSON.parse(text);
@@ -125,7 +123,7 @@ const loadScene = function(data, uniforms) {
 					n--;
 					if (n == 0) {
 						scenes[name] = scene;
-						setScene(name, scene);
+						setScene(name, scene, uniforms);
 						stopLoading();
 					}
 				}, function (xhr) {
@@ -133,6 +131,7 @@ const loadScene = function(data, uniforms) {
 					if (total === 0) {
 						total = xhr.target.getResponseHeader('X-Uncompressed-Content-Length');
 					}
+                    console.log(total);
 					setLoadingText((xhr.loaded / total * 100).toFixed(0) + '%');
 				},
 				function (err) {
