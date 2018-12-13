@@ -266,7 +266,7 @@ article.right {
 	text-align: center;
 }
 
-.control-button {
+.control {
 	display: block;
     background-repeat: no-repeat;
 	background-size: 100% 100%;
@@ -275,32 +275,33 @@ article.right {
 	margin: 0.5vw;
 }
 
-#age-control .control-button {
+#age-control .control {
 	background-image: url(images/control_yellow.svg);
 }
 
-#height-control .control-button {
+#height-control .control {
 	background-image: url(images/control_green.svg);
 	font-size: 80%;
 }
 
-#gender-control .control-button {
+#gender-control .control{
 	background-image: url(images/control_blue_mf.svg);
 }
 
-#fev-control .control-button {
+#fev-control .control{
 	background-image: url(images/control_blue.svg);
 }
 
-.control-button div.button {
+.control div.control-button {
 	cursor: pointer;
 	pointer-events: auto;
 	height: 3vw;
 }
 
-.control-button div.value {
+.control div.control-value {
 	height: 6vw;
 	color: #4A4A5B;
+    font-size: 90%;
 
 	display: flex;
 	align-items: center;
@@ -360,6 +361,7 @@ body[data-page="index"] #navigation {
 	justify-content: center;
 }
 
+.button,
 #asthma-conditions > a,
 #smoking-packs > a {
 	background-image: url(images/button_grey.svg);
@@ -381,19 +383,28 @@ body[data-page="index"] #navigation {
 	color: white;
 }
 
+.button.green,
 #asthma-conditions > a.active[data-condition="mild"],
 #smoking-packs > a.active[data-condition="mild"] {
 	background-image: url(images/button_green.svg);
 }
 
+.button.yellow,
 #asthma-conditions > a.active[data-condition="moderate"],
 #smoking-packs > a.active[data-condition="moderate"] {
 	background-image: url(images/button_yellow.svg);
 }
 
+.button.pink,
 #asthma-conditions > a.active[data-condition="severe"],
 #smoking-packs > a.active[data-condition="severe"] {
 	background-image: url(images/button_pink.svg);
+}
+
+#button-area {
+    padding-left: 30%;
+    padding-right: 30%;
+    padding-top: 10%;
 }
 
 /* Graphs */
