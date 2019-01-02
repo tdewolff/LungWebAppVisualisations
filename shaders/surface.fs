@@ -181,6 +181,7 @@ uniform	vec3 directionalLightColor;
 uniform	vec3 directionalLightDirection;
 uniform float severity;
 uniform float opacity;
+uniform sampler2D texture;
 
 vec3 colorScale(vec2 seed) {
 	float tar = seed.x * severity;
@@ -239,10 +240,15 @@ void main(void) {
 	totalSpecular += dirSpecular;
 #endif
 
-	gl_FragColor = vec4(1.0, 0.5, 0.5, 1.0);
-	gl_FragColor.xyz = gl_FragColor.xyz * (emissive + totalDiffuse + ambientLightColor * ambient) + totalSpecular;
- 	gl_FragColor.xyz = gl_FragColor.xyz * rgb_scale;
- 	if (gl_FragColor.y > gl_FragColor.x)
- 		gl_FragColor.x = gl_FragColor.y;
- 	gl_FragColor.a = opacity;
+    //gl_FragColor = vec4(1.0, 0.5, 0.5, 1.0);
+	//gl_FragColor.xyz = gl_FragColor.xyz * (emissive + totalDiffuse + ambientLightColor * ambient) + totalSpecular;
+ 	//gl_FragColor.xyz = gl_FragColor.xyz * rgb_scale;
+ 	//if (gl_FragColor.y > gl_FragColor.x)
+ 	//	gl_FragColor.x = gl_FragColor.y;
+ 	//gl_FragColor.a = opacity;
+
+    vec2 uv;
+    uv.x = (v_texCoord.x + v_texCoord.y + v_texCoord.z) / 10.0;
+    uv.y = (v_texCoord.x + v_texCoord.y - v_texCoord.z) / 10.0;
+    gl_FragColor = texture2D(texture, uv);
 }

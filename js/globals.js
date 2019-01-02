@@ -19,8 +19,7 @@ const surfaceUniforms = THREE.UniformsUtils.merge([{
 	't': { type: 'f', value: 0.0 },
 	'tidalVolumeRatio': { type: 'f', value: 0.4 },
 	'severity': { type: 'f', value: 0.0 },
-	'opacity': { type: 'f', value: 0.5 },
-    'texture': { type: 't', value: THREE.ImageUtils.loadTexture('models/lung.jpg') },
+	'opacity': { type: 'f', value: 0.8 },
 }]);
 
 const airwaysUniforms = THREE.UniformsUtils.merge([{

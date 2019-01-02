@@ -97,4 +97,5 @@ void main(void) {
 #endif
 
 	gl_FragColor.xyz = totalDiffuse + totalSpecular + emissive + ambientLightColor * ambient * 0.3;
+    gl_FragColor.a = 1.0;
 }

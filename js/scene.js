@@ -72,16 +72,17 @@ if (!WEBGL.isWebGLAvailable()) {
 	showError('WebGL is required to display the interactive 3D models.');
 } else {
 	zincRenderer = new Zinc.Renderer(document.getElementById('renderer'), window);
-	zincRenderer.initialiseVisualisation();
+	zincRenderer.initialiseVisualisation({antialias: false});
 	zincRenderer.getThreeJSRenderer().setClearColor(0x000000, 1);
+	zincRenderer.getThreeJSRenderer().setPixelRatio(1);
 	zincRenderer.addPreRenderCallbackFunction(updateFrame(zincRenderer));
 	zincRenderer.animate();
 }
 
 const scenes = {};
-const setScene = function (name, scene, uniforms) {
+const setScene = function (name, scene, material) {
 	zincRenderer.setCurrentScene(scene);
-	currentUniforms = uniforms;
+	currentUniforms = material.uniforms;
 };
 const loadScene = function(data, uniforms) {
 	if (!zincRenderer) {
@@ -103,82 +104,93 @@ const loadScene = function(data, uniforms) {
 		const material = new THREE.ShaderMaterial({
 			vertexShader: shaderText[0],
 			fragmentShader: shaderText[1],
-			uniforms: uniforms
+			uniforms: uniforms,
+            onBeforeCompile: function(){}, // fix bug in ThreeJS
+            side: THREE.DoubleSide,
+            transparent: true,
+            //depthWrite: false,
 		});
-		material.onBeforeCompile = function(){}; // fix bug in ThreeJS
-		material.side = THREE.DoubleSide;
-	
-        let loadedSizes = [];
-        let totalSize = 0;
-		for (let i = 0; i < data.models.length; i++) {
-            loadedSizes.push(0);
-            
-            let gzreq = new XMLHttpRequest();
-            gzreq.open('HEAD', data.models[i] + '.gz', false);
-            gzreq.send();
-            if (gzreq.status === 200) {
-                data.models[i] += '.gz';
-                totalSize += parseInt(gzreq.getResponseHeader('content-length'));
-            } else {
-                let req = new XMLHttpRequest();
-                req.open('HEAD', data.models[i], false);
-                req.send();
-                if (req.status !== 200) {
-                    return;
-                }
-                totalSize += parseInt(req.getResponseHeader('content-length'));
-            }
-        }
-
-        const updateLoader = function(i, loaded) {
-            loadedSizes[i] = loaded;
-
-            let loadedSize = 0;
-		    for (let i = 0; i < data.models.length; i++) {
-                loadedSize += loadedSizes[i];
-            }
-			setLoadingText((loadedSize / totalSize * 100).toFixed(0) + '%');
-        };
-
-		let n = 0;
-		for (let i = 0; i < data.models.length; i++) {
-			n++;
-            let useCompressed = data.models[i].endsWith('.gz');
-			let loader = new THREE.FileLoader();
-            if (useCompressed) {
-                loader.setResponseType('arraybuffer');
-            }
-            loader.load(data.models[i],
-				function (text) {
-                    if (useCompressed) {
-                        let gzbuf = new Uint8Array(text);
-                        let buf = pako.ungzip(gzbuf);
-                        text = (new TextDecoder('utf-8')).decode(buf);
-                    }
-					
-                    let json = JSON.parse(text);
-					let object = (new THREE.JSONLoader()).parse(json, 'path');
-					object.geometry.morphColors = json.morphColors;
-
-					let bufferGeometry = toBufferGeometry(object.geometry);
-					scene.addZincGeometry(bufferGeometry, 10001, undefined, undefined, false, false, true, undefined, material);
-					n--;
-					if (n == 0) {
-						scenes[name] = scene;
-						setScene(name, scene, uniforms);
-						stopLoading();
-					}
-				}, function (xhr) {
-                    updateLoader(i, xhr.loaded);
-				},
-				function (err) {
-					console.error('Could not load model: ', err);
-					showError('Could not load model files.');
-					stopLoading();
-				}
-			);
-		}
+    
+        (new THREE.TextureLoader()).load('models/surface.jpg', function (texture) {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            material.uniforms.texture = { type: 't', value: texture };
+            loadModels(name, scene, data, material);
+	    });
 	});
+};
+
+const loadModels = function (name, scene, data, material) {
+    let loadedSizes = [];
+    let totalSize = 0;
+    for (let i = 0; i < data.models.length; i++) {
+        loadedSizes.push(0);
+        
+        let gzreq = new XMLHttpRequest();
+        gzreq.open('HEAD', data.models[i] + '.gz', false);
+        gzreq.send();
+        if (gzreq.status === 200) {
+            data.models[i] += '.gz';
+            totalSize += parseInt(gzreq.getResponseHeader('content-length'));
+        } else {
+            let req = new XMLHttpRequest();
+            req.open('HEAD', data.models[i], false);
+            req.send();
+            if (req.status !== 200) {
+                return;
+            }
+            totalSize += parseInt(req.getResponseHeader('content-length'));
+        }
+    }
+
+    const updateLoader = function(i, loaded) {
+        loadedSizes[i] = loaded;
+
+        let loadedSize = 0;
+        for (let i = 0; i < data.models.length; i++) {
+            loadedSize += loadedSizes[i];
+        }
+        setLoadingText((loadedSize / totalSize * 100).toFixed(0) + '%');
+    };
+
+    let n = 0;
+    for (let i = 0; i < data.models.length; i++) {
+        n++;
+        let useCompressed = data.models[i].endsWith('.gz');
+        let loader = new THREE.FileLoader();
+        if (useCompressed) {
+            loader.setResponseType('arraybuffer');
+        }
+        loader.load(data.models[i],
+            function (text) {
+                if (useCompressed) {
+                    let gzbuf = new Uint8Array(text);
+                    let buf = pako.ungzip(gzbuf);
+                    text = (new TextDecoder('utf-8')).decode(buf);
+                }
+                
+                let json = JSON.parse(text);
+                let object = (new THREE.JSONLoader()).parse(json, 'path');
+                object.geometry.morphColors = json.morphColors;
+
+                let bufferGeometry = toBufferGeometry(object.geometry);
+                scene.addZincGeometry(bufferGeometry, 10001, undefined, undefined, false, false, true, undefined, material);
+                n--;
+                if (n == 0) {
+                    scenes[name] = scene;
+                    setScene(name, scene, material);
+                    stopLoading();
+                }
+            }, function (xhr) {
+                updateLoader(i, xhr.loaded);
+            },
+            function (err) {
+                console.error('Could not load model: ', err);
+                showError('Could not load model files.');
+                stopLoading();
+            }
+        );
+    }
 };
 
 function toBufferGeometry(geometry) {
