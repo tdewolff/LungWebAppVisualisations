@@ -48,8 +48,10 @@ function loadGraph(id, url) {
 
 		// plot axes and labels
 		axes = svg.polyline([GRAPH_WIDTH, GRAPH_HEIGHT, 0, GRAPH_HEIGHT, 0, 0]).addClass('axes');
-		xlabel = svg.text("Time").move(GRAPH_WIDTH/2, GRAPH_HEIGHT-16).addClass('xlabel');
-		ylabel = svg.text("Lung volume").move(-GRAPH_HEIGHT/2, -16).rotate(-90).addClass('ylabel');
+		xlabel = svg.text('').move(GRAPH_WIDTH/2, GRAPH_HEIGHT).addClass('xlabel');
+        xlabel.tspan("Time");
+		ylabel = svg.text('').move(-GRAPH_HEIGHT/2, 0).rotate(-90).addClass('ylabel');
+        ylabel.tspan("Lung volume");
 
 		// smooth and plot data
 		let d = 'M' + data[0].x + ' ' + data[0].y;

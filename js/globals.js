@@ -9,11 +9,11 @@ const MARKER_RADIUS = 10;
 const THREE = Zinc.THREE;
 const surfaceUniforms = THREE.UniformsUtils.merge([{
 	'ambient'  : { type: 'c', value: new THREE.Color( 0xffffff ) },
-	'emissive' : { type: 'c', value: new THREE.Color( 0x000000 ) },
+	'emissive' : { type: 'c', value: new THREE.Color( 0x913a3c ) },
 	'specular' : { type: 'c', value: new THREE.Color( 0x111111 ) },
 	'shininess': { type: 'f', value: 30 },
-	'diffuse': { type: 'c', value: new THREE.Color( 0xeecaa2 ) },
-	'ambientLightColor': { type: 'c', value: new THREE.Color( 0x444444 ) },
+	'diffuse': { type: 'c', value: new THREE.Color( 0xffffff ) },
+	'ambientLightColor': { type: 'c', value: new THREE.Color( 0x555555 ) },
 	'directionalLightColor': { type: 'c', value: new THREE.Color( 0x888888 ) },
 	'directionalLightDirection': { type: 'v3', value: new THREE.Vector3()  },
 	't': { type: 'f', value: 0.0 },
