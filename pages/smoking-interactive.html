@@ -34,7 +34,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="fev1_plot"></div>
+		<div id="fev1_plot" class="plot"></div>
 		<div>
 			<ul>
 				<li style="font-size:0.7em">The <font color="blue">Blue</font> line is the population average non-smoking person</li>
@@ -85,6 +85,9 @@ function load(model) {
 }
 load('airways');
 
+let fev1_plot = initFEV1Plot("fev1_plot");
+updateFEV1Plot(fev1_plot);
+
 function setCondition(condition) {
 	if (condition === 'moderate') {
 		airwaysUniforms['smokingSeverity']['value'] = 0.5
@@ -109,6 +112,7 @@ for (let i = 0; i < buttons.length; i++) {
 			buttons[i].classList.remove('active');
 		}
 		setCondition(this.dataset.condition);
+        updateFEV1Plot(fev1_plot);
 	});
 }
 
@@ -116,6 +120,7 @@ let controls = document.querySelectorAll('.control');
 for (let i = 0; i < controls.length; i++) {
 	controls[i].addEventListener('changed', function(e) {
         // TODO
+        updateFEV1Plot(fev1_plot);
 	});
 }
 
@@ -129,6 +134,7 @@ document.getElementById('heal-me').addEventListener('click', function(e){
         this.innerHTML = 'BACK';
         this.classList.remove('green');
     }
+    updateFEV1Plot(fev1_plot);
 });
 
 document.getElementById('switch').addEventListener('click', function(e){

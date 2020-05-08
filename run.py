@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-import SimpleHTTPServer
-import SocketServer
+import http.server
+import socketserver
 
 Port = 8000
 
-Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+Handler = http.server.SimpleHTTPRequestHandler
 Handler.extensions_map['.woff'] = 'font/woff'
 Handler.extensions_map['.woff2'] = 'font/woff2'
 
-SocketServer.TCPServer.allow_reuse_address=True
-httpd = SocketServer.TCPServer(("", Port), Handler)
+socketserver.TCPServer.allow_reuse_address=True
+httpd = socketserver.TCPServer(("", Port), Handler)
 
 print('Server started')
 print("Open your browser at http://localhost:8000/")

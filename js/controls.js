@@ -44,5 +44,8 @@ document.body.addEventListener('load-page', function(e) {
 		button.onmouseup = function(e) {
 			clearTimeout(t);
 		};
+    button.onmouseleave = function(e) {
+      clearTimeout(t);
+    };
 	}
 });

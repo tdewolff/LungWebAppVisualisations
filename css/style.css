@@ -421,7 +421,7 @@ body[data-page="index"] #navigation {
 }
 
 .plot svg .background {
-	fill: #00000080;
+	fill: rgba(0,0,0,0.5);
 }
 
 .plot svg .axes {
@@ -450,4 +450,17 @@ body[data-page="index"] #navigation {
 	fill: none;
 	stroke: red;
 	stroke-width: 4px;
+}
+
+#fev1_plot .normal {
+    fill: none;
+    stroke: blue;
+}
+#fev1_plot .you {
+    fill: none;
+    stroke: green;
+}
+#fev1_plot .you-smoking {
+    fill: none;
+    stroke: red;
 }
