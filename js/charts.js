@@ -68,7 +68,7 @@ function calculateFEVData(age, gender, years, packs, height, fev1_measured, scal
 	var smoking_start = age - years;
 
 	var smoking_decline = smoking_decline_male;
-	if  (gender == "female") {
+	if  (gender == "F") {
 		smoking_decline = smoking_decline_female;
 	}
 
@@ -113,7 +113,7 @@ function updateFEV1Plot(fev1_plot) {
   let age = document.querySelectorAll('#age-control > .control')[0].dataset.value;
   let gender = document.querySelectorAll('#gender-control > .control')[0].dataset.value;
   let fev1 = document.querySelectorAll('#fev-control > .control')[0].dataset.value;
-  let smokingSeverity = airwaysUniforms['smokingSeverity']['value'] = 0.0
+  let smokingSeverity = airwaysUniforms['smokingSeverity']['value'];
   let packs = 0;
   if (smokingSeverity == 0.5) {
     packs = 1;
