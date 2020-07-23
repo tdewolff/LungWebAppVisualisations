@@ -24,6 +24,6 @@ for filename in glob.glob('models/*.json'):
         print('Compressing ' + filename + '...') 
         content = ShrinkJSON(content)
 
-        with gzip.open(filename + '.gz', 'w') as w:
+        with gzip.open(filename + '.gz', 'wt') as w:
             w.write(content)
             w.close()
