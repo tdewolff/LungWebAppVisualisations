@@ -40,7 +40,7 @@ function loadGraph(id, url) {
 		}
 		
 		const svg = SVG(id).size(GRAPH_WIDTH+2*GRAPH_PADDING, GRAPH_HEIGHT+2*GRAPH_PADDING);
-		svg.viewbox({x:-GRAPH_PADDING, y:-GRAPH_PADDING, width:GRAPH_WIDTH+2*GRAPH_PADDING, height:GRAPH_HEIGHT+2*GRAPH_PADDING});
+		svg.viewbox({x:-GRAPH_PADDING-GRAPH_TEXT_HEIGHT, y:-GRAPH_PADDING, width:GRAPH_WIDTH+2*GRAPH_PADDING+GRAPH_TEXT_HEIGHT, height:GRAPH_HEIGHT+2*GRAPH_PADDING+GRAPH_TEXT_HEIGHT});
 
 		// plot background
 		svg.rect(GRAPH_WIDTH, GRAPH_HEIGHT).addClass('background');	

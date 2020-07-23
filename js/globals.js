@@ -1,10 +1,11 @@
 let PLAY_SPEED = 1.0;
 
-const GRAPH_WIDTH = 300;
-const GRAPH_HEIGHT = 300;
-const GRAPH_PADDING = 25;
+const GRAPH_WIDTH = 250;
+const GRAPH_HEIGHT = 250;
+const GRAPH_PADDING = 5;
+const GRAPH_TEXT_HEIGHT = 20;
 const GRAPH_SMOOTHING = 0.2;
-const MARKER_RADIUS = 10;
+const MARKER_RADIUS = 16;
 
 const THREE = Zinc.THREE;
 const surfaceUniforms = THREE.UniformsUtils.merge([{
@@ -31,7 +32,7 @@ const airwaysUniforms = THREE.UniformsUtils.merge([{
     'directionalLightColor': { type: 'c', value: new THREE.Color( 0x888888 ) },
     'directionalLightDirection': { type: 'v3', value: new THREE.Vector3()  },
     't': { type: 'f', value: 0.0 },
-	'tidalVolumeRatio': { type: 'f', value: 0.2 },
+	  'tidalVolumeRatio': { type: 'f', value: 0.2 },
     'asthmaSeverity': { type: 'f', value: 0.0 },
     'smokingSeverity': { type: 'f', value: 0.0 },
 }]);

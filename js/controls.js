@@ -38,7 +38,7 @@ document.body.addEventListener('load-page', function(e) {
 			delay = 80;
 		};
 		button.onmousedown = function(e) {
-			delay = 1000;
+			delay = 500;
 			repeat();
 		};
 		button.onmouseup = function(e) {

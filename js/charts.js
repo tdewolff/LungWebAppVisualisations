@@ -140,6 +140,10 @@ let FEV1_yscale = -GRAPH_HEIGHT/140;
 
 function addSeriesFEV1Plot(fev1_plot, name, data) {
   for (let i = 0; i < data.length; i++) {
+    if (data[i].y < 0) {
+      data = data.slice(0, i);
+      break;
+    }
     data[i].x = data[i].x*FEV1_xscale;
     data[i].y = data[i].y*FEV1_yscale+GRAPH_HEIGHT;
   }
@@ -153,7 +157,7 @@ function addSeriesFEV1Plot(fev1_plot, name, data) {
 
 function initFEV1Plot(id) {
   const svg = SVG(id).size(GRAPH_WIDTH+2*GRAPH_PADDING, GRAPH_HEIGHT+2*GRAPH_PADDING);
-  svg.viewbox({x:-GRAPH_PADDING, y:-GRAPH_PADDING, width:GRAPH_WIDTH+2*GRAPH_PADDING, height:GRAPH_HEIGHT+2*GRAPH_PADDING});
+  svg.viewbox({x:-GRAPH_PADDING-GRAPH_TEXT_HEIGHT, y:-GRAPH_PADDING, width:GRAPH_WIDTH+2*GRAPH_PADDING+GRAPH_TEXT_HEIGHT, height:GRAPH_HEIGHT+2*GRAPH_PADDING+GRAPH_TEXT_HEIGHT});
 
   // plot background
   svg.rect(GRAPH_WIDTH, GRAPH_HEIGHT).addClass('background');	

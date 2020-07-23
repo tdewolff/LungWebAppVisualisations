@@ -7,7 +7,7 @@ uniform float t;
 uniform float tidalVolumeRatio;
 
 const float cellsDensity = 0.1;
-const float tarDensity = 0.0125;
+const float tarDensity = 0.0175;
 
 vec3 getPosition(vec3 pos)  {
     float scale = tidalVolumeRatio * t;

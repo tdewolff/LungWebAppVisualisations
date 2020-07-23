@@ -301,7 +301,7 @@ article.right {
 .control div.control-value {
 	height: 6vw;
 	color: #4A4A5B;
-    font-size: 90%;
+    font-size: 80%;
 
 	display: flex;
 	align-items: center;
@@ -361,6 +361,10 @@ body[data-page="index"] #navigation {
 	justify-content: center;
 }
 
+#smoking-packs {
+    bottom: 2vw;
+}
+
 .button,
 #asthma-conditions > a,
 #smoking-packs > a {
@@ -402,9 +406,15 @@ body[data-page="index"] #navigation {
 }
 
 #button-area {
-    padding-left: 30%;
-    padding-right: 30%;
-    padding-top: 10%;
+    position: absolute;
+    bottom: 10vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#button-area > .button:first-child {
+    margin-left: 0;
 }
 
 /* Graphs */
@@ -417,7 +427,7 @@ body[data-page="index"] #navigation {
 .plot svg .data {
 	fill: none;
 	stroke: orange;
-	stroke-width: 3;
+	stroke-width: 5;
 }
 
 .plot svg .background {
@@ -427,15 +437,15 @@ body[data-page="index"] #navigation {
 .plot svg .axes {
 	fill: none;
 	stroke: white;
-	stroke-width: 1;
-	shape-rendering: crispEdges;
+	stroke-width: 2;
+	/*shape-rendering: crispEdges;*/
 }
 
 .plot svg .xlabel,
 .plot svg .ylabel {
 	fill: white;
 	text-anchor: middle;
-    font-size: 16pt;
+    font-size: 14pt;
 }
 
 .plot svg .xlabel {
@@ -449,18 +459,21 @@ body[data-page="index"] #navigation {
 .plot svg .marker {
 	fill: none;
 	stroke: red;
-	stroke-width: 4px;
+	stroke-width: 5;
 }
 
 #fev1_plot .normal {
     fill: none;
-    stroke: blue;
+    stroke: orange;
+    stroke-width: 5;
 }
 #fev1_plot .you {
     fill: none;
     stroke: green;
+    stroke-width: 5;
 }
 #fev1_plot .you-smoking {
     fill: none;
     stroke: red;
+    stroke-width: 5;
 }
