@@ -38,7 +38,6 @@ function loadGraph(id, url) {
 			data[i].x = (data[i].x-xmin)*xscale;
 			data[i].y = (data[i].y-ymin)*yscale+GRAPH_HEIGHT;
 		}
-
 		
 		const svg = SVG(id).size(GRAPH_WIDTH+2*GRAPH_PADDING, GRAPH_HEIGHT+2*GRAPH_PADDING);
 		svg.viewbox({x:-GRAPH_PADDING, y:-GRAPH_PADDING, width:GRAPH_WIDTH+2*GRAPH_PADDING, height:GRAPH_HEIGHT+2*GRAPH_PADDING});
@@ -88,7 +87,8 @@ function loadGraph(id, url) {
 		}
 		svg.path(d).addClass('data');
 	
-		let marker = svg.circle(MARKER_RADIUS).addClass('marker');
+		let marker = svg.circle(MARKER_RADIUS).addClass('marker')
+      .move(data[0].x-MARKER_RADIUS/2, data[0].y-MARKER_RADIUS/2);
 		graphs.push({marker: marker, data: data, xmin: xmin, xmax: xmax, xscale: xscale});
 	});
 	req.open('GET', url);
@@ -122,5 +122,3 @@ function updateMarkers(t) {
 		marker.move(pos.x, pos.y);
 	}
 }
-
-

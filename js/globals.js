@@ -37,6 +37,11 @@ const airwaysUniforms = THREE.UniformsUtils.merge([{
 }]);
 
 document.getElementById('information').addEventListener('click', function(e) {
+  if (this.innerHTML == 'Less information') {
+    this.innerHTML = 'More information';
+  } else {
+    this.innerHTML = 'Less information';
+  }
 	let articles = document.querySelectorAll('article');
 	for (let i = 0; i < articles.length; i++) {
 		articles[i].classList.toggle('hidden');

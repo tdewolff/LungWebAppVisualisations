@@ -80,6 +80,7 @@ if (!WEBGL.isWebGLAvailable()) {
 }
 
 const scenes = {};
+const materials = {};
 const setScene = function (name, scene, material) {
 	zincRenderer.setCurrentScene(scene);
 	currentUniforms = material.uniforms;
@@ -92,7 +93,7 @@ const loadScene = function(data, uniforms) {
 
 	let name = JSON.stringify(data).hashCode();
 	if (name in scenes) {
-		setScene(name, scenes[name], uniforms);
+		setScene(name, scenes[name], materials[name]);
 		return;
 	}
 
@@ -173,6 +174,7 @@ const loadModels = function (name, scene, data, material) {
                 n--;
                 if (n == 0) {
                     scenes[name] = scene;
+                    materials[name] = material;
                     setScene(name, scene, material);
                     stopLoading();
                 }
