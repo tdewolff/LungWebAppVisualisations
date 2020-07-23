@@ -110,13 +110,8 @@ const loadScene = function(data, uniforms) {
             transparent: true,
             //depthWrite: false,
 		});
-    
-        (new THREE.TextureLoader()).load('models/surface.jpg', function (texture) {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            material.uniforms.texture = { type: 't', value: texture };
-            loadModels(name, scene, data, material);
-	    });
+
+    loadModels(name, scene, data, material);
 	});
 };
 

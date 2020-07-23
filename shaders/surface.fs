@@ -202,10 +202,10 @@ void main(void) {
 
 	vec3 normalScaling = vec3(1.0, 1.0, 1.0);
 	vec3 adjustDiffuse = diffuse;
-	// if (n < 0.1) {
-	// 	normalScaling.z = 0.1 + n * 9.0;
-	// 	adjustDiffuse = vec3(0.78, 0.51, 0.51);
-	// }
+	if (n < 0.1) {
+		normalScaling.z = 0.1 + n * 9.0;
+		adjustDiffuse = vec3(0.78, 0.51, 0.51);
+	}
 	vec3 normal = normalize(v_normal);
 	normal = normalize(vec3(normal.x * normalScaling.x, normal.y * normalScaling.y, normal.z * normalScaling.z));
 	if (!gl_FrontFacing)
@@ -240,17 +240,10 @@ void main(void) {
 	totalSpecular += dirSpecular;
 #endif
 
-    //gl_FragColor = vec4(1.0, 0.5, 0.5, 1.0);
-	//gl_FragColor.xyz = gl_FragColor.xyz * (emissive + totalDiffuse + ambientLightColor * ambient) + totalSpecular;
- 	//gl_FragColor.xyz = gl_FragColor.xyz * rgb_scale;
- 	//if (gl_FragColor.y > gl_FragColor.x)
- 	//	gl_FragColor.x = gl_FragColor.y;
- 	//gl_FragColor.a = opacity;
-
-    vec2 uv;
-    uv.x = (v_texCoord.x + v_texCoord.y + v_texCoord.z) / 10.0;
-    uv.y = (v_texCoord.x + v_texCoord.y - v_texCoord.z) / 10.0;
-    gl_FragColor = texture2D(texture, uv);
+    gl_FragColor = vec4(1.0, 0.5, 0.5, 1.0);
 	gl_FragColor.xyz = gl_FragColor.xyz * (emissive + totalDiffuse + ambientLightColor * ambient) + totalSpecular;
- 	gl_FragColor.xyz = gl_FragColor.xyz * rgb_scale;
+    gl_FragColor.xyz = gl_FragColor.xyz * rgb_scale;
+    if (gl_FragColor.y > gl_FragColor.x)
+    	gl_FragColor.x = gl_FragColor.y;
+    gl_FragColor.a = opacity;
 }
