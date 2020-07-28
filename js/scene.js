@@ -74,11 +74,11 @@ if (!WEBGL.isWebGLAvailable()) {
 	zincRenderer = new Zinc.Renderer(document.getElementById('renderer'), window);
 	zincRenderer.initialiseVisualisation({antialias: false});
 	zincRenderer.getThreeJSRenderer().setClearColor(0x000000, 1);
-  if (window.innerWidth > 2000 || window.innerHeight > 2000) {
-    zincRenderer.getThreeJSRenderer().setPixelRatio(0.5);
-  } else {
+  //if (window.innerWidth > 2000 || window.innerHeight > 2000) {
+  //  zincRenderer.getThreeJSRenderer().setPixelRatio(0.5);
+  //} else {
 	  zincRenderer.getThreeJSRenderer().setPixelRatio(1.0);
-  }
+  //}
 	zincRenderer.addPreRenderCallbackFunction(updateFrame(zincRenderer));
 	zincRenderer.animate();
 }
