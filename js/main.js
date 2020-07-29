@@ -1,4 +1,4 @@
-const MIN_RATIO = 1.5;//16/9; // minimum ratio of width/height
+const MIN_RATIO = 2.1;//16/9; // minimum ratio of width/height
 
 /* Pages */
 let pageInits = {};

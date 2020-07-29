@@ -52,7 +52,7 @@ html, body {
 	background: black;
 	color: white;
 	font-family: Titillium, sans-serif;
-	font-size: 1.8vw;
+	font-size: min(1.8vw, 18pt);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -62,13 +62,13 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
 	margin: 0;
 	color: #00FBE8;
-	font-size: 5vw;
+	font-size: 278%;
 }
 
 h2 {
 	margin-top: 0;
 	color: #00FBE8;
-	font-size: 2vw;
+	font-size: 111%;
 }
 
 header, footer, section, nav, article, aside {
@@ -164,8 +164,8 @@ a > img {
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	cursor: pointer;
-	width: 9vw;
-	height: 9vw;
+	width: 8vw;
+	height: 8vw;
 }
 
 #navigation > a.breathing {
@@ -241,8 +241,8 @@ article.right {
 	background-image: url(images/question.svg);
     background-repeat: no-repeat;
 	background-position: left center;
-	padding-left: 9vw;
-	height: 7vw;
+	padding-left: 7.5vw;
+	height: 6vw;
 
 	display: flex;
 	align-items: center;
@@ -316,7 +316,7 @@ body[data-page="index"] #navigation {
 
 #page-index {
 	color: grey;
-	font-size: 4vw;
+	font-size: 222%;
 	white-space: nowrap;
 	line-height: 1;
 }
@@ -373,8 +373,8 @@ body[data-page="index"] #navigation {
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	cursor: pointer;
-	width: 7vw;
-	height: 7vw;
+	width: 6vw;
+	height: 6vw;
 	margin: 0 0.5vw;
 	font-size: 85%;
 	line-height: 100%;
@@ -408,10 +408,11 @@ body[data-page="index"] #navigation {
 
 #button-area {
     position: absolute;
-    bottom: 10vw;
+    bottom: 8vw;
     width: 100%;
     display: flex;
     justify-content: center;
+    font-size: 1.6vw;
 }
 
 #button-area > .button:first-child {
@@ -446,7 +447,7 @@ body[data-page="index"] #navigation {
 .plot svg .ylabel {
 	fill: white;
 	text-anchor: middle;
-    font-size: 14pt;
+    font-size: max(min(1.8vw,12pt),50%);
 }
 
 .plot svg .xlabel {
