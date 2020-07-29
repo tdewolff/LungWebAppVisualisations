@@ -25,6 +25,8 @@ function loadPage(page) {
 	if (page !== document.body.dataset.page) {
 		const req = new XMLHttpRequest();
 		req.addEventListener('load', function() {
+      resetUniforms();
+
 			document.body.dataset.page = page;
 
 			let pages = document.getElementById('pages');

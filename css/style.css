@@ -52,7 +52,7 @@ html, body {
 	background: black;
 	color: white;
 	font-family: Titillium, sans-serif;
-	font-size: min(1.8vw, 18pt);
+	font-size: min(1.7vw, 18pt);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -360,6 +360,7 @@ body[data-page="index"] #navigation {
 
 	display: flex;
 	justify-content: center;
+    font-size: min(1.5vw,100%);
 }
 
 #smoking-packs {
@@ -412,7 +413,7 @@ body[data-page="index"] #navigation {
     width: 100%;
     display: flex;
     justify-content: center;
-    font-size: 1.6vw;
+    font-size: min(1.5vw,100%);
 }
 
 #button-area > .button:first-child {
@@ -447,7 +448,7 @@ body[data-page="index"] #navigation {
 .plot svg .ylabel {
 	fill: white;
 	text-anchor: middle;
-    font-size: max(min(1.8vw,12pt),50%);
+    font-size: max(min(1.7vw,12pt),50%);
 }
 
 .plot svg .xlabel {
@@ -462,6 +463,12 @@ body[data-page="index"] #navigation {
 	fill: none;
 	stroke: red;
 	stroke-width: 5;
+}
+
+#fev1_plot svg {
+    width: 75%;
+    height: 75%;
+    margin-left: auto;
 }
 
 #fev1_plot .normal {

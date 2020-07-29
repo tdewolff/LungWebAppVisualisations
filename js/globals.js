@@ -24,18 +24,24 @@ const surfaceUniforms = THREE.UniformsUtils.merge([{
 }]);
 
 const airwaysUniforms = THREE.UniformsUtils.merge([{
-    'ambient'  : { type: 'c', value: new THREE.Color( 0xffffff ) },
-    'emissive' : { type: 'c', value: new THREE.Color( 0x000000 ) },
-    'specular' : { type: 'c', value: new THREE.Color( 0x111111 ) },
-    'shininess': { type: 'f', value: 30 },
-    'ambientLightColor': { type: 'c', value: new THREE.Color( 0x444444 ) },
-    'directionalLightColor': { type: 'c', value: new THREE.Color( 0x888888 ) },
-    'directionalLightDirection': { type: 'v3', value: new THREE.Vector3()  },
-    't': { type: 'f', value: 0.0 },
-	  'tidalVolumeRatio': { type: 'f', value: 0.2 },
-    'asthmaSeverity': { type: 'f', value: 0.0 },
-    'smokingSeverity': { type: 'f', value: 0.0 },
+  'ambient'  : { type: 'c', value: new THREE.Color( 0xffffff ) },
+  'emissive' : { type: 'c', value: new THREE.Color( 0x000000 ) },
+  'specular' : { type: 'c', value: new THREE.Color( 0x111111 ) },
+  'shininess': { type: 'f', value: 30 },
+  'ambientLightColor': { type: 'c', value: new THREE.Color( 0x444444 ) },
+  'directionalLightColor': { type: 'c', value: new THREE.Color( 0x888888 ) },
+  'directionalLightDirection': { type: 'v3', value: new THREE.Vector3()  },
+  't': { type: 'f', value: 0.0 },
+  'tidalVolumeRatio': { type: 'f', value: 0.2 },
+  'asthmaSeverity': { type: 'f', value: 0.0 },
+  'smokingSeverity': { type: 'f', value: 0.0 },
 }]);
+
+function resetUniforms() {
+  surfaceUniforms['severity']['value'] = 0.0
+  airwaysUniforms['asthmaSeverity']['value'] = 0.0
+  airwaysUniforms['smokingSeverity']['value'] = 0.0
+}
 
 document.getElementById('information').addEventListener('click', function(e) {
   if (this.innerHTML == 'Less information') {
